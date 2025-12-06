@@ -1,0 +1,40 @@
+{
+  "name": "web",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.23.1",
+    "tamagui": "^1.96.8",
+    "@tamagui/config": "^1.96.8",
+    "@tamagui/core": "^1.96.8",
+    "@tamagui/font-inter": "^1.96.8",
+    "@tamagui/shorthands": "^1.96.8",
+    "@tamagui/themes": "^1.96.8",
+    "@tamagui/lucide-icons": "^1.96.8",
+    "react-native-web": "0.21.2",
+    "react-native-svg": "^15.3.0",
+    "ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-flow": "^7.24.7",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
+    "@tamagui/vite-plugin": "^1.96.8",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@vitejs/plugin-basic-ssl": "^1.1.0",
+    "@types/react-router-dom": "^5.3.3",
+    "typescript": "^5.5.2",
+    "vite": "^5.3.1",
+    "vite-plugin-babel": "^1.2.0",
+    "react-native-reanimated": "3.19.4"
+  }
+}
