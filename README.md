@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RagaPro - A Modern Carnatic Raga Explorer
 
 This project is a modern, cross-platform application for exploring Carnatic music ragas, built with a focus on a clean user interface and a robust, scalable architecture.
@@ -90,3 +91,7 @@ To run the linter across the entire project, use:
 ```sh
 pnpm lint
 ```
+=======
+# RagaPro
+RagaPro is the UI interface for Raga API collection
+>>>>>>> d8e3b10a2210aeb3aff829cd8fa6bb379b9e5e02
