@@ -2,10 +2,16 @@ export interface Raga {
   id: number;
   ragaName: string;
   alternativeRagaName?: string;
-  melakarthaId: number;
+  melakarthaId?: number | null;
   chakram?: string;
   arohana?: string;
   avarohana?: string;
+  rishabham?: string;
+  gandharam?: string;
+  madhyamam?: string;
+  panchamam?: string;
+  daivatam?: string;
+  nishadam?: string;
   rasa?: string;
   vadiSwara?: string;
   samvadiSwara?: string;
@@ -21,4 +27,9 @@ export interface Raga {
   ragaType?: string;
   upangaRaga?: boolean;
   bhashangaRaga?: boolean | null;
+  anyaswaram?: boolean;
+  apuroopaPrayogas?: string;
+  swaraSancharam?: string;
+  additionalNotes?: string;
+  audioFile?: string | null;
 }

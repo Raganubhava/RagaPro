@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "dependencies": {
+    "@raga/api": "workspace:*",
     "@raga/data": "workspace:*",
     "react": "^18.3.1",
     "react-native": "0.74.1",

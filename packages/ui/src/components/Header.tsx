@@ -1,9 +1,14 @@
 import { useState } from 'react';
-import { Menu, Lock } from '@tamagui/lucide-icons';
+import { Menu, Lock, Sun, Moon } from '@tamagui/lucide-icons';
 import { Button, XStack, YStack, Paragraph } from 'tamagui';
 import { NavLinkItem } from './NavLinkItem';
 
-export const Header = () => {
+interface HeaderProps {
+  onToggleTheme: () => void;
+  currentTheme: 'light' | 'navy';
+}
+
+export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleNavLinkClick = () => {
@@ -16,13 +21,12 @@ export const Header = () => {
     <YStack
       tag="header"
       width="100%"
-      backgroundColor="$surface"
-      borderBottomWidth={1}
-      borderColor="$borderLight"
+      backgroundColor="$primary"
+      borderBottomWidth={0}
       position="sticky"
       top={0}
       zIndex={50}
-      shadowColor="rgba(0,0,0,0.05)"
+      shadowColor="rgba(0,0,0,0.12)"
       shadowOffset={{ height: 2, width: 0 }}
       shadowRadius={6}
     >
@@ -47,11 +51,11 @@ export const Header = () => {
           flexShrink={1}
           minWidth={0}
         >
-          {/* Raga logo – clickable */}
-          <NavLinkItem to="/" onClick={handleNavLinkClick}>
+          {/* Raga logo clickable */}
+          <NavLinkItem to="/" onClick={handleNavLinkClick} colorOverride="$surface">
             <Paragraph
               fontWeight="600"
-              color="$primary"
+              color="$surface"
               fontSize="$lg"
               fontFamily="$heading"
               style={{ whiteSpace: 'nowrap', cursor: 'pointer' }}
@@ -64,7 +68,7 @@ export const Header = () => {
           <Paragraph
             aria-hidden="true"
             style={{
-              borderLeft: '1px solid var(--color-borderLight)',
+              borderLeft: '1px solid rgba(255,255,255,0.3)',
               height: 20,
               marginLeft: 8,
               marginRight: 8,
@@ -72,22 +76,22 @@ export const Header = () => {
             $sm={{ display: 'none' }}
           />
 
-          {/* DESKTOP NAV – hidden on small screens */}
+          {/* DESKTOP NAV — hidden on small screens */}
           <XStack
             id="navItems"
             alignItems="center"
             gap="$5"
             flexShrink={1}
-            flexWrap="wrap"      // wrap instead of overlapping if space is tight
+            flexWrap="wrap"
             minWidth={0}
             $sm={{ display: 'none' }}
             $gtSm={{ display: 'flex' }}
           >
-            <NavLinkItem to="/" onClick={handleNavLinkClick}>Home</NavLinkItem>
-            <NavLinkItem to="/learn" onClick={handleNavLinkClick}>Learn Raga</NavLinkItem>
-            <NavLinkItem to="/advanced-search" onClick={handleNavLinkClick}>Advanced Search</NavLinkItem>
-            <NavLinkItem to="/podcasts" onClick={handleNavLinkClick}>Podcasts</NavLinkItem>
-            <NavLinkItem to="/about" onClick={handleNavLinkClick}>About</NavLinkItem>
+            <NavLinkItem to="/" onClick={handleNavLinkClick} colorOverride="$surface">Home</NavLinkItem>
+            <NavLinkItem to="/learn" onClick={handleNavLinkClick} colorOverride="$surface">Learn Raga</NavLinkItem>
+            <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} colorOverride="$surface">Podcasts</NavLinkItem>
+            <NavLinkItem to="/about" onClick={handleNavLinkClick} colorOverride="$surface">About</NavLinkItem>
+            <NavLinkItem to="/help" onClick={handleNavLinkClick} colorOverride="$surface">Help</NavLinkItem>
           </XStack>
         </XStack>
 
@@ -100,22 +104,22 @@ export const Header = () => {
           flexShrink={0}
           minWidth={120}
         >
-          {/* LOGIN – md+ */}
+          {/* LOGIN — md+ */}
           <Button
             size="$3"
             paddingHorizontal="$4"
             borderRadius="$radius.6"
             color="$primary"
-            backgroundColor="$surfaceAlt"
+            backgroundColor="$surface"
             borderWidth={1}
-            borderColor="$borderSoft"
+            borderColor="$primary"
             icon={Lock}
             iconAfter={null}
             $sm={{ display: 'none' }}
             $gtSm={{ display: 'flex' }}
             hoverStyle={{
-              backgroundColor: '$gold',
-              borderColor: '$goldDeep',
+              backgroundColor: '$secondary',
+              borderColor: '$secondary',
               color: '$primaryDeep',
             }}
             animation="bouncy"
@@ -123,13 +127,28 @@ export const Header = () => {
             Login
           </Button>
 
-          {/* HAMBURGER – only on small */}
+          <Button
+            id="themeToggle"
+            icon={currentTheme === 'light' ? Moon : Sun}
+            backgroundColor="$surface"
+            borderWidth={1}
+            borderColor="$primaryDeep"
+            borderRadius="$radius.6"
+            padding="$2"
+            onPress={onToggleTheme}
+            $sm={{ display: 'none' }}
+            $gtSm={{ display: 'flex' }}
+            hoverStyle={{ backgroundColor: '$secondary' }}
+            animation="bouncy"
+          />
+
+          {/* HAMBURGER — only on small */}
           <Button
             id="hamburgerButton"
             icon={Menu}
-            backgroundColor="$surfaceAlt"
+            backgroundColor="$surface"
             borderWidth={1}
-            borderColor="$borderSoft"
+            borderColor="$primaryDeep"
             borderRadius="$radius.6"
             padding="$2"
             $sm={{ display: 'flex' }}
@@ -144,22 +163,39 @@ export const Header = () => {
       {menuOpen && (
         <YStack
           id="mobileMenu"
-          backgroundColor="$surface"
+          backgroundColor="$primary"
           borderBottomWidth={1}
-          borderColor="$borderLight"
+          borderColor="$primaryDeep"
           padding="$4"
-          gap="$2"
+          gap="$3"
           animation="bouncy"
           position="relative"
           zIndex={49}
           $gtSm={{ display: 'none' }}
         >
-          <NavLinkItem to="/" onClick={handleNavLinkClick} isMobileMenuItem>Home</NavLinkItem>
-          <NavLinkItem to="/learn" onClick={handleNavLinkClick} isMobileMenuItem>Learn Raga</NavLinkItem>
-          <NavLinkItem to="/advanced-search" onClick={handleNavLinkClick} isMobileMenuItem>Advanced Search</NavLinkItem>
-          <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} isMobileMenuItem>Podcasts</NavLinkItem>
-          <NavLinkItem to="/about" onClick={handleNavLinkClick} isMobileMenuItem>About</NavLinkItem>
-          <NavLinkItem to="/login" onClick={handleNavLinkClick} isMobileMenuItem>Login</NavLinkItem>
+          <NavLinkItem to="/" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Home</NavLinkItem>
+          <NavLinkItem to="/learn" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Learn Raga</NavLinkItem>
+          <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Podcasts</NavLinkItem>
+          <NavLinkItem to="/about" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">About</NavLinkItem>
+          <NavLinkItem to="/help" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Help</NavLinkItem>
+          <NavLinkItem to="/login" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Login</NavLinkItem>
+          <Button
+            icon={currentTheme === 'light' ? Moon : Sun}
+            backgroundColor="$surface"
+            borderWidth={1}
+            borderColor="$primaryDeep"
+            borderRadius="$radius.6"
+            padding="$3"
+            onPress={() => {
+              onToggleTheme();
+              setMenuOpen(false);
+            }}
+            animation="bouncy"
+          >
+            <Paragraph color="$primary" fontWeight="600">
+              Switch to {currentTheme === 'light' ? 'Navy' : 'Light'} Theme
+            </Paragraph>
+          </Button>
         </YStack>
       )}
     </YStack>

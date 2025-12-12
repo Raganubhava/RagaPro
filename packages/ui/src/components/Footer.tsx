@@ -8,7 +8,7 @@ export const Footer = () => {
       tag="footer"
       justifyContent="center"
       alignItems="center"
-      paddingVertical="$6"
+      paddingVertical="$3"
       borderTopWidth={1}
       borderTopColor="$borderLight"
       backgroundColor="transparent"

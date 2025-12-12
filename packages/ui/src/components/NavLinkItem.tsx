@@ -7,6 +7,7 @@ interface NavLinkItemProps {
   children: React.ReactNode;
   onClick?: () => void;
   isMobileMenuItem?: boolean;
+  colorOverride?: string;
 }
 
 export const NavLinkItem = ({
@@ -14,6 +15,7 @@ export const NavLinkItem = ({
   children,
   onClick,
   isMobileMenuItem,
+  colorOverride,
 }: NavLinkItemProps) => {
   const media = useMedia();
 
@@ -41,14 +43,14 @@ export const NavLinkItem = ({
           style={{ whiteSpace: 'nowrap' }}
         >
           <Text
-            color={isActive ? '$primaryDeep' : '$textPrimary'}
+            color={colorOverride ?? (isActive ? '$primaryDeep' : '$textPrimary')}
             fontSize="$3"
             fontFamily="$body"
             lineHeight={20}
             hoverStyle={
               !media.sm
                 ? {
-                    color: '$primary',
+                    color: colorOverride ?? '$primaryDeep',
                   }
                 : undefined
             }

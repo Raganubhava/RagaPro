@@ -24,7 +24,7 @@ export const RagaSearchBar = ({
       marginHorizontal="auto"
       $sm={{ maxWidth: '90%' }}
     >
-      <Paragraph fontFamily="$heading" fontSize="$9" color="$primary">
+      <Paragraph fontFamily="$heading" fontSize="$9" color="$primary" letterSpacing={0.5}>
         Raga
       </Paragraph>
 
@@ -32,16 +32,14 @@ export const RagaSearchBar = ({
         alignItems="center"
         width="100%"
         height={54}
-        borderWidth={1}
-        borderColor="$borderSoft"
+        borderWidth={2}
+        borderColor="$primary"
         borderRadius="$radius.999"
-        paddingHorizontal="$4"
+        paddingHorizontal="$5"
         backgroundColor="$surface"
-        hoverStyle={{ borderColor: '$goldDeep', shadowRadius: '$soft' }}
+        hoverStyle={{ borderColor: '$primaryHover' }}
         focusWithinStyle={{
-          borderColor: '$goldDeep',
-          shadowRadius: '$medium',
-          shadowColor: 'rgba(216,177,105,0.25)',
+          borderColor: '$primaryHover',
         }}
         animation="bouncy"
         $sm={{ height: 42, paddingHorizontal: '$4' }}
@@ -53,6 +51,9 @@ export const RagaSearchBar = ({
           onSubmitEditing={onSearch}
           placeholder="Search for a Raga..."
           placeholderTextColor="$textSecondary"
+          color="$textPrimary"
+          fontFamily="$heading"
+          fontSize="$6"
           borderWidth={0}
           backgroundColor="transparent"
           focusStyle={{
@@ -66,7 +67,7 @@ export const RagaSearchBar = ({
           onPress={onMicClick}
           backgroundColor="transparent"
           borderWidth={0}
-          hoverStyle={{ color: '$goldDeep', scale: 1.1 }}
+          hoverStyle={{ color: '$primaryHover', scale: 1.05 }}
           pressStyle={{ scale: 0.9 }}
           animation="bouncy"
         />
@@ -76,17 +77,17 @@ export const RagaSearchBar = ({
         theme="active"
         size="$4"
         onPress={onSearch}
-        width="50%"
-        minWidth={120}
+        width="60%"
+        minWidth={180}
         paddingHorizontal={20}
         alignSelf="center"
-        backgroundColor="$surface"
-        borderWidth={1}
-        borderColor="$primary"
-        color="$primaryDeep"
+        backgroundColor="$primary"
+        borderWidth={1.5}
+        borderColor="$primaryDeep"
+        color="$surface"
         hoverStyle={{
-          backgroundColor: 'rgba(216,177,105,0.1)',
-          borderColor: '$goldDeep',
+          backgroundColor: '$primaryHover',
+          borderColor: '$primaryHover',
         }}
         animation="bouncy"
         $sm={{ width: '100%', minWidth: 0 }}

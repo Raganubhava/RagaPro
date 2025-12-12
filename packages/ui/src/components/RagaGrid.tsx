@@ -15,7 +15,13 @@ export const RagaGrid = ({ ragas }: RagaGridProps) => {
       $sm={{ flexDirection: 'column', alignItems: 'center' }}
     >
       {ragas.map((raga) => (
-        <YStack key={raga.id} flexBasis="calc(33.333% - $6)" $md={{ flexBasis: 'calc(50% - $4)' }} $sm={{ flexBasis: '100%' }}>
+        <YStack
+          key={raga.id}
+          flexBasis="calc(50% - $6)"
+          $md={{ flexBasis: '100%' }}
+          $sm={{ flexBasis: '100%' }}
+          alignItems="center"
+        >
           <RagaCard raga={raga} />
         </YStack>
       ))}

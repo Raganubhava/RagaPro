@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Button, Paragraph, XStack, YStack } from 'tamagui';
+import { useMemo, useState } from 'react';
+import { Paragraph, XStack, YStack } from 'tamagui';
 import { AnimatePresence, MotiView } from 'moti';
 import { AudioPlayer } from './AudioPlayer';
 import { ChevronDown } from '@tamagui/lucide-icons';
@@ -24,8 +24,36 @@ const RagaDetailRow = ({ label, value }: { label: string; value?: string | numbe
   );
 };
 
+const InfoChip = ({ label, value }: { label: string; value?: string | number | boolean | null }) => {
+  if (value === undefined || value === null || value === '') return null;
+  const displayValue = typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value;
+  return (
+    <XStack
+      paddingVertical="$2"
+      paddingHorizontal="$3"
+      backgroundColor="$secondary"
+      borderRadius="$radius.6"
+      borderWidth={1}
+      borderColor="$goldDeep"
+      gap="$2"
+    >
+      <Paragraph fontSize="$2" color="$textSecondary" fontWeight="600">
+        {label}:
+      </Paragraph>
+      <Paragraph fontSize="$2" color="$textPrimary" fontWeight="700">
+        {displayValue}
+      </Paragraph>
+    </XStack>
+  );
+};
+
 export const RagaCard = ({ raga }: RagaCardProps) => {
   const [expanded, setExpanded] = useState(false);
+  const audioSrc = useMemo(() => {
+    if (!raga.audioFile) return null;
+    // Default to mp3; adjust if API returns mime type in the future.
+    return `data:audio/mpeg;base64,${raga.audioFile}`;
+  }, [raga.audioFile]);
 
   return (
     <YStack
@@ -40,9 +68,13 @@ export const RagaCard = ({ raga }: RagaCardProps) => {
       shadowOffset={{ height: 3, width: 0 }}
       animation="bouncy"
       width="100%"
+      maxWidth={820}
+      alignSelf="center"
+      borderLeftWidth={3}
+      borderLeftColor="$primary"
       $sm={{ padding: '$3', borderRadius: '$radius.10' }}
     >
-      {/* FIX: Clickable header for accordion */}
+      {/* Clickable header for accordion */}
       <XStack
         justifyContent="space-between"
         alignItems="center"
@@ -60,11 +92,17 @@ export const RagaCard = ({ raga }: RagaCardProps) => {
         </MotiView>
       </XStack>
 
-      <YStack gap="$2">
+      {/* Basic Info - Always Visible */}
+      <YStack gap="$3">
+        <XStack gap="$2" flexWrap="wrap">
+          <InfoChip label="Melakarta" value={raga.melakarthaId} />
+          <InfoChip label="Raga Type" value={raga.ragaType} />
+          <InfoChip label="Chakram" value={raga.chakram} />
+          <InfoChip label="Popular" value={raga.popularRaga} />
+        </XStack>
         <RagaDetailRow label="Alternative Name" value={raga.alternativeRagaName} />
-        <RagaDetailRow label="Melakarta ID" value={raga.melakarthaId} />
-        <RagaDetailRow label="Arohana" value={raga.arohana} />
       </YStack>
+      <YStack borderBottomWidth={1} borderColor="$borderSoft" />
 
       <AnimatePresence>
         {expanded && (
@@ -79,13 +117,96 @@ export const RagaCard = ({ raga }: RagaCardProps) => {
               backgroundColor="$surface"
               borderRadius="$radius.10"
               padding="$3"
-              gap="$2"
+              gap="$3"
               marginTop="$3"
             >
-              <AudioPlayer src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" />
-              <RagaDetailRow label="Avarohana" value={raga.avarohana} />
-              <RagaDetailRow label="Chakram" value={raga.chakram} />
-              <RagaDetailRow label="Rasa" value={raga.rasa} />
+              {/* Audio Section */}
+              <YStack gap="$2">
+                <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
+                  Audio
+                </Paragraph>
+                {audioSrc ? (
+                  <AudioPlayer src={audioSrc} />
+                ) : (
+                  <Paragraph fontSize="$sm" color="$textSecondary">
+                    No audio available.
+                  </Paragraph>
+                )}
+              </YStack>
+
+              {/* Arohana & Avarohana Section */}
+              <YStack gap="$2">
+                <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
+                  Scales
+                </Paragraph>
+                <RagaDetailRow label="Arohana" value={raga.arohana} />
+                <RagaDetailRow label="Avarohana" value={raga.avarohana} />
+                <YStack borderBottomWidth={1} borderColor="$borderSoft" />
+              </YStack>
+
+              {/* Swaras Section */}
+              <YStack gap="$2">
+                <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
+                  Swaras
+                </Paragraph>
+                <RagaDetailRow label="Rishabham" value={raga.rishabham} />
+                <RagaDetailRow label="Gandharam" value={raga.gandharam} />
+                <RagaDetailRow label="Madhyamam" value={raga.madhyamam} />
+                <RagaDetailRow label="Panchamam" value={raga.panchamam} />
+                <RagaDetailRow label="Daivatam" value={raga.daivatam} />
+                <RagaDetailRow label="Nishadam" value={raga.nishadam} />
+                <YStack borderBottomWidth={1} borderColor="$borderSoft" />
+              </YStack>
+
+              {/* Swara Roles Section */}
+              <YStack gap="$2">
+                <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
+                  Swara Roles
+                </Paragraph>
+                <RagaDetailRow label="Vadi Swara" value={raga.vadiSwara} />
+                <RagaDetailRow label="Samvadi Swara" value={raga.samvadiSwara} />
+                <RagaDetailRow label="Graha Swara" value={raga.grahaswara} />
+                <RagaDetailRow label="Nyasa Swara" value={raga.nyasaSwara} />
+                <RagaDetailRow label="Jeeva Swara" value={raga.jeevaSwara} />
+                <YStack borderBottomWidth={1} borderColor="$borderSoft" />
+              </YStack>
+
+              {/* Characteristics Section */}
+              <YStack gap="$2">
+                <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
+                  Characteristics
+                </Paragraph>
+                <RagaDetailRow label="Rasa" value={raga.rasa} />
+                <RagaDetailRow label="Hindustani Equi Raga" value={raga.hindustaniEquiRaga} />
+                <RagaDetailRow label="Popular Raga" value={raga.popularRaga} />
+                <RagaDetailRow label="Rakti Raga" value={raga.raktiRaga} />
+                <RagaDetailRow label="Ancient Raga" value={raga.ancientRaga} />
+                <RagaDetailRow label="Upanga Raga" value={raga.upangaRaga} />
+                <RagaDetailRow label="Bhashanga Raga" value={raga.bhashangaRaga} />
+                <RagaDetailRow label="Anyaswaram" value={raga.anyaswaram} />
+                <YStack borderBottomWidth={1} borderColor="$borderSoft" />
+              </YStack>
+
+              {/* Additional Info Section */}
+              <YStack gap="$2">
+                <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
+                  Additional Information
+                </Paragraph>
+                <RagaDetailRow label="Apuroopa Prayogas" value={raga.apuroopaPrayogas} />
+                <RagaDetailRow label="Swara Sancharam" value={raga.swaraSancharam} />
+                <RagaDetailRow label="Additional Notes" value={raga.additionalNotes} />
+                <RagaDetailRow label="Compositions" value={raga.compositions} />
+                {raga.description && (
+                  <YStack gap="$1">
+                    <Paragraph fontSize="$sm" color="$goldDeep" textTransform="uppercase" letterSpacing={1}>
+                      Description:
+                    </Paragraph>
+                    <Paragraph fontSize="$md" color="$textPrimary" lineHeight="$md">
+                      {raga.description}
+                    </Paragraph>
+                  </YStack>
+                )}
+              </YStack>
             </YStack>
           </MotiView>
         )}
