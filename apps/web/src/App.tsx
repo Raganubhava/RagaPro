@@ -8,7 +8,6 @@ import {
   tamaguiConfig,
   HomePage,
   LearnRagaPage,
-  AdvancedSearchPage,
   AboutPage,
   Header,
   Footer,
@@ -27,7 +26,6 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/learn" element={<LearnRagaPage />} />
-              <Route path="/advanced-search" element={<AdvancedSearchPage />} />
               <Route path="/podcasts" element={<PodcastsPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/login" element={<p>Login Page</p>} />
