@@ -1,7 +1,10 @@
-import { H3, Paragraph, YStack } from 'tamagui';
+import { H3, Paragraph, YStack, Button } from 'tamagui';
 import { PageContainer } from './PageContainer';
+import { useNavigate } from 'react-router-dom';
 
 export const AboutPage = () => {
+  const navigate = useNavigate();
+
   return (
     <PageContainer>
       <YStack
@@ -13,38 +16,25 @@ export const AboutPage = () => {
         borderRadius="$radius.14"
         borderWidth={1}
         borderColor="$borderSoft"
+        alignItems="center"
       >
         <H3 fontFamily="$heading" color="$primary" alignSelf="center">
           About
         </H3>
-        <Paragraph color="$textPrimary" lineHeight={24}>
-          I’m Bheema Shankar Maruvada, a software developer passionate about
-          building intelligent systems, full-stack applications, and tools that
-          enhance productivity and creativity. Over the years, I’ve developed
-          solutions across AI, web development, cloud architecture, and
-          automation.
+        <Paragraph color="$textSecondary" lineHeight={24} textAlign="center">
+          Learn more about the app and share feedback on the Feedback page.
         </Paragraph>
-        <Paragraph color="$textSecondary" lineHeight={24}>
-          Outside programming, I enjoy exploring Indian classical music,
-          especially Carnatic ragas — the inspiration for this Raga App
-          project. My goal is to make learning ragas easier through technology,
-          interactive tools, and accessible design.
-        </Paragraph>
-        <Paragraph color="$textSecondary" lineHeight={24}>
-          If you'd like to connect, collaborate, or explore more of my work,
-          visit my website{' '}
-          <Paragraph
-            asChild
-            color="$primary"
-            textDecorationLine="underline"
-            fontWeight="700"
-          >
-            <a href="https://bheemashankar.net/" target="_blank" rel="noreferrer">
-              bheemashankar.net
-            </a>
-          </Paragraph>{' '}
-          or reach out through the contact options provided.
-        </Paragraph>
+        <Button
+          onPress={() => navigate('/feedback')}
+          backgroundColor="$primary"
+          color="$surface"
+          paddingHorizontal="$5"
+          paddingVertical="$3"
+          borderRadius="$radius.8"
+          hoverStyle={{ backgroundColor: '$primaryHover' }}
+        >
+          Go to Feedback
+        </Button>
       </YStack>
     </PageContainer>
   );

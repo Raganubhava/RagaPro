@@ -92,24 +92,21 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
             $sm={{ display: 'none' }}
             $gtSm={{ display: 'flex' }}
           >
-          <NavLinkItem to="/" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
-            Home
-          </NavLinkItem>
+            <NavLinkItem to="/" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
+              Home
+            </NavLinkItem>
             <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
               Raga Sessions
             </NavLinkItem>       
             <NavLinkItem to="/learn" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
-              Know your Sruti
+              Find Sruti
             </NavLinkItem>
-             <NavLinkItem to="/help" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
-              Help
+            <NavLinkItem to="/help" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
+              Glossary
             </NavLinkItem>
             <NavLinkItem to="/feedback" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
               Feedback
             </NavLinkItem>
-                 <NavLinkItem to="/about" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
-              About
-            </NavLinkItem>           
           </XStack>
         </XStack>
 
@@ -200,10 +197,10 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
           $gtSm={{ display: 'none' }}
         >
           <NavLinkItem to="/" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Home</NavLinkItem>
-          <NavLinkItem to="/learn" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Learn Raga</NavLinkItem>
-          <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Podcasts</NavLinkItem>
-          <NavLinkItem to="/about" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">About</NavLinkItem>
-          <NavLinkItem to="/help" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Help</NavLinkItem>
+          <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Raga Sessions</NavLinkItem>
+          <NavLinkItem to="/learn" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Find Sruti</NavLinkItem>
+          <NavLinkItem to="/help" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Glossary</NavLinkItem>
+          <NavLinkItem to="/feedback" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Feedback</NavLinkItem>
           <NavLinkItem to="/login" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Login</NavLinkItem>
           <Button
             icon={currentTheme === 'light' ? Moon : Sun}

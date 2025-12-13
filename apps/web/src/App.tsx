@@ -11,7 +11,6 @@ import {
   LearnRagaPage,
   AboutPage,
   Header,
-  Footer,
   PodcastsPage,
   HelpPage,
   FeedbackPage,
@@ -39,20 +38,21 @@ function App() {
           {/* This YStack is the full viewport height */}
           <YStack f={1} minHeight="100vh" backgroundColor="$background">
             <Header onToggleTheme={toggleTheme} currentTheme={theme} />
-            {/* This inner YStack takes up the remaining space and allows the page to flow with the footer visible */}
-            <YStack flex={1} overflow="visible">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/learn" element={<LearnRagaPage />} />
-                <Route path="/podcasts" element={<PodcastsPage />} />
-                <Route path="/about" element={<AboutPage />} />
-              <Route path="/help" element={<HelpPage />} />
-              <Route path="/feedback" element={<FeedbackPage />} />
-              <Route path="/login" element={<p>Login Page</p>} />
-            </Routes>
-            <Footer />
+            {/* Main content fills available space; footer stays below content */}
+            <YStack flex={1} overflow="visible" display="flex">
+              <YStack flex={1}>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/learn" element={<LearnRagaPage />} />
+                  <Route path="/podcasts" element={<PodcastsPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/help" element={<HelpPage />} />
+                  <Route path="/feedback" element={<FeedbackPage />} />
+                  <Route path="/login" element={<p>Login Page</p>} />
+                </Routes>
+              </YStack>
+            </YStack>
           </YStack>
-        </YStack>
         </Theme>
       </TamaguiProvider>
     </BrowserRouter>

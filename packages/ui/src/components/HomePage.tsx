@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button, Paragraph, Spinner, YStack, useThemeName } from 'tamagui';
 import { RagaSearchBar } from './RagaSearchBar';
 import { PageContainer } from './PageContainer';
 import { RagaCard } from './RagaCard';
 import { ChatBotPanel } from './ChatBotPanel';
+import { Footer } from './Footer';
 import { Raga } from '@raga/data';
 import { HindustaniRagaCard, HindustaniRaga } from './HindustaniRagaCard';
 import { isHindustaniRaga } from '../constants/hindustaniRagas';
@@ -50,6 +51,7 @@ export const HomePage = () => {
   const [lastSystem, setLastSystem] = useState<RagaSystem>('carnatic');
   const themeName = useThemeName();
   const isNavy = themeName?.toLowerCase().includes('navy');
+  const searchSectionRef = useRef<HTMLDivElement | null>(null);
 
   const handleSearch = async () => {
     if (searchText.trim() === '') {
@@ -135,12 +137,38 @@ export const HomePage = () => {
 
         {/* Hero heading */}
         <YStack alignItems="center" gap="$2" paddingTop="$2">
-          <Paragraph fontFamily="$heading" fontSize="$7" color="$primary" textAlign="center" fontWeight="700">
-            Your Companion for Indian Classical Music
-          </Paragraph>
-          <Paragraph fontFamily="$heading" fontSize="$5" color="$textSecondary" textAlign="center">
-            Learn, practice, and explore the Ragas
-          </Paragraph>
+          <YStack alignItems="center" gap="$1">
+            <Paragraph
+              fontFamily="$body"
+              fontSize="$8"
+              color="$primary"
+              textAlign="center"
+              letterSpacing={0.25}
+              fontWeight="800"
+            >
+              Discover Carnatic and Hindustani Ragas
+            </Paragraph>
+            <Paragraph
+              fontFamily="$body"
+              fontSize="$5"
+              color="$textSecondary"
+              textAlign="center"
+              letterSpacing={0.15}
+            >
+              Your companion for learning, practicing, and exploring Indian classical music
+            </Paragraph>
+          </YStack>
+          <img
+            src="/hampi.jpg"
+            alt="Hampi temple"
+            style={{
+              width: 280,
+              height: 'auto',
+              borderRadius: 12,
+              boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+              objectFit: 'cover',
+            }}
+          />
         </YStack>
 
         {/* Search Bar */}
@@ -226,6 +254,7 @@ export const HomePage = () => {
         )}
       </YStack>
       </PageContainer>
+      <Footer />
     </YStack>
   );
 };

@@ -88,7 +88,9 @@ export const ChatBotPanel = () => {
       <XStack justifyContent="space-between" alignItems="center">
         <Paragraph
           fontSize="$6"
-          fontFamily="$heading"
+          fontFamily="$body"
+          fontWeight="700"
+          letterSpacing={0.2}
           color="$primary"
         >
           RagaBot 🤖

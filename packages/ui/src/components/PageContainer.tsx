@@ -8,15 +8,14 @@ interface PageContainerProps {
 export const PageContainer = ({ children }: PageContainerProps) => {
   return (
     <YStack
-      flex={1}
       width="100%"
       maxWidth={1300}
       marginHorizontal="auto"
       paddingHorizontal="$6"
+      paddingBottom="$12"
       marginTop="$6"
       gap="$6"
-      overflow="auto" // Ensure content scrolls
-      className="hide-scrollbar"
+      overflow="visible"
       $sm={{
         paddingHorizontal: '$3',
         marginTop: '$4',

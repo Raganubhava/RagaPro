@@ -5,29 +5,23 @@ interface RagaSearchBarProps {
   value: string;
   onChange: (value: string) => void;
   onSearch: () => void;
-  onMicClick?: () => void;
 }
 
 export const RagaSearchBar = ({
   value,
   onChange,
   onSearch,
-  onMicClick,
 }: RagaSearchBarProps) => {
   return (
     <YStack
       alignItems="center"
-      gap="$6"
+      gap="$5"
       padding="$4"
       width="100%"
       maxWidth={600}
       marginHorizontal="auto"
       $sm={{ maxWidth: '90%' }}
     >
-      <Paragraph fontFamily="$heading" fontSize="$9" color="$primary" letterSpacing={0.5}>
-        Raga
-      </Paragraph>
-
       <XStack
         alignItems="center"
         width="100%"
@@ -64,17 +58,6 @@ export const RagaSearchBar = ({
             shadowColor: 'transparent',
           }}
         />
-        <Button
-          circular
-          icon={Mic}
-          color="$primary"
-          onPress={onMicClick}
-          backgroundColor="transparent"
-          borderWidth={0}
-          hoverStyle={{ color: '$primaryHover', scale: 1.05 }}
-          pressStyle={{ scale: 0.9 }}
-          animation="bouncy"
-        />
       </XStack>
 
       <Button
@@ -86,12 +69,16 @@ export const RagaSearchBar = ({
         paddingHorizontal={20}
         alignSelf="center"
         backgroundColor="$primary"
-        borderWidth={1.5}
+        borderWidth={2}
         borderColor="$primaryDeep"
         color="$surface"
+        shadowColor="rgba(0,0,0,0.12)"
+        shadowOffset={{ width: 0, height: 4 }}
+        shadowRadius={10}
         hoverStyle={{
           backgroundColor: '$primaryHover',
           borderColor: '$primaryHover',
+          shadowColor: 'rgba(0,0,0,0.16)',
         }}
         animation="bouncy"
         $sm={{ width: '100%', minWidth: 0 }}

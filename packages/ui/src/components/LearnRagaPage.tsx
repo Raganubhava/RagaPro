@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Button, Input, Paragraph, TextArea, XStack, YStack } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { Mic, Square } from '@tamagui/lucide-icons';
+import { Footer } from './Footer';
 
 const API_BASE_URL = 'https://localhost:44308/api';
 const PITCH_ENDPOINT = `${API_BASE_URL}/pitch`;
@@ -104,67 +105,91 @@ export const LearnRagaPage = () => {
   };
 
   return (
-    <PageContainer>
-      <YStack gap="$5" maxWidth={820} alignSelf="center" width="100%">
+    <YStack minHeight="100vh" justifyContent="space-between" width="100%">
+      <PageContainer>
+        <YStack gap="$5" maxWidth={820} alignSelf="center" width="100%">
         <YStack gap="$2">
           <Paragraph fontFamily="$heading" fontSize="$9" color="$primary">
-            Know your Sruti
+            Sruti detection
           </Paragraph>
           <Paragraph fontSize="$4" color="$textSecondary">
             Record a short sample (or upload an mp3) and we’ll detect your base note and sruti.
           </Paragraph>
         </YStack>
 
-        <YStack gap="$3" padding="$4" backgroundColor="$surfaceAlt" borderRadius="$radius.10" borderWidth={1} borderColor="$borderSoft">
-          <Paragraph fontWeight="700" color="$primary">
-            Record your voice
-          </Paragraph>
-          <XStack gap="$3" alignItems="center" flexWrap="wrap">
-            <Button
-              icon={Mic}
-              backgroundColor="#d32f2f"
-              color="#fff"
-              onPress={startRecording}
-              disabled={isRecording}
-              hoverStyle={{ backgroundColor: '#c62828' }}
-            >
-              Start Recording
-            </Button>
-            <Button
-              icon={Square}
-              backgroundColor="#757575"
-              color="#fff"
-              onPress={stopRecording}
-              disabled={!isRecording}
-              hoverStyle={{ backgroundColor: '#616161' }}
-            >
-              Stop
-            </Button>
-          </XStack>
-          <Paragraph fontSize="$3" color="$textSecondary">
-            Or upload an audio file (mp3/webm):
-          </Paragraph>
-          <XStack gap="$3" alignItems="center" flexWrap="wrap">
-            <Button
-              backgroundColor="$primary"
-              color="$surface"
-              onPress={() => fileInputRef.current?.click()}
-              hoverStyle={{ backgroundColor: '$primaryHover' }}
-            >
-              Choose File
-            </Button>
-            <Paragraph color="$textSecondary" fontSize="$3">
-              {selectedFile ? selectedFile.name : recordedBlob ? 'Recording ready to submit' : 'No file selected'}
+        <XStack gap="$4" alignItems="stretch" flexWrap="wrap">
+          <YStack flex={1} gap="$3" padding="$4" backgroundColor="$surfaceAlt" borderRadius="$radius.10" borderWidth={1} borderColor="$borderSoft" minWidth={320}>
+            <Paragraph fontWeight="700" color="$primary">
+              Record your voice
             </Paragraph>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="audio/*"
-              style={{ display: 'none' }}
-              onChange={handleFileChange}
+            <XStack gap="$3" alignItems="center" flexWrap="wrap">
+              <Button
+                icon={Mic}
+                backgroundColor="#d32f2f"
+                color="#fff"
+                onPress={startRecording}
+                disabled={isRecording}
+                hoverStyle={{ backgroundColor: '#c62828' }}
+              >
+                Start Recording
+              </Button>
+              <Button
+                icon={Square}
+                backgroundColor="#757575"
+                color="#fff"
+                onPress={stopRecording}
+                disabled={!isRecording}
+                hoverStyle={{ backgroundColor: '#616161' }}
+              >
+                Stop
+              </Button>
+            </XStack>
+            <Paragraph fontSize="$3" color="$textSecondary">
+              Or upload an audio file (mp3/webm):
+            </Paragraph>
+            <XStack gap="$3" alignItems="center" flexWrap="wrap">
+              <Button
+                backgroundColor="$primary"
+                color="$surface"
+                onPress={() => fileInputRef.current?.click()}
+                hoverStyle={{ backgroundColor: '$primaryHover' }}
+              >
+                Choose File
+              </Button>
+              <Paragraph color="$textSecondary" fontSize="$3">
+                {selectedFile ? selectedFile.name : recordedBlob ? 'Recording ready to submit' : 'No file selected'}
+              </Paragraph>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="audio/*"
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+              />
+            </XStack>
+          </YStack>
+          <YStack
+            width={240}
+            minHeight={240}
+            backgroundColor="$surfaceAlt"
+            borderRadius="$radius.10"
+            borderWidth={1}
+            borderColor="$borderSoft"
+            overflow="hidden"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <img
+              src="/deekshitar.jpg"
+              alt="Deekshitar"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
             />
-          </XStack>
-        </YStack>
+          </YStack>
+        </XStack>
 
         <YStack gap="$3">
           <Button
@@ -172,6 +197,9 @@ export const LearnRagaPage = () => {
             color="$surface"
             onPress={handleSubmit}
             disabled={isRecording}
+            alignSelf="flex-start"
+            minWidth={160}
+            paddingHorizontal="$6"
             hoverStyle={{ backgroundColor: '$primaryHover' }}
           >
             Submit for Sruti Detection
@@ -196,7 +224,9 @@ export const LearnRagaPage = () => {
             </YStack>
           )}
         </YStack>
-      </YStack>
-    </PageContainer>
+        </YStack>
+      </PageContainer>
+      <Footer />
+    </YStack>
   );
 };
