@@ -32,7 +32,7 @@ export const PodcastsPage = () => {
 
         <YStack gap="$3">
           <Paragraph fontFamily="$heading" fontSize="$8" color="$primary">
-            Podcast Episodes
+            Episodes
           </Paragraph>
           <XStack
             gap="$6"

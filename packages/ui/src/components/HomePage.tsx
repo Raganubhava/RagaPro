@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Paragraph, Spinner, YStack } from 'tamagui';
+import { Button, Paragraph, Spinner, YStack, useThemeName } from 'tamagui';
 import { RagaSearchBar } from './RagaSearchBar';
 import { PageContainer } from './PageContainer';
 import { RagaCard } from './RagaCard';
@@ -48,6 +48,8 @@ export const HomePage = () => {
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [lastSystem, setLastSystem] = useState<RagaSystem>('carnatic');
+  const themeName = useThemeName();
+  const isNavy = themeName?.toLowerCase().includes('navy');
 
   const handleSearch = async () => {
     if (searchText.trim() === '') {
@@ -95,7 +97,23 @@ export const HomePage = () => {
   };
 
   return (
-    <PageContainer>
+    <YStack
+      minHeight="100vh"
+      backgroundColor="$background"
+      {...(isNavy
+        ? {
+            backgroundImage:
+              'linear-gradient(180deg, rgba(11,16,38,0.78) 0%, rgba(11,16,38,0.84) 40%, rgba(11,16,38,0.9) 100%)',
+          }
+        : {
+            backgroundImage:
+              "linear-gradient(180deg, #f9f5ef 0%, #f3eee7 100%), url('/hampi.jpg')",
+            backgroundRepeat: 'no-repeat, no-repeat',
+            backgroundPosition: 'center, 32px 32px',
+            backgroundSize: 'cover, 380px auto',
+          })}
+    >
+      <PageContainer>
       <YStack flex={1} justifyContent="flex-start" alignItems="center" gap="$4" paddingTop="$4">
         {/* Right-aligned chatbot */}
         <YStack width="100%" maxWidth={1100} position="relative" alignItems="center">
@@ -113,6 +131,16 @@ export const HomePage = () => {
           >
             <ChatBotPanel />
           </YStack>
+        </YStack>
+
+        {/* Hero heading */}
+        <YStack alignItems="center" gap="$2" paddingTop="$2">
+          <Paragraph fontFamily="$heading" fontSize="$7" color="$primary" textAlign="center" fontWeight="700">
+            Your Companion for Indian Classical Music
+          </Paragraph>
+          <Paragraph fontFamily="$heading" fontSize="$5" color="$textSecondary" textAlign="center">
+            Learn, practice, and explore the Ragas
+          </Paragraph>
         </YStack>
 
         {/* Search Bar */}
@@ -197,6 +225,7 @@ export const HomePage = () => {
           </Paragraph>
         )}
       </YStack>
-    </PageContainer>
+      </PageContainer>
+    </YStack>
   );
 };

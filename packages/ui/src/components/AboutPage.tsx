@@ -32,7 +32,18 @@ export const AboutPage = () => {
         </Paragraph>
         <Paragraph color="$textSecondary" lineHeight={24}>
           If you'd like to connect, collaborate, or explore more of my work,
-          visit my website or reach out through the contact options provided.
+          visit my website{' '}
+          <Paragraph
+            asChild
+            color="$primary"
+            textDecorationLine="underline"
+            fontWeight="700"
+          >
+            <a href="https://bheemashankar.net/" target="_blank" rel="noreferrer">
+              bheemashankar.net
+            </a>
+          </Paragraph>{' '}
+          or reach out through the contact options provided.
         </Paragraph>
       </YStack>
     </PageContainer>

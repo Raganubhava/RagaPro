@@ -16,6 +16,7 @@ export const PageContainer = ({ children }: PageContainerProps) => {
       marginTop="$6"
       gap="$6"
       overflow="auto" // Ensure content scrolls
+      className="hide-scrollbar"
       $sm={{
         paddingHorizontal: '$3',
         marginTop: '$4',

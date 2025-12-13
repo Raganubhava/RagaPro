@@ -13,31 +13,46 @@ import {
   Header,
   Footer,
   PodcastsPage,
+  HelpPage,
+  FeedbackPage,
 } from 'ui';
 
 function App() {
   const [theme, setTheme] = useState<'light' | 'navy'>('light');
   const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'navy' : 'light'));
 
+  const hideScrollbarCss = `
+    .hide-scrollbar {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+  `;
+
   return (
     <BrowserRouter>
       <TamaguiProvider config={tamaguiConfig} defaultTheme={theme}>
         <Theme name={theme}>
+          <style>{hideScrollbarCss}</style>
           {/* This YStack is the full viewport height */}
           <YStack f={1} minHeight="100vh" backgroundColor="$background">
             <Header onToggleTheme={toggleTheme} currentTheme={theme} />
-            {/* This inner YStack takes up the remaining space and is scrollable */}
-            <YStack flex={1} overflow="scroll">
+            {/* This inner YStack takes up the remaining space and allows the page to flow with the footer visible */}
+            <YStack flex={1} overflow="visible">
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/learn" element={<LearnRagaPage />} />
                 <Route path="/podcasts" element={<PodcastsPage />} />
                 <Route path="/about" element={<AboutPage />} />
-                <Route path="/login" element={<p>Login Page</p>} />
-              </Routes>
-              <Footer />
-            </YStack>
+              <Route path="/help" element={<HelpPage />} />
+              <Route path="/feedback" element={<FeedbackPage />} />
+              <Route path="/login" element={<p>Login Page</p>} />
+            </Routes>
+            <Footer />
           </YStack>
+        </YStack>
         </Theme>
       </TamaguiProvider>
     </BrowserRouter>

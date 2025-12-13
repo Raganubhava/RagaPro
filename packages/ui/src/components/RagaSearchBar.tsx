@@ -45,6 +45,7 @@ export const RagaSearchBar = ({
         $sm={{ height: 42, paddingHorizontal: '$4' }}
       >
         <Input
+          unstyled
           flex={1}
           value={value}
           onChangeText={onChange}
@@ -58,6 +59,9 @@ export const RagaSearchBar = ({
           backgroundColor="transparent"
           focusStyle={{
             outlineWidth: 0,
+            outlineColor: 'transparent',
+            borderWidth: 0,
+            shadowColor: 'transparent',
           }}
         />
         <Button

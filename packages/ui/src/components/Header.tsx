@@ -10,6 +10,10 @@ interface HeaderProps {
 
 export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const isNavy = currentTheme === 'navy';
+  const headerBg = isNavy ? 'rgba(11,16,38,0.9)' : '#FBF8F4';
+  const headerBorder = isNavy ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
+  const navColor = isNavy ? '$color' : '#9C4F3C';
 
   const handleNavLinkClick = () => {
     if (menuOpen) {
@@ -21,8 +25,9 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
     <YStack
       tag="header"
       width="100%"
-      backgroundColor="$primary"
-      borderBottomWidth={0}
+      backgroundColor={headerBg}
+      borderBottomWidth={1}
+      borderColor={headerBorder}
       position="sticky"
       top={0}
       zIndex={50}
@@ -36,11 +41,11 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
         width="100%"
         maxWidth={1300}
         marginHorizontal="auto"
-        paddingHorizontal="$6"
+        paddingHorizontal="$7"
         paddingVertical="$3"
         alignItems="center"
         justifyContent="space-between"
-        gap="$6"
+        gap="$7"
         $sm={{ paddingHorizontal: '$4' }}
       >
         {/* LEFT: LOGO + DESKTOP NAV */}
@@ -87,11 +92,24 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
             $sm={{ display: 'none' }}
             $gtSm={{ display: 'flex' }}
           >
-            <NavLinkItem to="/" onClick={handleNavLinkClick} colorOverride="$surface">Home</NavLinkItem>
-            <NavLinkItem to="/learn" onClick={handleNavLinkClick} colorOverride="$surface">Learn Raga</NavLinkItem>
-            <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} colorOverride="$surface">Podcasts</NavLinkItem>
-            <NavLinkItem to="/about" onClick={handleNavLinkClick} colorOverride="$surface">About</NavLinkItem>
-            <NavLinkItem to="/help" onClick={handleNavLinkClick} colorOverride="$surface">Help</NavLinkItem>
+          <NavLinkItem to="/" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
+            Home
+          </NavLinkItem>
+            <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
+              Raga Sessions
+            </NavLinkItem>       
+            <NavLinkItem to="/learn" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
+              Know your Sruti
+            </NavLinkItem>
+             <NavLinkItem to="/help" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
+              Help
+            </NavLinkItem>
+            <NavLinkItem to="/feedback" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
+              Feedback
+            </NavLinkItem>
+                 <NavLinkItem to="/about" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
+              About
+            </NavLinkItem>           
           </XStack>
         </XStack>
 
@@ -109,19 +127,27 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
             size="$3"
             paddingHorizontal="$4"
             borderRadius="$radius.6"
-            color="$primary"
-            backgroundColor="$surface"
+            color={isNavy ? '$primary' : '#FFFFFF'}
+            backgroundColor={isNavy ? '$surface' : '#9C4F3C'}
             borderWidth={1}
-            borderColor="$primary"
+            borderColor={isNavy ? '$primary' : '#9C4F3C'}
             icon={Lock}
             iconAfter={null}
             $sm={{ display: 'none' }}
             $gtSm={{ display: 'flex' }}
-            hoverStyle={{
-              backgroundColor: '$secondary',
-              borderColor: '$secondary',
-              color: '$primaryDeep',
-            }}
+            hoverStyle={
+              isNavy
+                ? {
+                    backgroundColor: '$secondary',
+                    borderColor: '$secondary',
+                    color: '$primaryDeep',
+                  }
+                : {
+                    backgroundColor: '#B45B46',
+                    borderColor: '#B45B46',
+                    color: '#FFFFFF',
+                  }
+            }
             animation="bouncy"
           >
             Login
