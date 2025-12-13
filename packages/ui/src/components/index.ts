@@ -18,3 +18,4 @@ export * from './RagaCardSkeletonGrid';
 export * from './RagaGrid';
 export * from './TopRagasGrid';
 export * from './TampuraSvg';
+export * from './HindustaniRagaCard';

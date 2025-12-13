@@ -8,12 +8,12 @@ export const Footer = () => {
       tag="footer"
       justifyContent="center"
       alignItems="center"
-      paddingVertical="$3"
+      paddingVertical="$2"
       borderTopWidth={1}
       borderTopColor="$borderLight"
       backgroundColor="transparent"
     >
-      <Paragraph size="$2" color="$textSecondary" o={0.7}>
+      <Paragraph size="$1" color="$textSecondary" o={0.7}>
         © {currentYear} Raga App. All rights reserved.
       </Paragraph>
     </XStack>

@@ -1,16 +1,20 @@
 import { useState } from 'react';
-import { YStack, XStack, Paragraph, Button, Spinner } from 'tamagui';
+import { Button, Paragraph, Spinner, YStack } from 'tamagui';
 import { RagaSearchBar } from './RagaSearchBar';
 import { PageContainer } from './PageContainer';
 import { RagaCard } from './RagaCard';
 import { ChatBotPanel } from './ChatBotPanel';
 import { Raga } from '@raga/data';
+import { HindustaniRagaCard, HindustaniRaga } from './HindustaniRagaCard';
+import { isHindustaniRaga } from '../constants/hindustaniRagas';
 
 const API_BASE_URL = 'https://localhost:44308/api';
+type RagaSystem = 'carnatic' | 'hindustani';
 
-const getRagaFromAPI = async (ragaName: string): Promise<Raga> => {
-  const url = `${API_BASE_URL}/raga/${ragaName}`;
-  console.log('🔍 Fetching raga from:', url);
+const getRagaFromAPI = async (ragaName: string, system: RagaSystem): Promise<Raga | HindustaniRaga> => {
+  const endpoint = system === 'hindustani' ? 'HindustaniRaga' : 'raga';
+  const url = `${API_BASE_URL}/${endpoint}/${encodeURIComponent(ragaName)}`;
+  console.log('Fetching raga from:', url);
   
   try {
     const response = await fetch(url, {
@@ -20,29 +24,30 @@ const getRagaFromAPI = async (ragaName: string): Promise<Raga> => {
       },
     });
     
-    console.log('📊 Response status:', response.status);
+    console.log('Response status:', response.status);
     
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('❌ Error response:', errorText);
+      console.error('Error response:', errorText);
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
     
     const data = await response.json();
-    console.log('✅ Success - Raga data:', data);
+    console.log('Success - Raga data:', data);
     return data;
   } catch (err) {
-    console.error('❌ Fetch error details:', err);
+    console.error('Fetch error details:', err);
     throw err;
   }
 };
 
 export const HomePage = () => {
   const [searchText, setSearchText] = useState('');
-  const [searchResult, setSearchResult] = useState<Raga | null>(null);
+  const [searchResult, setSearchResult] = useState<Raga | HindustaniRaga | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
+  const [lastSystem, setLastSystem] = useState<RagaSystem>('carnatic');
 
   const handleSearch = async () => {
     if (searchText.trim() === '') {
@@ -56,14 +61,34 @@ export const HomePage = () => {
     setError(null);
     setHasSearched(true);
 
+    const normalizedQuery = searchText.trim();
+    const system: RagaSystem = isHindustaniRaga(normalizedQuery) ? 'hindustani' : 'carnatic';
+
     try {
-      const result = await getRagaFromAPI(searchText.trim());
-      setSearchResult(result);
-    } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Unknown error';
-      console.error('Search error:', errorMsg);
-      setError(`Could not find raga "${searchText.trim()}". ${errorMsg}`);
-      setSearchResult(null);
+      // Try Hindustani first when it matches the list; otherwise go straight to Carnatic.
+      const primarySystem: RagaSystem = system;
+      try {
+        const result = await getRagaFromAPI(normalizedQuery, primarySystem);
+        setLastSystem(primarySystem);
+        setSearchResult(result);
+      } catch (primaryErr) {
+        // If Hindustani fails (e.g., Carnatic-only raga like Todi), fall back to Carnatic.
+        if (primarySystem === 'hindustani') {
+          try {
+            const fallbackResult = await getRagaFromAPI(normalizedQuery, 'carnatic');
+            setLastSystem('carnatic');
+            setSearchResult(fallbackResult);
+          } catch (fallbackErr) {
+            const msg = fallbackErr instanceof Error ? fallbackErr.message : 'Unknown error';
+            setError(`Could not find raga "${normalizedQuery}" in Hindustani or Carnatic catalogs. ${msg}`);
+            setSearchResult(null);
+          }
+        } else {
+          const msg = primaryErr instanceof Error ? primaryErr.message : 'Unknown error';
+          setError(`Could not find raga "${normalizedQuery}" in Carnatic catalog. ${msg}`);
+          setSearchResult(null);
+        }
+      }
     } finally {
       setIsLoading(false);
     }
@@ -71,17 +96,9 @@ export const HomePage = () => {
 
   return (
     <PageContainer>
-      <YStack flex={1} justifyContent="flex-start" alignItems="center" gap="$6" paddingTop="$6">
-        {/* Header with right-aligned chatbot */}
+      <YStack flex={1} justifyContent="flex-start" alignItems="center" gap="$4" paddingTop="$4">
+        {/* Right-aligned chatbot */}
         <YStack width="100%" maxWidth={1100} position="relative" alignItems="center">
-          <YStack gap="$2" alignItems="center">
-            <Paragraph fontSize="$9" fontWeight="700" color="$primary">
-              Search Ragas
-            </Paragraph>
-            <Paragraph fontSize="$lg" color="$textSecondary" textAlign="center">
-              Enter a raga name to explore its musical characteristics
-            </Paragraph>
-          </YStack>
           <YStack
             position="absolute"
             top={0}
@@ -91,7 +108,7 @@ export const HomePage = () => {
               top: undefined,
               right: undefined,
               alignItems: 'center',
-              marginTop: '$3',
+              marginBottom: '$3',
             }}
           >
             <ChatBotPanel />
@@ -127,7 +144,7 @@ export const HomePage = () => {
             marginTop="$4"
           >
             <Paragraph fontSize="$lg" color="$primaryActive" fontWeight="600">
-              ⚠️ Oops!
+              Oops!
             </Paragraph>
             <Paragraph fontSize="$md" color="$text" textAlign="center">
               {error}
@@ -153,7 +170,11 @@ export const HomePage = () => {
             <Paragraph fontSize="$sm" color="$textSecondary" textAlign="center">
               Found raga: <Paragraph fontWeight="700" color="$primary">{searchResult.ragaName}</Paragraph>
             </Paragraph>
-            <RagaCard raga={searchResult} />
+            {lastSystem === 'hindustani' && 'thaat' in searchResult ? (
+              <HindustaniRagaCard raga={searchResult} />
+            ) : (
+              <RagaCard raga={searchResult as Raga} />
+            )}
             <Button
               onPress={() => {
                 setSearchResult(null);
