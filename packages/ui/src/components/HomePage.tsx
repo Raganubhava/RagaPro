@@ -116,7 +116,17 @@ export const HomePage = () => {
           })}
     >
       <PageContainer>
-      <YStack flex={1} justifyContent="flex-start" alignItems="center" gap="$4" paddingTop="$4">
+      <YStack
+        flex={1}
+        justifyContent="flex-start"
+        alignItems="center"
+        gap="$4"
+        paddingTop="$4"
+        $sm={{
+          paddingHorizontal: '$3',
+          gap: '$3',
+        }}
+      >
         {/* Right-aligned chatbot */}
         <YStack width="100%" maxWidth={1100} position="relative" alignItems="center">
           <YStack
@@ -145,6 +155,7 @@ export const HomePage = () => {
               textAlign="center"
               letterSpacing={0.25}
               fontWeight="800"
+              $sm={{ fontSize: '$6' }}
             >
               Discover Carnatic and Hindustani Ragas
             </Paragraph>
@@ -154,6 +165,7 @@ export const HomePage = () => {
               color="$textSecondary"
               textAlign="center"
               letterSpacing={0.15}
+              $sm={{ fontSize: '$4' }}
             >
               Your companion for learning, practicing, and exploring Indian classical music
             </Paragraph>
@@ -162,7 +174,7 @@ export const HomePage = () => {
             src="/hampi.jpg"
             alt="Hampi temple"
             style={{
-              width: 280,
+              width: 'min(280px, 80vw)',
               height: 'auto',
               borderRadius: 12,
               boxShadow: '0 8px 24px rgba(0,0,0,0.12)',

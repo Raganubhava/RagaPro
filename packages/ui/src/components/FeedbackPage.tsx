@@ -63,29 +63,42 @@ export const FeedbackPage = () => {
   return (
     <>
       <PageContainer>
-        <YStack gap="$5" maxWidth={680} width="100%" alignSelf="center" paddingBottom="$12">
-          <YStack gap="$3" padding="$4" backgroundColor="$surfaceAlt" borderRadius="$radius.10" borderWidth={1} borderColor="$borderSoft">
-            <Paragraph fontFamily="$heading" fontSize="$8" color="$primary">
+        <YStack
+          gap="$5"
+          maxWidth={680}
+          width="100%"
+          alignSelf="center"
+          paddingBottom="$12"
+          $sm={{
+            paddingHorizontal: '$3',
+            gap: '$4',
+          }}
+        >
+          <YStack
+            gap="$3"
+            padding="$4"
+            backgroundColor="$surfaceAlt"
+            borderRadius="$radius.10"
+            borderWidth={1}
+            borderColor="$borderSoft"
+            $sm={{ padding: '$3' }}
+          >
+            <Paragraph fontFamily="$heading" fontSize="$8" color="$primary" $sm={{ fontSize: '$7' }}>
               About
             </Paragraph>
             <Paragraph color="$textPrimary" lineHeight={24}>
-              I’m Bheema Shankar Maruvada, a software developer passionate about building intelligent systems,
-              full-stack applications, and tools that enhance productivity and creativity. Over the years, I’ve developed
+              I&apos;m Bheema Shankar Maruvada, a software developer passionate about building intelligent systems,
+              full-stack applications, and tools that enhance productivity and creativity. Over the years, I&apos;ve developed
               solutions across AI, web development, cloud architecture, and automation.
             </Paragraph>
             <Paragraph color="$textSecondary" lineHeight={24}>
-              Outside programming, I enjoy exploring Indian classical music, especially Carnatic ragas — the inspiration
+              Outside programming, I enjoy exploring Indian classical music, especially Carnatic ragas - the inspiration
               for this Raga App project. My goal is to make learning ragas easier through technology, interactive tools,
               and accessible design.
             </Paragraph>
             <Paragraph color="$textSecondary" lineHeight={24}>
-              If you'd like to connect, collaborate, or explore more of my work, visit my website{' '}
-              <Paragraph
-                asChild
-                color="$primary"
-                textDecorationLine="underline"
-                fontWeight="700"
-              >
+              If you&apos;d like to connect, collaborate, or explore more of my work, visit my website{' '}
+              <Paragraph asChild color="$primary" textDecorationLine="underline" fontWeight="700">
                 <a href="https://bheemashankar.net/" target="_blank" rel="noreferrer">
                   bheemashankar.net
                 </a>
@@ -95,44 +108,20 @@ export const FeedbackPage = () => {
           </YStack>
 
           <YStack gap="$2">
-            <Paragraph fontFamily="$heading" fontSize="$9" color="$primary">
+            <Paragraph fontFamily="$heading" fontSize="$9" color="$primary" $sm={{ fontSize: '$7' }}>
               Share Your Feedback
             </Paragraph>
-            <Paragraph fontSize="$4" color="$textSecondary">
+            <Paragraph fontSize="$4" color="$textSecondary" $sm={{ fontSize: '$3' }}>
               Please tell us what you love, what feels off, or what you want to change in the raga description. We will make the necessary corrections and display the updated raga information. If you would like to submit a new raga you have discovered, please feel free to do so.
             </Paragraph>
           </YStack>
 
           <YStack gap="$3">
-            <Input
-              placeholder="Email*"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-            />
-            <Input
-              placeholder="First Name"
-              value={firstName}
-              onChangeText={setFirstName}
-            />
-            <Input
-              placeholder="Last Name"
-              value={lastName}
-              onChangeText={setLastName}
-            />
-            <Input
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              keyboardType="phone-pad"
-            />
-            <TextArea
-              placeholder="Your feedback*"
-              value={feedback}
-              onChangeText={setFeedback}
-              minHeight={140}
-              numberOfLines={5}
-            />
+            <Input placeholder="Email*" value={email} onChangeText={setEmail} keyboardType="email-address" />
+            <Input placeholder="First Name" value={firstName} onChangeText={setFirstName} />
+            <Input placeholder="Last Name" value={lastName} onChangeText={setLastName} />
+            <Input placeholder="Phone Number" value={phoneNumber} onChangeText={setPhoneNumber} keyboardType="phone-pad" />
+            <TextArea placeholder="Your feedback*" value={feedback} onChangeText={setFeedback} minHeight={140} numberOfLines={5} />
           </YStack>
 
           {message && (

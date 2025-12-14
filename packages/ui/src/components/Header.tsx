@@ -13,7 +13,7 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
   const isNavy = currentTheme === 'navy';
   const headerBg = isNavy ? 'rgba(11,16,38,0.9)' : '#FBF8F4';
   const headerBorder = isNavy ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
-  const navColor = isNavy ? '$color' : '#9C4F3C';
+  const navColor = isNavy ? '#FFFFFF' : '#9C4F3C';
 
   const handleNavLinkClick = () => {
     if (menuOpen) {
@@ -57,10 +57,14 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
           minWidth={0}
         >
           {/* Raga logo clickable */}
-          <NavLinkItem to="/" onClick={handleNavLinkClick} colorOverride="$surface">
+          <NavLinkItem
+            to="/"
+            onClick={handleNavLinkClick}
+            colorOverride={isNavy ? '#FFFFFF' : '$primaryDeep'}
+          >
             <Paragraph
               fontWeight="600"
-              color="$surface"
+              color={isNavy ? '#FFFFFF' : '$primaryDeep'}
               fontSize="$lg"
               fontFamily="$heading"
               style={{ whiteSpace: 'nowrap', cursor: 'pointer' }}
@@ -73,7 +77,7 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
           <Paragraph
             aria-hidden="true"
             style={{
-              borderLeft: '1px solid rgba(255,255,255,0.3)',
+              borderLeft: `1px solid ${isNavy ? 'rgba(255,255,255,0.3)' : '#E5D6C8'}`,
               height: 20,
               marginLeft: 8,
               marginRight: 8,
@@ -196,12 +200,12 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
           zIndex={49}
           $gtSm={{ display: 'none' }}
         >
-          <NavLinkItem to="/" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Home</NavLinkItem>
-          <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Raga Sessions</NavLinkItem>
-          <NavLinkItem to="/learn" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Find Sruti</NavLinkItem>
-          <NavLinkItem to="/help" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Glossary</NavLinkItem>
-          <NavLinkItem to="/feedback" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Feedback</NavLinkItem>
-          <NavLinkItem to="/login" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="$surface">Login</NavLinkItem>
+          <NavLinkItem to="/" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Home</NavLinkItem>
+          <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Raga Sessions</NavLinkItem>
+          <NavLinkItem to="/learn" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Find Sruti</NavLinkItem>
+          <NavLinkItem to="/help" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Glossary</NavLinkItem>
+          <NavLinkItem to="/feedback" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Feedback</NavLinkItem>
+          <NavLinkItem to="/login" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Login</NavLinkItem>
           <Button
             icon={currentTheme === 'light' ? Moon : Sun}
             backgroundColor="$surface"

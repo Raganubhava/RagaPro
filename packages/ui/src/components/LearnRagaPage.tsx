@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Button, Input, Paragraph, TextArea, XStack, YStack } from 'tamagui';
+import { Button, Paragraph, XStack, YStack } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { Mic, Square } from '@tamagui/lucide-icons';
 import { Footer } from './Footer';
@@ -107,123 +107,158 @@ export const LearnRagaPage = () => {
   return (
     <YStack minHeight="100vh" justifyContent="space-between" width="100%">
       <PageContainer>
-        <YStack gap="$5" maxWidth={820} alignSelf="center" width="100%">
-        <YStack gap="$2">
-          <Paragraph fontFamily="$heading" fontSize="$9" color="$primary">
-            Sruti detection
-          </Paragraph>
-          <Paragraph fontSize="$4" color="$textSecondary">
-            Record a short sample (or upload an mp3) and we’ll detect your base note and sruti.
-          </Paragraph>
-        </YStack>
-
-        <XStack gap="$4" alignItems="stretch" flexWrap="wrap">
-          <YStack flex={1} gap="$3" padding="$4" backgroundColor="$surfaceAlt" borderRadius="$radius.10" borderWidth={1} borderColor="$borderSoft" minWidth={320}>
-            <Paragraph fontWeight="700" color="$primary">
-              Record your voice
+        <YStack
+          gap="$5"
+          maxWidth={820}
+          alignSelf="center"
+          width="100%"
+          $sm={{
+            paddingHorizontal: '$3',
+            gap: '$4',
+          }}
+        >
+          <YStack gap="$2">
+            <Paragraph fontFamily="$heading" fontSize="$9" color="$primary" $sm={{ fontSize: '$7' }}>
+              Sruti detection
             </Paragraph>
-            <XStack gap="$3" alignItems="center" flexWrap="wrap">
-              <Button
-                icon={Mic}
-                backgroundColor="#d32f2f"
-                color="#fff"
-                onPress={startRecording}
-                disabled={isRecording}
-                hoverStyle={{ backgroundColor: '#c62828' }}
-              >
-                Start Recording
-              </Button>
-              <Button
-                icon={Square}
-                backgroundColor="#757575"
-                color="#fff"
-                onPress={stopRecording}
-                disabled={!isRecording}
-                hoverStyle={{ backgroundColor: '#616161' }}
-              >
-                Stop
-              </Button>
-            </XStack>
-            <Paragraph fontSize="$3" color="$textSecondary">
-              Or upload an audio file (mp3/webm):
+            <Paragraph fontSize="$4" color="$textSecondary" $sm={{ fontSize: '$3' }}>
+              Record a short sample (or upload an mp3) and we'll detect your base note and sruti.
             </Paragraph>
-            <XStack gap="$3" alignItems="center" flexWrap="wrap">
-              <Button
-                backgroundColor="$primary"
-                color="$surface"
-                onPress={() => fileInputRef.current?.click()}
-                hoverStyle={{ backgroundColor: '$primaryHover' }}
-              >
-                Choose File
-              </Button>
-              <Paragraph color="$textSecondary" fontSize="$3">
-                {selectedFile ? selectedFile.name : recordedBlob ? 'Recording ready to submit' : 'No file selected'}
-              </Paragraph>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="audio/*"
-                style={{ display: 'none' }}
-                onChange={handleFileChange}
-              />
-            </XStack>
           </YStack>
-          <YStack
-            width={240}
-            minHeight={240}
-            backgroundColor="$surfaceAlt"
-            borderRadius="$radius.10"
-            borderWidth={1}
-            borderColor="$borderSoft"
-            overflow="hidden"
-            alignItems="center"
-            justifyContent="center"
+
+          <XStack
+            gap="$4"
+            alignItems="stretch"
+            flexWrap="wrap"
+            $sm={{
+              flexDirection: 'column',
+              gap: '$3',
+            }}
           >
-            <img
-              src="/deekshitar.jpg"
-              alt="Deekshitar"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
+            <YStack
+              flex={1}
+              gap="$3"
+              padding="$4"
+              backgroundColor="$surfaceAlt"
+              borderRadius="$radius.10"
+              borderWidth={1}
+              borderColor="$borderSoft"
+              minWidth={320}
+              $sm={{
+                minWidth: '100%',
+                padding: '$3',
               }}
-            />
-          </YStack>
-        </XStack>
-
-        <YStack gap="$3">
-          <Button
-            backgroundColor="$primary"
-            color="$surface"
-            onPress={handleSubmit}
-            disabled={isRecording}
-            alignSelf="flex-start"
-            minWidth={160}
-            paddingHorizontal="$6"
-            hoverStyle={{ backgroundColor: '$primaryHover' }}
-          >
-            Submit for Sruti Detection
-          </Button>
-          {status && (
-            <Paragraph color="$textSecondary">
-              {status}
-            </Paragraph>
-          )}
-          {error && (
-            <Paragraph color="$primaryActive">
-              {error}
-            </Paragraph>
-          )}
-          {result && (
-            <YStack gap="$2" padding="$3" borderRadius="$radius.8" backgroundColor="$surfaceAlt" borderWidth={1} borderColor="$borderSoft">
-              <Paragraph fontWeight="700" color="$primary" fontSize="$5">
-                Detected Sruti
+            >
+              <Paragraph fontWeight="700" color="$primary">
+                Record your voice
               </Paragraph>
-              <Paragraph color="$textPrimary">Note: {result.note}</Paragraph>
-              <Paragraph color="$textPrimary">Sruti: {result.sruti}</Paragraph>
+              <XStack gap="$3" alignItems="center" flexWrap="wrap">
+                <Button
+                  icon={Mic}
+                  backgroundColor="#d32f2f"
+                  color="#fff"
+                  onPress={startRecording}
+                  disabled={isRecording}
+                  hoverStyle={{ backgroundColor: '#c62828' }}
+                >
+                  Start Recording
+                </Button>
+                <Button
+                  icon={Square}
+                  backgroundColor="#757575"
+                  color="#fff"
+                  onPress={stopRecording}
+                  disabled={!isRecording}
+                  hoverStyle={{ backgroundColor: '#616161' }}
+                >
+                  Stop
+                </Button>
+              </XStack>
+              <Paragraph fontSize="$3" color="$textSecondary">
+                Or upload an audio file (mp3/webm):
+              </Paragraph>
+              <XStack gap="$3" alignItems="center" flexWrap="wrap">
+                <Button
+                  backgroundColor="$secondary"
+                  color="$text"
+                  onPress={() => fileInputRef.current?.click()}
+                  borderWidth={1}
+                  borderColor="$borderSoft"
+                  hoverStyle={{ backgroundColor: '$secondaryHover', borderColor: '$primaryDeep', color: '$text' }}
+                >
+                  Choose File
+                </Button>
+                <Paragraph color="$textSecondary" fontSize="$3">
+                  {selectedFile ? selectedFile.name : recordedBlob ? 'Recording ready to submit' : 'No file selected'}
+                </Paragraph>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="audio/*"
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
+                />
+              </XStack>
             </YStack>
-          )}
-        </YStack>
+            <YStack
+              width={240}
+              minHeight={240}
+              backgroundColor="$surfaceAlt"
+              borderRadius="$radius.10"
+              borderWidth={1}
+              borderColor="$borderSoft"
+              overflow="hidden"
+              alignItems="center"
+              justifyContent="center"
+              $sm={{
+                width: '100%',
+                minHeight: 200,
+              }}
+            >
+              <img
+                src="/deekshitar.jpg"
+                alt="Deekshitar"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
+            </YStack>
+          </XStack>
+
+          <YStack gap="$3">
+            <Button
+              backgroundColor="$primary"
+              color="$surface"
+              onPress={handleSubmit}
+              disabled={isRecording}
+              alignSelf="flex-start"
+              minWidth={160}
+              paddingHorizontal="$6"
+              hoverStyle={{ backgroundColor: '$primaryHover' }}
+            >
+              Submit for Sruti Detection
+            </Button>
+            {status && <Paragraph color="$textSecondary">{status}</Paragraph>}
+            {error && <Paragraph color="$primaryActive">{error}</Paragraph>}
+            {result && (
+              <YStack
+                gap="$2"
+                padding="$3"
+                borderRadius="$radius.8"
+                backgroundColor="$surfaceAlt"
+                borderWidth={1}
+                borderColor="$borderSoft"
+              >
+                <Paragraph fontWeight="700" color="$primary" fontSize="$5">
+                  Detected Sruti
+                </Paragraph>
+                <Paragraph color="$textPrimary">Note: {result.note}</Paragraph>
+                <Paragraph color="$textPrimary">Sruti: {result.sruti}</Paragraph>
+              </YStack>
+            )}
+          </YStack>
         </YStack>
       </PageContainer>
       <Footer />
