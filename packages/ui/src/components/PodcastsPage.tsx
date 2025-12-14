@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AlertCircle, FileText, Headphones, PlayCircle, Filter, SkipBack, SkipForward } from '@tamagui/lucide-icons';
 import { Button, Paragraph, Spinner, XStack, YStack } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { AudioPlayer } from './AudioPlayer';
 import { Footer } from './Footer';
+import { API_ENDPOINTS } from '../constants/api';
 
 type SessionFile = {
   fileName: string;
@@ -12,8 +13,6 @@ type SessionFile = {
 };
 
 type MediaCategory = 'all' | 'pdf' | 'audio' | 'video' | 'other';
-
-const API_FILE_URL = 'https://localhost:44308/api/Archive/with-data';
 
 const getMimeType = (fileType: string) => {
   const normalized = fileType.toLowerCase();
@@ -82,15 +81,26 @@ export const PodcastsPage = () => {
   const [page, setPage] = useState(1);
   const pageSize = 6;
 
+  const filteredItems = useMemo(() => {
+    return sessionFiles.filter((f) => {
+      if (!f.fileData || !isUrl(f.fileData)) return false;
+      const cat = categorizeFile(f.fileType);
+      return category === 'all' ? cat !== 'other' : cat === category;
+    });
+  }, [sessionFiles, category]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredItems.length / pageSize));
+  const currentPage = Math.min(page, totalPages);
+  const start = (currentPage - 1) * pageSize;
+  const pageItems = filteredItems.slice(start, start + pageSize);
+
   const fetchSessions = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(API_FILE_URL, {
+      const response = await fetch(API_ENDPOINTS.archiveWithData, {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
       });
 
       if (!response.ok) {
@@ -98,20 +108,20 @@ export const PodcastsPage = () => {
         throw new Error(message || `HTTP ${response.status}`);
       }
 
-    const data = await response.json();
-    if (Array.isArray(data)) {
-      setSessionFiles(
-        data
-          .filter((item) => Boolean(item?.fileData))
-          .map((item) => ({
-            fileName: item.fileName,
-            fileType: item.fileType ?? '',
-            fileData: item.fileData,
-          }))
-      );
-    } else {
-      throw new Error('Unexpected data format from /Archive');
-    }
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        setSessionFiles(
+          data
+            .filter((item) => Boolean(item?.fileData))
+            .map((item) => ({
+              fileName: item.fileName,
+              fileType: item.fileType ?? '',
+              fileData: item.fileData,
+            }))
+        );
+      } else {
+        throw new Error('Unexpected data format from /Archive');
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Unable to load Raga sessions';
       setError(msg);
@@ -233,144 +243,130 @@ export const PodcastsPage = () => {
                   gap: '$3',
                 }}
               >
-                {sessionFiles.length > 0 ? (
-                  (() => {
-                    const filtered = sessionFiles.filter((f) => {
-                      if (!f.fileData || !isUrl(f.fileData)) return false;
-                      const cat = categorizeFile(f.fileType);
-                      return category === 'all' ? cat !== 'other' : cat === category;
-                    });
-                    const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
-                    const currentPage = Math.min(page, totalPages);
-                    const start = (currentPage - 1) * pageSize;
-                    const pageItems = filtered.slice(start, start + pageSize);
+                {filteredItems.length > 0 ? (
+                  <>
+                    {pageItems.map((file, index) => {
+                      const mimeType = getMimeType(file.fileType);
+                      const Icon = getIconForType(file.fileType);
+                      const isPdf = mimeType === 'application/pdf';
+                      const isAudio = mimeType.startsWith('audio/');
+                      const isVideo = mimeType.startsWith('video/');
+                      const fileUrl = file.fileData as string;
 
-                    return (
-                      <>
-                        {pageItems.map((file, index) => {
-                          const mimeType = getMimeType(file.fileType);
-                          const Icon = getIconForType(file.fileType);
-                          const isPdf = mimeType === 'application/pdf';
-                          const isAudio = mimeType.startsWith('audio/');
-                          const isVideo = mimeType.startsWith('video/');
-                          const fileUrl = file.fileData as string;
-
-                          return (
-                            <YStack
-                              key={`${file.fileName}-${index}`}
-                              gap="$3"
-                              padding="$4"
-                              backgroundColor="$surfaceAlt"
-                              borderRadius="$radius.10"
-                              borderWidth={1}
-                              borderColor="$borderSoft"
-                              width="100%"
-                              maxWidth={360}
-                              hoverStyle={{ transform: [{ scale: 1.01 }] }}
-                              animation="bouncy"
+                      return (
+                        <YStack
+                          key={`${file.fileName}-${index}`}
+                          gap="$3"
+                          padding="$4"
+                          backgroundColor="$surfaceAlt"
+                          borderRadius="$radius.10"
+                          borderWidth={1}
+                          borderColor="$borderSoft"
+                          width="100%"
+                          maxWidth={360}
+                          hoverStyle={{ transform: [{ scale: 1.01 }] }}
+                          animation="bouncy"
+                        >
+                          <XStack alignItems="center" justifyContent="space-between">
+                            <XStack alignItems="center" gap="$3">
+                              <Icon color="$primary" />
+                              <Paragraph fontWeight="700" fontSize="$5" color="$textPrimary">
+                                {file.fileName}
+                              </Paragraph>
+                            </XStack>
+                            <Paragraph
+                              paddingHorizontal="$2"
+                              paddingVertical="$1"
+                              borderRadius="$6"
+                              backgroundColor="$primarySoft"
+                              color="$primary"
+                              fontSize="$2"
                             >
-                              <XStack alignItems="center" justifyContent="space-between">
-                                <XStack alignItems="center" gap="$3">
-                                  <Icon color="$primary" />
-                                  <Paragraph fontWeight="700" fontSize="$5" color="$textPrimary">
-                                    {file.fileName}
-                                  </Paragraph>
-                                </XStack>
-                                <Paragraph
-                                  paddingHorizontal="$2"
-                                  paddingVertical="$1"
-                                  borderRadius="$6"
-                                  backgroundColor="$primarySoft"
-                                  color="$primary"
-                                  fontSize="$2"
-                                >
-                                  {file.fileType}
-                                </Paragraph>
-                              </XStack>
-
-                              {isPdf && (
-                                <Button
-                                  onPress={() => handleOpenLink(fileUrl, mimeType)}
-                                  backgroundColor="$primary"
-                                  color="$background"
-                                  size="$3"
-                                  hoverStyle={{ backgroundColor: '$primaryActive', color: '$background' }}
-                                >
-                                  View / Download
-                                </Button>
-                              )}
-
-                              {isAudio && (
-                                <YStack gap="$2">
-                                  <AudioPlayer src={fileUrl} />
-                                  <Button
-                                    size="$2"
-                                    variant="outlined"
-                                    borderColor="$borderSoft"
-                                    onPress={() => handleOpenLink(fileUrl, mimeType)}
-                                    hoverStyle={{ backgroundColor: '$background', borderColor: '$primary', color: '$primary' }}
-                                  >
-                                    Open Link
-                                  </Button>
-                                </YStack>
-                              )}
-
-                              {isVideo && (
-                                <YStack gap="$2">
-                                  <Paragraph color="$textSecondary" fontSize="$2">
-                                    Video preview
-                                  </Paragraph>
-                                  <video
-                                    controls
-                                    style={{
-                                      width: '100%',
-                                      borderRadius: 12,
-                                      backgroundColor: 'rgba(0,0,0,0.1)',
-                                    }}
-                                    src={fileUrl}
-                                  />
-                                  <Button
-                                    size="$2"
-                                    variant="outlined"
-                                    borderColor="$borderSoft"
-                                    onPress={() => handleOpenLink(fileUrl, mimeType)}
-                                    hoverStyle={{ backgroundColor: '$background', borderColor: '$primary', color: '$primary' }}
-                                  >
-                                    Open Link
-                                  </Button>
-                                </YStack>
-                              )}
-
-                              {!isPdf && !isAudio && !isVideo && (
-                                <Paragraph color="$textSecondary">Unsupported file type</Paragraph>
-                              )}
-                            </YStack>
-                          );
-                        })}
-
-                        {/* Pagination */}
-                        {filtered.length > pageSize && (
-                          <XStack gap="$2" alignItems="center" justifyContent="center" width="100%">
-                            <Button
-                              size="$2"
-                              icon={SkipBack}
-                              disabled={currentPage === 1}
-                              onPress={() => setPage((p) => Math.max(1, p - 1))}
-                            />
-                            <Paragraph color="$textSecondary">
-                              Page {currentPage} of {Math.ceil(filtered.length / pageSize)}
+                              {file.fileType}
                             </Paragraph>
-                            <Button
-                              size="$2"
-                              icon={SkipForward}
-                              disabled={currentPage >= Math.ceil(filtered.length / pageSize)}
-                              onPress={() => setPage((p) => Math.min(Math.ceil(filtered.length / pageSize), p + 1))}
-                            />
                           </XStack>
-                        )}
-                      </>
-                    );
-                  })()
+
+                          {isPdf && (
+                            <Button
+                              onPress={() => handleOpenLink(fileUrl, mimeType)}
+                              backgroundColor="$primary"
+                              color="$background"
+                              size="$3"
+                              hoverStyle={{ backgroundColor: '$primaryActive', color: '$background' }}
+                            >
+                              View / Download
+                            </Button>
+                          )}
+
+                          {isAudio && (
+                            <YStack gap="$2">
+                              <AudioPlayer src={fileUrl} />
+                              <Button
+                                size="$2"
+                                variant="outlined"
+                                borderColor="$borderSoft"
+                                onPress={() => handleOpenLink(fileUrl, mimeType)}
+                                hoverStyle={{ backgroundColor: '$background', borderColor: '$primary', color: '$primary' }}
+                              >
+                                Open Link
+                              </Button>
+                            </YStack>
+                          )}
+
+                          {isVideo && (
+                            <YStack gap="$2">
+                              <Paragraph color="$textSecondary" fontSize="$2">
+                                Video preview
+                              </Paragraph>
+                              <video
+                                controls
+                                style={{
+                                  width: '100%',
+                                  borderRadius: 12,
+                                  backgroundColor: 'rgba(0,0,0,0.1)',
+                                }}
+                                src={fileUrl}
+                              />
+                              <Button
+                                size="$2"
+                                variant="outlined"
+                                borderColor="$borderSoft"
+                                onPress={() => handleOpenLink(fileUrl, mimeType)}
+                                hoverStyle={{ backgroundColor: '$background', borderColor: '$primary', color: '$primary' }}
+                              >
+                                Open Link
+                              </Button>
+                            </YStack>
+                          )}
+
+                          {!isPdf && !isAudio && !isVideo && (
+                            <Paragraph color="$textSecondary">Unsupported file type</Paragraph>
+                          )}
+                        </YStack>
+                      );
+                    })}
+
+                    {/* Pagination */}
+                    {filteredItems.length > pageSize && (
+                      <XStack gap="$2" alignItems="center" justifyContent="center" width="100%">
+                        <Button
+                          size="$2"
+                          icon={SkipBack}
+                          disabled={currentPage === 1}
+                          onPress={() => setPage((p) => Math.max(1, p - 1))}
+                        />
+                        <Paragraph color="$textSecondary">
+                          Page {currentPage} of {totalPages}
+                        </Paragraph>
+                        <Button
+                          size="$2"
+                          icon={SkipForward}
+                          disabled={currentPage >= totalPages}
+                          onPress={() => setPage((p) => Math.min(totalPages, p + 1))}
+                        />
+                      </XStack>
+                    )}
+                  </>
                 ) : (
                   <Paragraph color="$textSecondary">
                     No sessions available yet. Add files to the archive to see them here.

@@ -3,9 +3,7 @@ import { Button, Paragraph, XStack, YStack } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { Mic, Square } from '@tamagui/lucide-icons';
 import { Footer } from './Footer';
-
-const API_BASE_URL = 'https://localhost:44308/api';
-const PITCH_ENDPOINT = `${API_BASE_URL}/pitch`;
+import { API_ENDPOINTS } from '../constants/api';
 
 export const LearnRagaPage = () => {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -85,7 +83,7 @@ export const LearnRagaPage = () => {
 
     try {
       setStatus('Analyzing pitch...');
-      const res = await fetch(PITCH_ENDPOINT, {
+      const res = await fetch(API_ENDPOINTS.pitch, {
         method: 'POST',
         body: formData,
       });

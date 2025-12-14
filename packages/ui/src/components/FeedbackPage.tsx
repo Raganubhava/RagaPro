@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { Button, Input, Paragraph, TextArea, YStack } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { Footer } from './Footer';
-
-const API_BASE_URL = 'https://localhost:44308/api';
-const FEEDBACK_ENDPOINT = `${API_BASE_URL}/feedback/submit`;
+import { API_ENDPOINTS } from '../constants/api';
 
 export const FeedbackPage = () => {
   const [email, setEmail] = useState('');
@@ -27,7 +25,7 @@ export const FeedbackPage = () => {
 
     setIsSubmitting(true);
     try {
-      const res = await fetch(FEEDBACK_ENDPOINT, {
+      const res = await fetch(API_ENDPOINTS.feedback, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

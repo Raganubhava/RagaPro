@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Paragraph, TextArea, XStack, YStack, Spinner } from 'tamagui';
-
-const RAGABOT_ENDPOINT = 'https://localhost:44308/api/RagaBot';
+import { API_ENDPOINTS } from '../constants/api';
 
 export const ChatBotPanel = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +39,7 @@ export const ChatBotPanel = () => {
     setResponse(null);
 
     try {
-      const res = await fetch(RAGABOT_ENDPOINT, {
+      const res = await fetch(API_ENDPOINTS.chatBot, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

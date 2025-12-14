@@ -1,10 +1,9 @@
 import { Raga } from '@raga/data';
-
-const API_BASE_URL = 'https://localhost:44308/api';
+import { API_ENDPOINTS } from './api-constants';
 
 export const ragaAPI = {
   getRaga: async (ragaName: string): Promise<Raga> => {
-    const response = await fetch(`${API_BASE_URL}/raga/${ragaName}`, {
+    const response = await fetch(API_ENDPOINTS.raga(ragaName), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -19,7 +18,7 @@ export const ragaAPI = {
   },
 
   getAllRagas: async (): Promise<Raga[]> => {
-    const response = await fetch(`${API_BASE_URL}/raga`, {
+    const response = await fetch(API_ENDPOINTS.raga(), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -34,7 +33,7 @@ export const ragaAPI = {
   },
 
   searchRagas: async (query: string): Promise<Raga[]> => {
-    const response = await fetch(`${API_BASE_URL}/raga/search/${query}`, {
+    const response = await fetch(API_ENDPOINTS.searchRaga(query), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

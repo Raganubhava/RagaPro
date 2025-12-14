@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { Button, Paragraph, Spinner, YStack, useThemeName } from 'tamagui';
 import { RagaSearchBar } from './RagaSearchBar';
 import { PageContainer } from './PageContainer';
@@ -8,39 +8,10 @@ import { Footer } from './Footer';
 import { Raga } from '@raga/data';
 import { HindustaniRagaCard, HindustaniRaga } from './HindustaniRagaCard';
 import { isHindustaniRaga } from '../constants/hindustaniRagas';
+import { API_ENDPOINTS } from '../constants/api';
+import { useApiClient } from '../hooks/useApi';
 
-const API_BASE_URL = 'https://localhost:44308/api';
 type RagaSystem = 'carnatic' | 'hindustani';
-
-const getRagaFromAPI = async (ragaName: string, system: RagaSystem): Promise<Raga | HindustaniRaga> => {
-  const endpoint = system === 'hindustani' ? 'HindustaniRaga' : 'raga';
-  const url = `${API_BASE_URL}/${endpoint}/${encodeURIComponent(ragaName)}`;
-  console.log('Fetching raga from:', url);
-  
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    
-    console.log('Response status:', response.status);
-    
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Error response:', errorText);
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-    }
-    
-    const data = await response.json();
-    console.log('Success - Raga data:', data);
-    return data;
-  } catch (err) {
-    console.error('Fetch error details:', err);
-    throw err;
-  }
-};
 
 export const HomePage = () => {
   const [searchText, setSearchText] = useState('');
@@ -52,6 +23,15 @@ export const HomePage = () => {
   const themeName = useThemeName();
   const isNavy = themeName?.toLowerCase().includes('navy');
   const searchSectionRef = useRef<HTMLDivElement | null>(null);
+  const api = useApiClient();
+
+  const getRagaFromAPI = useCallback(
+    async (ragaName: string, system: RagaSystem): Promise<Raga | HindustaniRaga> => {
+      const url = system === 'hindustani' ? API_ENDPOINTS.hindustaniRaga(ragaName) : API_ENDPOINTS.raga(ragaName);
+      return api.fetchJson<Raga | HindustaniRaga>(url);
+    },
+    [api]
+  );
 
   const handleSearch = async () => {
     if (searchText.trim() === '') {
