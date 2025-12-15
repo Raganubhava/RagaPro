@@ -25,6 +25,9 @@ export const HomePage = () => {
   const searchSectionRef = useRef<HTMLDivElement | null>(null);
   const api = useApiClient();
 
+  const isValidQuery = (value: string) => /^[A-Za-z\s]+$/.test(value);
+  const blockedWords = /\b(abuse|abusive|asshole|bastard|bitch|bloody|bullshit|crap|damn|dick|fuck|fucking|idiot|jerk|moron|nonsense|obscene|pervert|porn|pornographic|racist|sex|sexual|shit|stupid|suck|trash|ugly|violence|violent|vulgar|whore)\b/i;
+
   const getRagaFromAPI = useCallback(
     async (ragaName: string, system: RagaSystem): Promise<Raga | HindustaniRaga> => {
       const url = system === 'hindustani' ? API_ENDPOINTS.hindustaniRaga(ragaName) : API_ENDPOINTS.raga(ragaName);
@@ -37,6 +40,20 @@ export const HomePage = () => {
     if (searchText.trim() === '') {
       setSearchResult(null);
       setError(null);
+      setHasSearched(false);
+      return;
+    }
+
+    if (!isValidQuery(searchText.trim())) {
+      setError('Please enter letters and spaces only (A-Z).');
+      setSearchResult(null);
+      setHasSearched(false);
+      return;
+    }
+
+    if (blockedWords.test(searchText.trim())) {
+      setError('This is a sacred site for ragas. Please avoid inappropriate content and search for a raga name.');
+      setSearchResult(null);
       setHasSearched(false);
       return;
     }
@@ -166,7 +183,10 @@ export const HomePage = () => {
         {/* Search Bar */}
         <RagaSearchBar
           value={searchText}
-          onChange={setSearchText}
+          onChange={(val) => {
+            setSearchText(val);
+            if (error) setError(null);
+          }}
           onSearch={handleSearch}
         />
 
@@ -198,7 +218,7 @@ export const HomePage = () => {
               {error}
             </Paragraph>
             <Paragraph fontSize="$sm" color="$textSoft" textAlign="center">
-              Make sure the API server is running and check the browser console (F12) for details.
+              Please retry in a moment or contact support if this persists.
             </Paragraph>
             <Button
               marginTop="$2"

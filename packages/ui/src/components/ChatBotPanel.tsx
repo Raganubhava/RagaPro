@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Button, Paragraph, TextArea, XStack, YStack, Spinner } from 'tamagui';
 import { API_ENDPOINTS } from '../constants/api';
 
@@ -8,6 +8,19 @@ export const ChatBotPanel = () => {
   const [response, setResponse] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [sentCount, setSentCount] = useState(0);
+
+  const maxLength = 600;
+  const injectionPattern = /\b(select|insert|update|delete|drop|alter|truncate)\b/i;
+  const blockedWords = /\b(abuse|abusive|asshole|bastard|bitch|bloody|bullshit|crap|damn|dick|fuck|fucking|idiot|jerk|moron|nonsense|obscene|pervert|porn|pornographic|racist|sex|sexual|shit|stupid|suck|trash|ugly|violence|violent|vulgar|whore)\b/i;
+  const sanitize = useMemo(
+    () => (text: string) =>
+      text
+        .replace(/[\u0000-\u001F\u007F]+/g, '') // strip control chars
+        .replace(/<[^>]*>/g, '') // drop html tags
+        .trim(),
+    []
+  );
 
   // Inject a lightweight glitter keyframe only once to avoid perf costs.
   useEffect(() => {
@@ -33,7 +46,30 @@ export const ChatBotPanel = () => {
   }, []);
 
   const handleSend = async () => {
-    if (!prompt.trim()) return;
+    const cleaned = sanitize(prompt);
+    if (!cleaned) {
+      setError('Please enter a message.');
+      return;
+    }
+    if (cleaned.length > maxLength) {
+      setError(`Message too long. Max ${maxLength} characters.`);
+      return;
+    }
+    if (injectionPattern.test(cleaned)) {
+      setResponse("I didn't understand what you said. Please ask a raga-related question.");
+      setError(null);
+      return;
+    }
+    if (blockedWords.test(cleaned)) {
+      setResponse('This is a sacred site for ragas. Please avoid inappropriate content and ask a raga-related question.');
+      setError(null);
+      return;
+    }
+    if (sentCount >= 5 && isLoading) {
+      setError('Please wait before sending more messages.');
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
     setResponse(null);
@@ -44,7 +80,7 @@ export const ChatBotPanel = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: prompt.trim() }),
+        body: JSON.stringify({ message: cleaned }),
       });
 
       if (!res.ok) {
@@ -55,6 +91,7 @@ export const ChatBotPanel = () => {
       const data = await res.json();
       const botText = data?.answer ?? data?.message ?? '';
       setResponse(botText || 'No response received.');
+      setSentCount((c) => c + 1);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Unexpected error';
       setError(`Could not reach RagaBot. ${msg}`);
@@ -121,6 +158,7 @@ export const ChatBotPanel = () => {
             minHeight={100}
             padding="$3"
             rows={4}
+            maxLength={maxLength}
           />
           <Button
             onPress={handleSend}

@@ -14,12 +14,40 @@ export const FeedbackPage = () => {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const nameRegex = /^[A-Za-z\s\-']+$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const handleSubmit = async () => {
     setMessage(null);
     setError(null);
 
     if (!email || !feedback) {
       setError('Please provide an email and your feedback.');
+      return;
+    }
+
+    if (email.length > 254 || !emailRegex.test(email)) {
+      setError('Please enter a valid email address (max 254 chars).');
+      return;
+    }
+
+    if (firstName && (!nameRegex.test(firstName) || firstName.length < 2 || firstName.length > 50)) {
+      setError('First name must be 2-50 letters, spaces, hyphens, or apostrophes.');
+      return;
+    }
+
+    if (lastName && (!nameRegex.test(lastName) || lastName.length < 2 || lastName.length > 50)) {
+      setError('Last name must be 2-50 letters, spaces, hyphens, or apostrophes.');
+      return;
+    }
+
+    if (phoneNumber && phoneNumber.length > 15) {
+      setError('Phone number must be 15 characters or fewer.');
+      return;
+    }
+
+    if (feedback.length < 10 || feedback.length > 1000) {
+      setError('Feedback must be between 10 and 1000 characters.');
       return;
     }
 

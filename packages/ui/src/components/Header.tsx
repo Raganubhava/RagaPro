@@ -124,35 +124,7 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
           minWidth={120}
         >
           {/* LOGIN — md+ */}
-          <Button
-            size="$3"
-            paddingHorizontal="$4"
-            borderRadius="$radius.6"
-            color={isNavy ? '$primary' : '#FFFFFF'}
-            backgroundColor={isNavy ? '$surface' : '#9C4F3C'}
-            borderWidth={1}
-            borderColor={isNavy ? '$primary' : '#9C4F3C'}
-            icon={Lock}
-            iconAfter={null}
-            $sm={{ display: 'none' }}
-            $gtSm={{ display: 'flex' }}
-            hoverStyle={
-              isNavy
-                ? {
-                    backgroundColor: '$secondary',
-                    borderColor: '$secondary',
-                    color: '$primaryDeep',
-                  }
-                : {
-                    backgroundColor: '#B45B46',
-                    borderColor: '#B45B46',
-                    color: '#FFFFFF',
-                  }
-            }
-            animation="bouncy"
-          >
-            Login
-          </Button>
+          {/* Login hidden for now */}
 
           <Button
             id="themeToggle"
@@ -205,7 +177,7 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
           <NavLinkItem to="/learn" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Find Sruti</NavLinkItem>
           <NavLinkItem to="/help" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Glossary</NavLinkItem>
           <NavLinkItem to="/feedback" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Feedback</NavLinkItem>
-          <NavLinkItem to="/login" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Login</NavLinkItem>
+          {/* Login hidden for now */}
           <Button
             icon={currentTheme === 'light' ? Moon : Sun}
             backgroundColor="$surface"

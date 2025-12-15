@@ -14,7 +14,7 @@ export const Footer = () => {
       backgroundColor="transparent"
     >
       <Paragraph size="$1" color="$textSecondary" o={0.7}>
-        © {currentYear} Raga App. All rights reserved.
+        Ac {currentYear} Raga App. All rights reserved.
       </Paragraph>
     </XStack>
   );
