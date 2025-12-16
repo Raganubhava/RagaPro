@@ -8,4 +8,6 @@ export const API_ENDPOINTS = {
   pitch: `${API_BASE_URL}/pitch`,
   feedback: `${API_BASE_URL}/feedback/submit`,
   chatBot: `${API_BASE_URL}/RagaBot`,
+  authLogin: `${API_BASE_URL}/auth/login`,
+  signup: `${API_BASE_URL}/user/signup`,
 };
