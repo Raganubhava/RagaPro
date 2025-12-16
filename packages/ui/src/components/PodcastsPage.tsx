@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { AlertCircle, FileText, Headphones, PlayCircle, Filter, SkipBack, SkipForward } from '@tamagui/lucide-icons';
-import { Button, Paragraph, Spinner, XStack, YStack } from 'tamagui';
+import { AlertCircle, FileText, Filter, Headphones, PlayCircle, SkipBack, SkipForward } from '@tamagui/lucide-icons';
+import { Button, Paragraph, Spinner, XStack, YStack, useThemeName } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { AudioPlayer } from './AudioPlayer';
 import { Footer } from './Footer';
@@ -35,6 +35,7 @@ const getIconForType = (fileType: string) => {
   const normalized = fileType.toLowerCase();
   if (normalized.includes('pdf')) return FileText;
   if (normalized.includes('mp3') || normalized.includes('audio')) return Headphones;
+  if (normalized.includes('mp4') || normalized.includes('video')) return PlayCircle;
   return PlayCircle;
 };
 
@@ -79,6 +80,8 @@ export const PodcastsPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [category, setCategory] = useState<MediaCategory>('all');
   const [page, setPage] = useState(1);
+  const themeName = useThemeName();
+  const isNavy = themeName?.toLowerCase().includes('navy');
   const pageSize = 6;
 
   const filteredItems = useMemo(() => {
@@ -93,6 +96,18 @@ export const PodcastsPage = () => {
   const currentPage = Math.min(page, totalPages);
   const start = (currentPage - 1) * pageSize;
   const pageItems = filteredItems.slice(start, start + pageSize);
+
+  const counts = useMemo(() => {
+    const base = { all: 0, pdf: 0, audio: 0, video: 0 };
+    filteredItems.forEach((f) => {
+      base.all += 1;
+      const cat = categorizeFile(f.fileType);
+      if (cat === 'pdf') base.pdf += 1;
+      if (cat === 'audio') base.audio += 1;
+      if (cat === 'video') base.video += 1;
+    });
+    return base;
+  }, [filteredItems]);
 
   const fetchSessions = async () => {
     setLoading(true);
@@ -141,66 +156,149 @@ export const PodcastsPage = () => {
       window.open(url, '_blank', 'noopener,noreferrer');
       return;
     }
-    // fallback: base64
     openBlobInNewTab(url, mimeType);
   };
 
+  const heroBorder = isNavy ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
+
   return (
-    <YStack minHeight="100vh" justifyContent="space-between" width="100%">
+    <YStack
+      minHeight="100vh"
+      backgroundColor="$background"
+      {...(isNavy
+        ? {
+            backgroundImage:
+              'radial-gradient(circle at 20% 20%, rgba(74,118,255,0.18), transparent 40%), radial-gradient(circle at 80% 0%, rgba(255,148,255,0.14), transparent 42%), linear-gradient(180deg, rgba(11,16,38,0.9) 0%, rgba(11,16,38,0.95) 100%)',
+          }
+        : {
+            backgroundImage:
+              "radial-gradient(circle at 18% 12%, rgba(255,186,120,0.25), transparent 40%), radial-gradient(circle at 82% -4%, rgba(103,174,255,0.2), transparent 38%), linear-gradient(180deg, #f9f5ef 0%, #f3eee7 100%)",
+          })}
+    >
       <PageContainer>
         <YStack
-          gap="$5"
-          paddingVertical="$4"
+          gap="$6"
+          paddingTop="$5"
+          paddingBottom="$8"
           $sm={{
             paddingHorizontal: '$3',
-            gap: '$4',
+            gap: '$5',
           }}
         >
-          <YStack gap="$3">
-            <Paragraph fontFamily="$heading" fontSize="$8" color="$primary">
-              Raga Sessions
-            </Paragraph>
-            <Paragraph color="$textSecondary" fontSize="$4">
-              PDF lesson notes, audio practice tracks, and video sessions fetched from your archive API.
-            </Paragraph>
-          </YStack>
-
-          {/* Filters */}
-          <XStack
-            gap="$2"
-            alignItems="center"
-            flexWrap="wrap"
-            justifyContent="flex-start"
+          {/* Hero and filters combined */}
+          <YStack
             width="100%"
+            padding="$5"
+            borderRadius="$radius.12"
+            backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.92)'}
+            borderWidth={1}
+            borderColor={heroBorder}
+            shadowColor={isNavy ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.12)'}
+            shadowRadius={12}
+            shadowOffset={{ width: 0, height: 6 }}
+            gap="$4"
             $sm={{
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              gap: '$2',
+              padding: '$4',
+              gap: '$3',
             }}
           >
-            <XStack gap="$2" alignItems="center">
-              <Filter size={16} color="$textSecondary" />
-              <Paragraph color="$textSecondary" fontSize="$3">
-                Filter by type
-              </Paragraph>
+            <XStack
+              gap="$5"
+              alignItems="flex-start"
+              justifyContent="space-between"
+              flexWrap="wrap"
+              $sm={{ flexDirection: 'column', gap: '$3' }}
+            >
+              <YStack gap="$3" flex={1} minWidth={260}>
+                <Paragraph fontFamily="$heading" fontSize="$9" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+                  Raga Sessions
+                </Paragraph>
+                <Paragraph color="$textSecondary" fontSize="$4" lineHeight={26}>
+                  Curated PDFs, audio tracks, and video lessons pulled live from your archive—ready for practice on any device.
+                </Paragraph>
+                <XStack gap="$3" flexWrap="wrap">
+                  <Button
+                    size="$4"
+                    backgroundColor="$primary"
+                    color="$surface"
+                    paddingHorizontal="$6"
+                    onPress={fetchSessions}
+                    hoverStyle={{ backgroundColor: '$primaryHover' }}
+                  >
+                    Refresh library
+                  </Button>
+                  <Button
+                    size="$4"
+                    backgroundColor={isNavy ? '$surface' : '$surfaceAlt'}
+                    color="$primary"
+                    borderWidth={1}
+                    borderColor={heroBorder}
+                    paddingHorizontal="$6"
+                    onPress={() => {
+                      setCategory('all');
+                      setPage(1);
+                    }}
+                  >
+                    Clear filters
+                  </Button>
+                </XStack>
+              </YStack>
+
+              <XStack gap="$3" flexWrap="wrap" flexShrink={0}>
+                {[
+                  { label: 'Total', value: counts.all },
+                  { label: 'PDFs', value: counts.pdf },
+                  { label: 'Audio', value: counts.audio },
+                  { label: 'Video', value: counts.video },
+                ].map((item) => (
+                  <YStack
+                    key={item.label}
+                    padding="$3"
+                    borderRadius="$radius.10"
+                    backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '#FFFFFF'}
+                    borderWidth={1}
+                    borderColor={heroBorder}
+                    minWidth={120}
+                  >
+                    <Paragraph color="$textSecondary" fontSize="$3">
+                      {item.label}
+                    </Paragraph>
+                    <Paragraph color={isNavy ? '#FFFFFF' : '$primary'} fontWeight="800" fontSize="$5">
+                      {item.value}
+                    </Paragraph>
+                  </YStack>
+                ))}
+              </XStack>
             </XStack>
-            {(['all', 'pdf', 'audio', 'video'] as MediaCategory[]).map((item) => (
-              <Button
-                key={item}
-                size="$2"
-                backgroundColor={category === item ? '$primary' : '$surface'}
-                color={category === item ? '$background' : '$textPrimary'}
-                borderWidth={1}
-                borderColor={category === item ? '$primary' : '$borderSoft'}
-                onPress={() => {
-                  setCategory(item);
-                  setPage(1);
-                }}
-              >
-                {item === 'all' ? 'All' : item.toUpperCase()}
-              </Button>
-            ))}
-          </XStack>
+
+            {/* Filters */}
+            <YStack gap="$3">
+              <XStack gap="$2" alignItems="center">
+                <Filter size={16} color="$textSecondary" />
+                <Paragraph color="$textSecondary" fontSize="$3">
+                  Filter by type
+                </Paragraph>
+              </XStack>
+              <XStack gap="$2" flexWrap="wrap">
+                {(['all', 'pdf', 'audio', 'video'] as MediaCategory[]).map((item) => (
+                  <Button
+                    key={item}
+                    size="$2"
+                    backgroundColor={category === item ? '$primary' : '$surface'}
+                    color={category === item ? '$background' : '$textPrimary'}
+                    borderWidth={1}
+                    borderColor={category === item ? '$primary' : heroBorder}
+                    onPress={() => {
+                      setCategory(item);
+                      setPage(1);
+                    }}
+                  >
+                    {item === 'all' ? 'All' : item.toUpperCase()}
+                  </Button>
+                ))}
+              </XStack>
+            </YStack>
+          </YStack>
 
           {loading && (
             <YStack gap="$3" alignItems="center" padding="$4">
@@ -213,10 +311,10 @@ export const PodcastsPage = () => {
             <YStack
               gap="$3"
               padding="$4"
-              backgroundColor="$backgroundStrong"
+              backgroundColor={isNavy ? 'rgba(255,87,87,0.08)' : '$backgroundStrong'}
               borderRadius="$10"
               borderWidth={1}
-              borderColor="$borderSoft"
+              borderColor={isNavy ? 'rgba(255,87,87,0.25)' : '$borderSoft'}
             >
               <XStack gap="$2" alignItems="center">
                 <AlertCircle color="$primaryActive" />
@@ -246,7 +344,7 @@ export const PodcastsPage = () => {
                 {filteredItems.length > 0 ? (
                   <>
                     {pageItems.map((file, index) => {
-                      const mimeType = getMimeType(file.fileType);
+                      const mimeType = getMimeType(file.fileType) || getMimeTypeFromUrl(file.fileData);
                       const Icon = getIconForType(file.fileType);
                       const isPdf = mimeType === 'application/pdf';
                       const isAudio = mimeType.startsWith('audio/');
@@ -258,13 +356,13 @@ export const PodcastsPage = () => {
                           key={`${file.fileName}-${index}`}
                           gap="$3"
                           padding="$4"
-                          backgroundColor="$surfaceAlt"
+                          backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surfaceAlt'}
                           borderRadius="$radius.10"
                           borderWidth={1}
-                          borderColor="$borderSoft"
+                          borderColor={heroBorder}
                           width="100%"
                           maxWidth={360}
-                          hoverStyle={{ transform: [{ scale: 1.01 }] }}
+                          hoverStyle={{ transform: [{ scale: 1.01 }], borderColor: '$primary' }}
                           animation="bouncy"
                         >
                           <XStack alignItems="center" justifyContent="space-between">
@@ -346,7 +444,6 @@ export const PodcastsPage = () => {
                       );
                     })}
 
-                    {/* Pagination */}
                     {filteredItems.length > pageSize && (
                       <XStack gap="$2" alignItems="center" justifyContent="center" width="100%">
                         <Button
@@ -375,6 +472,39 @@ export const PodcastsPage = () => {
               </XStack>
             </YStack>
           )}
+
+          <YStack
+            gap="$3"
+            padding="$4"
+            backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
+            borderRadius="$radius.12"
+            borderWidth={1}
+            borderColor={heroBorder}
+            shadowColor={isNavy ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.08)'}
+            shadowRadius={10}
+            shadowOffset={{ width: 0, height: 4 }}
+            $sm={{ padding: '$3' }}
+          >
+            <Paragraph fontWeight="800" color={isNavy ? '#FFFFFF' : '$primaryDeep'} fontSize="$5">
+              Note
+            </Paragraph>
+            <Paragraph color="$textSecondary" lineHeight={22}>
+              Raga sessions are presentations or raga related content in audio or PDF files. You can submit a request to add your content.
+            </Paragraph>
+            <Button
+              asChild
+              backgroundColor="$primary"
+              color="$surface"
+              paddingHorizontal="$5"
+              size="$3"
+              borderRadius="$radius.8"
+              hoverStyle={{ backgroundColor: '$primaryHover' }}
+            >
+              <a href="/feedback" style={{ fontWeight: 800, fontSize: '16px', letterSpacing: 0.2 }}>
+                Submit Feedback
+              </a>
+            </Button>
+          </YStack>
         </YStack>
       </PageContainer>
       <Footer />

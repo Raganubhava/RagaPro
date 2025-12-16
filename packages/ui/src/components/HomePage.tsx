@@ -1,12 +1,12 @@
-import { useRef, useState, useCallback } from 'react';
-import { Button, Paragraph, Spinner, YStack, useThemeName } from 'tamagui';
+import { useCallback, useRef, useState } from 'react';
+import { Button, Paragraph, Spinner, XStack, YStack, useThemeName } from 'tamagui';
 import { RagaSearchBar } from './RagaSearchBar';
 import { PageContainer } from './PageContainer';
 import { RagaCard } from './RagaCard';
 import { ChatBotPanel } from './ChatBotPanel';
 import { Footer } from './Footer';
 import { Raga } from '@raga/data';
-import { HindustaniRagaCard, HindustaniRaga } from './HindustaniRagaCard';
+import { HindustaniRaga, HindustaniRagaCard } from './HindustaniRagaCard';
 import { isHindustaniRaga } from '../constants/hindustaniRagas';
 import { API_ENDPOINTS } from '../constants/api';
 import { useApiClient } from '../hooks/useApi';
@@ -23,6 +23,7 @@ export const HomePage = () => {
   const themeName = useThemeName();
   const isNavy = themeName?.toLowerCase().includes('navy');
   const searchSectionRef = useRef<HTMLDivElement | null>(null);
+  const chatBotRef = useRef<HTMLDivElement | null>(null);
   const api = useApiClient();
 
   const isValidQuery = (value: string) => /^[A-Za-z\s]+$/.test(value);
@@ -35,6 +36,10 @@ export const HomePage = () => {
     },
     [api]
   );
+
+  const handleScrollToSearch = () => {
+    searchSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   const handleSearch = async () => {
     if (searchText.trim() === '') {
@@ -66,14 +71,12 @@ export const HomePage = () => {
     const system: RagaSystem = isHindustaniRaga(normalizedQuery) ? 'hindustani' : 'carnatic';
 
     try {
-      // Try Hindustani first when it matches the list; otherwise go straight to Carnatic.
       const primarySystem: RagaSystem = system;
       try {
         const result = await getRagaFromAPI(normalizedQuery, primarySystem);
         setLastSystem(primarySystem);
         setSearchResult(result);
       } catch (primaryErr) {
-        // If Hindustani fails (e.g., Carnatic-only raga like Todi), fall back to Carnatic.
         if (primarySystem === 'hindustani') {
           try {
             const fallbackResult = await getRagaFromAPI(normalizedQuery, 'carnatic');
@@ -95,176 +98,229 @@ export const HomePage = () => {
     }
   };
 
+  const heroBorder = isNavy ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
+
   return (
     <YStack
       minHeight="100vh"
       backgroundColor="$background"
+      position="relative"
+      overflow="hidden"
       {...(isNavy
         ? {
             backgroundImage:
-              'linear-gradient(180deg, rgba(11,16,38,0.78) 0%, rgba(11,16,38,0.84) 40%, rgba(11,16,38,0.9) 100%)',
+              'radial-gradient(circle at 20% 20%, rgba(74,118,255,0.18), transparent 40%), radial-gradient(circle at 80% 0%, rgba(255,148,255,0.14), transparent 42%), linear-gradient(180deg, rgba(11,16,38,0.9) 0%, rgba(11,16,38,0.95) 100%)',
           }
         : {
             backgroundImage:
-              "linear-gradient(180deg, #f9f5ef 0%, #f3eee7 100%), url('/hampi.jpg')",
-            backgroundRepeat: 'no-repeat, no-repeat',
-            backgroundPosition: 'center, 32px 32px',
-            backgroundSize: 'cover, 380px auto',
+              "radial-gradient(circle at 18% 12%, rgba(255,186,120,0.25), transparent 40%), radial-gradient(circle at 82% -4%, rgba(103,174,255,0.2), transparent 38%), linear-gradient(180deg, #f9f5ef 0%, #f3eee7 100%)",
           })}
     >
       <PageContainer>
-      <YStack
-        flex={1}
-        justifyContent="flex-start"
-        alignItems="center"
-        gap="$4"
-        paddingTop="$4"
-        $sm={{
-          paddingHorizontal: '$3',
-          gap: '$3',
-        }}
-      >
-        {/* Right-aligned chatbot */}
-        <YStack width="100%" maxWidth={1100} position="relative" alignItems="center">
-          <YStack
-            position="absolute"
-            top={0}
-            right={-70}
-            $sm={{
-              position: 'relative',
-              top: undefined,
-              right: undefined,
-              alignItems: 'center',
-              marginBottom: '$3',
-            }}
-          >
-            <ChatBotPanel />
-          </YStack>
-        </YStack>
-
-        {/* Hero heading */}
-        <YStack alignItems="center" gap="$2" paddingTop="$2">
-          <YStack alignItems="center" gap="$1">
-            <Paragraph
-              fontFamily="$body"
-              fontSize="$8"
-              color="$primary"
-              textAlign="center"
-              letterSpacing={0.25}
-              fontWeight="800"
-              $sm={{ fontSize: '$6' }}
-            >
-              Discover Carnatic and Hindustani Ragas
-            </Paragraph>
-            <Paragraph
-              fontFamily="$body"
-              fontSize="$5"
-              color="$textSecondary"
-              textAlign="center"
-              letterSpacing={0.15}
-              $sm={{ fontSize: '$4' }}
-            >
-              Your companion for learning, practicing, and exploring Indian classical music
-            </Paragraph>
-          </YStack>
-          <img
-            src="/hampi.jpg"
-            alt="Hampi temple"
-            style={{
-              width: 'min(280px, 80vw)',
-              height: 'auto',
-              borderRadius: 12,
-              boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-              objectFit: 'cover',
-            }}
-          />
-        </YStack>
-
-        {/* Search Bar */}
-        <RagaSearchBar
-          value={searchText}
-          onChange={(val) => {
-            setSearchText(val);
-            if (error) setError(null);
+        <YStack
+          flex={1}
+          gap="$7"
+          paddingTop="$5"
+          paddingBottom="$8"
+          $sm={{
+            paddingHorizontal: '$3',
+            gap: '$6',
           }}
-          onSearch={handleSearch}
-        />
-
-        {/* Loading State */}
-        {isLoading && (
-          <YStack gap="$3" alignItems="center" paddingTop="$6">
-            <Spinner size="large" color="$primary" />
-            <Paragraph fontSize="$lg" color="$textSecondary">
-              Loading raga details...
-            </Paragraph>
-          </YStack>
-        )}
-
-        {/* Error State */}
-        {error && !isLoading && (
-          <YStack
-            gap="$3"
-            alignItems="center"
-            padding="$4"
-            backgroundColor="$backgroundStrong"
-            borderRadius="$10"
-            maxWidth={500}
-            marginTop="$4"
+        >
+          {/* Search first */}
+          <XStack
+            ref={searchSectionRef}
+            width="100%"
+            gap="$4"
+            padding="$5"
+            borderRadius="$radius.12"
+            backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '#FFFFFF'}
+            borderWidth={1}
+            borderColor={heroBorder}
+            shadowColor={isNavy ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.1)'}
+            shadowRadius={10}
+            shadowOffset={{ width: 0, height: 4 }}
+            alignItems="flex-start"
+            justifyContent="space-between"
+            flexWrap="wrap"
+            $sm={{
+              flexDirection: 'column',
+              padding: '$4',
+              gap: '$4',
+            }}
           >
-            <Paragraph fontSize="$lg" color="$primaryActive" fontWeight="600">
-              Oops!
-            </Paragraph>
-            <Paragraph fontSize="$md" color="$text" textAlign="center">
-              {error}
-            </Paragraph>
-            <Paragraph fontSize="$sm" color="$textSoft" textAlign="center">
-              Please retry in a moment or contact support if this persists.
-            </Paragraph>
-            <Button
-              marginTop="$2"
-              onPress={() => setError(null)}
-              backgroundColor="$primary"
-              color="$background"
-              size="$3"
-            >
-              Try Again
-            </Button>
-          </YStack>
-        )}
+            <YStack gap="$3" flex={1} minWidth={260} maxWidth={640}>
+              <Paragraph fontFamily="$heading" fontSize="$8" color={isNavy ? '#FFFFFF' : '$primaryDeep'} $sm={{ fontSize: '$7' }}>
+                Search any raga
+              </Paragraph>
+              <Paragraph color="$textSecondary" fontSize="$4" lineHeight={24} $sm={{ fontSize: '$3' }}>
+                Enter a Carnatic or Hindustani raga name and click Search. Scroll down to view the raga details.
+              </Paragraph>
+              <RagaSearchBar
+                value={searchText}
+                onChange={(val) => {
+                  setSearchText(val);
+                  if (error) setError(null);
+                }}
+                onSearch={handleSearch}
+              />
+              <Paragraph color="$textSecondary" fontSize="$3" marginTop="$1">
+                Tip: Enter alternate raga names if not found, or try another raga name.
+              </Paragraph>
+            </YStack>
 
-        {/* Success State - Show Raga Details */}
-        {searchResult && !isLoading && !error && (
-          <YStack width="100%" maxWidth={700} marginTop="$4" gap="$4">
-            <Paragraph fontSize="$sm" color="$textSecondary" textAlign="center">
-              Found raga: <Paragraph fontWeight="700" color="$primary">{searchResult.ragaName}</Paragraph>
-            </Paragraph>
-            {lastSystem === 'hindustani' && 'thaat' in searchResult ? (
-              <HindustaniRagaCard raga={searchResult} />
-            ) : (
-              <RagaCard raga={searchResult as Raga} />
-            )}
-            <Button
-              onPress={() => {
-                setSearchResult(null);
-                setSearchText('');
-                setHasSearched(false);
+            <YStack
+              ref={chatBotRef}
+              width="100%"
+              maxWidth={360}
+              backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '#FFFFFF'}
+              borderWidth={1}
+              borderColor={heroBorder}
+              borderRadius="$radius.12"
+              padding="$4"
+              gap="$3"
+              shadowColor={isNavy ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
+              shadowRadius={10}
+              shadowOffset={{ width: 0, height: 4 }}
+              flexShrink={0}
+              $sm={{
+                width: '100%',
+                maxWidth: '100%',
               }}
-              backgroundColor="$secondary"
-              color="$text"
-              size="$3"
             >
-              Search Another Raga
-            </Button>
-          </YStack>
-        )}
+              <Paragraph fontWeight="800" color={isNavy ? '#FFFFFF' : '$primaryDeep'} fontSize="$5">
+                AI Raga Guide
+              </Paragraph>
+              <Paragraph color="$textSecondary" lineHeight={22} $sm={{ fontSize: '$3' }}>
+                Ask raga related questions. The Raga bot waiting for you :)
+              </Paragraph>
+              <ChatBotPanel />
+            </YStack>
+          </XStack>
 
-        {/* No Results Message */}
-        {hasSearched && !searchResult && !isLoading && !error && (
-          <Paragraph fontSize="$lg" color="$textSecondary" marginTop="$6">
-            Enter a raga name and search to get started
-          </Paragraph>
-        )}
-      </YStack>
+          {/* Loading State */}
+          {isLoading && (
+            <YStack gap="$3" alignItems="center" paddingTop="$4">
+              <Spinner size="large" color="$primary" />
+              <Paragraph fontSize="$lg" color="$textSecondary">
+                Loading raga details...
+              </Paragraph>
+            </YStack>
+          )}
+
+          {/* Error State */}
+          {error && !isLoading && (
+            <YStack
+              gap="$3"
+              alignItems="center"
+              padding="$4"
+              backgroundColor={isNavy ? 'rgba(255,87,87,0.08)' : '$backgroundStrong'}
+              borderRadius="$10"
+              maxWidth={600}
+              marginHorizontal="auto"
+              borderWidth={1}
+              borderColor={isNavy ? 'rgba(255,87,87,0.25)' : '$borderSoft'}
+            >
+              <Paragraph fontSize="$lg" color="$primaryActive" fontWeight="700">
+                Oops!
+              </Paragraph>
+              <Paragraph fontSize="$md" color="$text" textAlign="center">
+                {error}
+              </Paragraph>
+              <Paragraph fontSize="$sm" color="$textSoft" textAlign="center">
+                Try another spelling or switch systems; the assistant can also help you find nearby matches.
+              </Paragraph>
+              <Button
+                marginTop="$2"
+                onPress={() => setError(null)}
+                backgroundColor="$primary"
+                color="$background"
+                size="$3"
+              >
+                Dismiss
+              </Button>
+            </YStack>
+          )}
+
+          {/* Success State - Show Raga Details */}
+          {searchResult && !isLoading && !error && (
+            <YStack width="100%" maxWidth={800} marginHorizontal="auto" gap="$4">
+              <Paragraph fontSize="$sm" color="$textSecondary" textAlign="center">
+                Found raga: <Paragraph fontWeight="700" color="$primary">{searchResult.ragaName}</Paragraph>
+              </Paragraph>
+              {lastSystem === 'hindustani' && 'thaat' in searchResult ? (
+                <HindustaniRagaCard raga={searchResult} />
+              ) : (
+                <RagaCard raga={searchResult as Raga} />
+              )}
+              <Button
+                onPress={() => {
+                  setSearchResult(null);
+                  setSearchText('');
+                  setHasSearched(false);
+                  handleScrollToSearch();
+                }}
+                backgroundColor="$secondary"
+                color="$text"
+                size="$3"
+                alignSelf="center"
+                paddingHorizontal="$5"
+              >
+                Search another raga
+              </Button>
+            </YStack>
+          )}
+
+          {/* No Results Message */}
+          {hasSearched && !searchResult && !isLoading && !error && (
+            <Paragraph fontSize="$lg" color="$textSecondary" marginTop="$4" textAlign="center">
+              Enter a raga name and search to get started
+            </Paragraph>
+          )}
+
+          {/* Highlights */}
+          <YStack gap="$3" width="100%" paddingTop="$2">
+            <Paragraph fontFamily="$heading" fontSize="$7" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+              Why musicians use RagaPro
+            </Paragraph>
+            <XStack gap="$3" flexWrap="wrap">
+              {[
+                {
+                  title: 'Precision search',
+                  body: 'Understands Hindustani/Carnatic variants and validates spellings so you land on the right raga faster.',
+                },
+                {
+                  title: 'Practice-ready detail',
+                  body: 'Arohanam, avarohanam, swaras, and context presented cleanly for quick sessions.',
+                },
+                {
+                  title: 'Guided exploration',
+                  body: 'Ask the AI guide for similar ragas, mood suggestions, or corrections mid-practice.',
+                },
+              ].map((card) => (
+                <YStack
+                  key={card.title}
+                  flexGrow={1}
+                  minWidth={220}
+                  maxWidth={360}
+                  padding="$4"
+                  borderRadius="$radius.10"
+                  backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '#FFFFFF'}
+                  borderWidth={1}
+                  borderColor={heroBorder}
+                  gap="$2"
+                >
+                  <Paragraph fontWeight="800" color={isNavy ? '#FFFFFF' : '$primary'} fontSize="$5">
+                    {card.title}
+                  </Paragraph>
+                  <Paragraph color="$textSecondary" lineHeight={22}>
+                    {card.body}
+                  </Paragraph>
+                </YStack>
+              ))}
+            </XStack>
+          </YStack>
+        </YStack>
       </PageContainer>
       <Footer />
     </YStack>

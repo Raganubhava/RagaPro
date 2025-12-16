@@ -199,9 +199,6 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
             <NavLinkItem to="/feedback" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
               Feedback
             </NavLinkItem>
-            <NavLinkItem to="/about" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
-              About
-            </NavLinkItem>
           </XStack>
         </XStack>
 
@@ -216,37 +213,6 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
         >
           {/* LOGIN — md+ */}
           {/* Login hidden for now */}
-
-          <Button
-            size="$3"
-            paddingHorizontal="$4"
-            borderRadius="$radius.6"
-            color={isNavy ? '$primary' : '#FFFFFF'}
-            backgroundColor={isNavy ? '$surface' : '#9C4F3C'}
-            borderWidth={1}
-            borderColor={isNavy ? '$primary' : '#9C4F3C'}
-            icon={Lock}
-            iconAfter={null}
-            $sm={{ display: 'none' }}
-            $gtSm={{ display: 'flex' }}
-            onPress={() => setLoginOpen((prev) => !prev)}
-            hoverStyle={
-              isNavy
-                ? {
-                    backgroundColor: '$secondary',
-                    borderColor: '$secondary',
-                    color: '$primaryDeep',
-                  }
-                : {
-                    backgroundColor: '#B45B46',
-                    borderColor: '#B45B46',
-                    color: '#FFFFFF',
-                  }
-            }
-            animation="bouncy"
-          >
-            Login
-          </Button>
 
           <Button
             id="themeToggle"
