@@ -106,6 +106,7 @@ export const HomePage = () => {
       backgroundColor="$background"
       position="relative"
       overflow="hidden"
+      color={isNavy ? '#F5F7FF' : '$textPrimary'}
       {...(isNavy
         ? {
             backgroundImage:
@@ -149,11 +150,17 @@ export const HomePage = () => {
               gap: '$4',
             }}
           >
-            <YStack gap="$3" flex={1} minWidth={260} maxWidth={640}>
-              <Paragraph fontFamily="$heading" fontSize="$8" color={isNavy ? '#FFFFFF' : '$primaryDeep'} $sm={{ fontSize: '$7' }}>
+            <YStack gap="$3" flex={1} minWidth={260} maxWidth={640} alignItems="center">
+              <Paragraph
+                fontFamily="$heading"
+                fontSize="$8"
+                color={isNavy ? '#FFFFFF' : '$primaryDeep'}
+                textAlign="center"
+                $sm={{ fontSize: '$7' }}
+              >
                 Search any raga
               </Paragraph>
-              <Paragraph color="$textSecondary" fontSize="$4" lineHeight={24} $sm={{ fontSize: '$3' }}>
+              <Paragraph color="$textSecondary" fontSize="$4" lineHeight={24} textAlign="center" $sm={{ fontSize: '$3' }}>
                 Enter a Carnatic or Hindustani raga name and click Search. Scroll down to view the raga details.
               </Paragraph>
               <RagaSearchBar

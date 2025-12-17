@@ -11,6 +11,7 @@ export const HelpPage = () => {
     <YStack
       minHeight="100vh"
       backgroundColor="$background"
+      color={isNavy ? '#F5F7FF' : '$textPrimary'}
       {...(isNavy
         ? {
             backgroundImage:

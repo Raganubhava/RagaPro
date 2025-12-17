@@ -15,16 +15,17 @@ export const RagaSearchBar = ({
   return (
     <YStack
       alignItems="center"
-      gap="$5"
+      gap="$3"
       padding="$4"
       width="100%"
-      maxWidth={600}
+      maxWidth={720}
       marginHorizontal="auto"
-      $sm={{ maxWidth: '90%' }}
+      $sm={{ maxWidth: '100%', gap: '$3', padding: '$3' }}
     >
       <XStack
         alignItems="center"
         width="100%"
+        maxWidth={720}
         height={54}
         borderWidth={2}
         borderColor="$primary"
@@ -64,8 +65,9 @@ export const RagaSearchBar = ({
         theme="active"
         size="$4"
         onPress={onSearch}
-        width="60%"
-        minWidth={180}
+        width="100%"
+        maxWidth={360}
+        minWidth={200}
         paddingHorizontal={20}
         alignSelf="center"
         backgroundColor="$primary"
@@ -81,7 +83,7 @@ export const RagaSearchBar = ({
           shadowColor: 'rgba(0,0,0,0.16)',
         }}
         animation="bouncy"
-        $sm={{ width: '100%', minWidth: 0 }}
+        $sm={{ width: '100%', minWidth: 0, maxWidth: '100%' }}
       >
         Search
       </Button>

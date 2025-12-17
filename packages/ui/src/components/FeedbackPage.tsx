@@ -190,6 +190,7 @@ export const FeedbackPage = () => {
     <YStack
       minHeight="100vh"
       backgroundColor="$background"
+      color={isNavy ? '#F5F7FF' : '$textPrimary'}
       {...(isNavy
         ? {
             backgroundImage:
@@ -228,7 +229,7 @@ export const FeedbackPage = () => {
               Share Your Feedback
             </Paragraph>
             <Paragraph fontSize="$4" color="$textSecondary" $sm={{ fontSize: '$3' }}>
-              Sign in to submit feedback. Admins can post responses with their token.
+              God delights in songs. The god, known as “Samagana Lola,” takes pleasure in sama gana, derived from the Vedas.
             </Paragraph>
           </YStack>
 
