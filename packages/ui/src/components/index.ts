@@ -6,6 +6,7 @@ export * from './Footer';
 export * from './Header';
 export * from './HomePage';
 export * from './HelpPage';
+export * from './ListenLearnSingPage';
 export * from './LearnRagaPage';
 export * from './NavLinkItem';
 export * from './PageContainer';

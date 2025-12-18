@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { Button, H3, Input, Paragraph, TextArea, XStack, YStack, useThemeName } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { Footer } from './Footer';
@@ -172,7 +172,7 @@ export const FeedbackPage = () => {
         throw new Error(text || `HTTP ${res.status}`);
       }
 
-      setMessage('Thank you! Your feedback has been submitted.');
+      setMessage('Thank you 🙏! Your feedback has been submitted.');
       setEmail('');
       setFirstName('');
       setLastName('');
@@ -229,7 +229,7 @@ export const FeedbackPage = () => {
               Share Your Feedback
             </Paragraph>
             <Paragraph fontSize="$4" color="$textSecondary" $sm={{ fontSize: '$3' }}>
-              God delights in songs. The god, known as “Samagana Lola,” takes pleasure in sama gana, derived from the Vedas.
+              Tell us if you found this website / app useful, and also any suggestions or changes you'd like to see.
             </Paragraph>
           </YStack>
 
@@ -394,6 +394,10 @@ export const FeedbackPage = () => {
                 </Paragraph>
               )}
 
+              <Paragraph color="$textSecondary" lineHeight={22}>
+                Tell us if you found this website / app useful, and also any suggestions or changes you&apos;d like to see.
+              </Paragraph>
+
               <Button
                 onPress={handleSubmit}
                 disabled={isSubmitting}
@@ -453,3 +457,5 @@ export const FeedbackPage = () => {
     </YStack>
   );
 };
+
+

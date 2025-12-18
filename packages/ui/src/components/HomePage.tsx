@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
-import { Button, Paragraph, Spinner, XStack, YStack, useThemeName } from 'tamagui';
+import { Button, Checkbox, Label, Paragraph, Spinner, XStack, YStack, useThemeName } from 'tamagui';
+import { Check } from '@tamagui/lucide-icons';
 import { RagaSearchBar } from './RagaSearchBar';
 import { PageContainer } from './PageContainer';
 import { RagaCard } from './RagaCard';
@@ -20,6 +21,10 @@ export const HomePage = () => {
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [lastSystem, setLastSystem] = useState<RagaSystem>('carnatic');
+  const [systemFilters, setSystemFilters] = useState<Record<RagaSystem, boolean>>({
+    hindustani: true,
+    carnatic: true,
+  });
   const themeName = useThemeName();
   const isNavy = themeName?.toLowerCase().includes('navy');
   const searchSectionRef = useRef<HTMLDivElement | null>(null);
@@ -44,7 +49,7 @@ export const HomePage = () => {
   const handleSearch = async () => {
     if (searchText.trim() === '') {
       setSearchResult(null);
-      setError(null);
+      setError('Please enter a raga name to search.');
       setHasSearched(false);
       return;
     }
@@ -68,31 +73,49 @@ export const HomePage = () => {
     setHasSearched(true);
 
     const normalizedQuery = searchText.trim();
-    const system: RagaSystem = isHindustaniRaga(normalizedQuery) ? 'hindustani' : 'carnatic';
+    const selectedSystems: RagaSystem[] = [];
+    if (systemFilters.hindustani) selectedSystems.push('hindustani');
+    if (systemFilters.carnatic) selectedSystems.push('carnatic');
+    const systemsToSearch = selectedSystems.length === 0 ? (['hindustani', 'carnatic'] as const) : selectedSystems;
+
+    if (systemsToSearch.length === 2) {
+      const prioritizedSystems: RagaSystem[] = isHindustaniRaga(normalizedQuery)
+        ? ['hindustani', 'carnatic']
+        : ['carnatic', 'hindustani'];
+
+      let lastErr: unknown = null;
+      try {
+        for (const system of prioritizedSystems) {
+          try {
+            const result = await getRagaFromAPI(normalizedQuery, system);
+            setLastSystem(system);
+            setSearchResult(result);
+            return;
+          } catch (systemErr) {
+            lastErr = systemErr;
+          }
+        }
+
+        const msg = lastErr instanceof Error ? lastErr.message : 'Unknown error';
+        setError(`Could not find raga "${normalizedQuery}" in the Hindustani or Carnatic catalogs. ${msg}`);
+        setSearchResult(null);
+      } finally {
+        setIsLoading(false);
+      }
+      return;
+    }
+
+    const targetSystem: RagaSystem = systemsToSearch[0];
 
     try {
-      const primarySystem: RagaSystem = system;
-      try {
-        const result = await getRagaFromAPI(normalizedQuery, primarySystem);
-        setLastSystem(primarySystem);
-        setSearchResult(result);
-      } catch (primaryErr) {
-        if (primarySystem === 'hindustani') {
-          try {
-            const fallbackResult = await getRagaFromAPI(normalizedQuery, 'carnatic');
-            setLastSystem('carnatic');
-            setSearchResult(fallbackResult);
-          } catch (fallbackErr) {
-            const msg = fallbackErr instanceof Error ? fallbackErr.message : 'Unknown error';
-            setError(`Could not find raga "${normalizedQuery}" in Hindustani or Carnatic catalogs. ${msg}`);
-            setSearchResult(null);
-          }
-        } else {
-          const msg = primaryErr instanceof Error ? primaryErr.message : 'Unknown error';
-          setError(`Could not find raga "${normalizedQuery}" in Carnatic catalog. ${msg}`);
-          setSearchResult(null);
-        }
-      }
+      const result = await getRagaFromAPI(normalizedQuery, targetSystem);
+      setLastSystem(targetSystem);
+      setSearchResult(result);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : 'Unknown error';
+      const label = targetSystem === 'hindustani' ? 'Hindustani' : 'Carnatic';
+      setError(`Could not find raga "${normalizedQuery}" in the ${label} catalog. ${msg}`);
+      setSearchResult(null);
     } finally {
       setIsLoading(false);
     }
@@ -171,8 +194,39 @@ export const HomePage = () => {
                 }}
                 onSearch={handleSearch}
               />
+              <XStack gap="$4" alignItems="center" justifyContent="center" flexWrap="wrap">
+                <Paragraph fontWeight="700" color={isNavy ? '#FFFFFF' : '$primary'} fontSize="$4">
+                  Tradition
+                </Paragraph>
+                <XStack gap="$3" alignItems="center" flexWrap="wrap" justifyContent="center">
+                  {(['hindustani', 'carnatic'] as const).map((systemKey) => (
+                    <XStack key={systemKey} alignItems="center" gap="$2">
+                      <Checkbox
+                        id={`tradition-${systemKey}`}
+                        size="$3"
+                        checked={systemFilters[systemKey]}
+                        onCheckedChange={(val) =>
+                          setSystemFilters((prev) => ({
+                            ...prev,
+                            [systemKey]: val === true,
+                          }))
+                        }
+                        backgroundColor="$background"
+                        borderColor={heroBorder}
+                      >
+                        <Checkbox.Indicator>
+                          <Check size="$1" />
+                        </Checkbox.Indicator>
+                      </Checkbox>
+                      <Label htmlFor={`tradition-${systemKey}`} color="$textSecondary" fontSize="$3">
+                        {systemKey === 'hindustani' ? 'Hindustani' : 'Carnatic'}
+                      </Label>
+                    </XStack>
+                  ))}
+                </XStack>
+              </XStack>
               <Paragraph color="$textSecondary" fontSize="$3" marginTop="$1">
-                Tip: Enter alternate raga names if not found, or try another raga name.
+                Tip: Choose traditions above (Hindustani/Carnatic) to control where we search first.
               </Paragraph>
             </YStack>
 

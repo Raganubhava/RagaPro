@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Paragraph, XStack, YStack, useThemeName } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { Mic, Square } from '@tamagui/lucide-icons';
@@ -11,6 +11,7 @@ export const LearnRagaPage = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [result, setResult] = useState<{ note: string; sruti: string } | null>(null);
   const [status, setStatus] = useState<string | null>(null);
@@ -19,9 +20,25 @@ export const LearnRagaPage = () => {
   const isNavy = themeName?.toLowerCase().includes('navy');
   const heroBorder = isNavy ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
 
+  const updatePreview = (blob: Blob | null) => {
+    setPreviewUrl((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return blob ? URL.createObjectURL(blob) : null;
+    });
+  };
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
   const startRecording = async () => {
     setError(null);
     setStatus('Requesting microphone access...');
+    updatePreview(null);
+    setRecordedBlob(null);
+    setSelectedFile(null);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
@@ -38,6 +55,7 @@ export const LearnRagaPage = () => {
         const blob = new Blob(chunks, { type: 'audio/webm' });
         setRecordedBlob(blob);
         setSelectedFile(null);
+        updatePreview(blob);
         setIsRecording(false);
         setStatus('Recording captured. Submit to analyze sruti.');
       };
@@ -68,6 +86,7 @@ export const LearnRagaPage = () => {
     setError(null);
     const file = e.target.files?.[0] ?? null;
     setSelectedFile(file);
+    updatePreview(file);
   };
 
   const handleSubmit = async () => {
@@ -262,6 +281,24 @@ export const LearnRagaPage = () => {
                   onChange={handleFileChange}
                 />
               </XStack>
+              {previewUrl && (
+                <YStack
+                  gap="$2"
+                  padding="$3"
+                  borderRadius="$radius.10"
+                  backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '$surfaceAlt'}
+                  borderWidth={1}
+                  borderColor={heroBorder}
+                >
+                  <Paragraph fontWeight="700" color="$primary">
+                    Preview recording
+                  </Paragraph>
+                  <audio controls src={previewUrl} style={{ width: '100%' }} />
+                  <Paragraph color="$textSecondary" fontSize="$3">
+                    Listen back before submitting to confirm the recording.
+                  </Paragraph>
+                </YStack>
+              )}
               <Button
                 backgroundColor="$primary"
                 color="$surface"
@@ -326,7 +363,7 @@ export const LearnRagaPage = () => {
                   Quick tips
                 </Paragraph>
                 <Paragraph color="$textSecondary" fontSize="$3">
-                  Tip: Record in a quiet space and keep samples 5-10 seconds. Use sa/pa for clearer pitch.
+                  Record in a quiet space and keep samples 5-10 seconds. Just sing “Sa” or let the sruti play in the background to find sruti.
                 </Paragraph>
                 <Paragraph color="$textSecondary" fontSize="$3">
                   Uploads support common audio formats. We&apos;ll report note + sruti in one pass.

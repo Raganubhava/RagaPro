@@ -184,19 +184,19 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
             $sm={{ display: 'none' }}
             $gtSm={{ display: 'flex' }}
           >
-            <NavLinkItem to="/" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
+            <NavLinkItem to="/" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={700} fontSize="$4" letterSpacing={0.3}>
               Home
             </NavLinkItem>
-            <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
+            <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={700} fontSize="$4" letterSpacing={0.3}>
               Raga Sessions
             </NavLinkItem>       
-            <NavLinkItem to="/learn" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
-              Find Sruti
+            <NavLinkItem to="/listen" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={700} fontSize="$4" letterSpacing={0.3}>
+              Listen Learn Sing
             </NavLinkItem>
-            <NavLinkItem to="/help" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
+            <NavLinkItem to="/help" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={700} fontSize="$4" letterSpacing={0.3}>
               Glossary
             </NavLinkItem>
-            <NavLinkItem to="/feedback" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={600}>
+            <NavLinkItem to="/feedback" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={700} fontSize="$4" letterSpacing={0.3}>
               Feedback
             </NavLinkItem>
           </XStack>
@@ -263,7 +263,7 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
           <NavLinkItem to="/" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Home</NavLinkItem>
           <NavLinkItem to="/about" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">About</NavLinkItem>
           <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Raga Sessions</NavLinkItem>
-          <NavLinkItem to="/learn" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Find Sruti</NavLinkItem>
+          <NavLinkItem to="/listen" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Listen Learn Sing</NavLinkItem>
           <NavLinkItem to="/help" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Glossary</NavLinkItem>
           <NavLinkItem to="/feedback" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Feedback</NavLinkItem>
           {/* Login hidden for now */}

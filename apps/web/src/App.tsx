@@ -9,6 +9,7 @@ import {
   tamaguiConfig,
   HomePage,
   LearnRagaPage,
+  ListenLearnSingPage,
   AboutPage,
   Header,
   PodcastsPage,
@@ -43,6 +44,7 @@ function App() {
               <YStack flex={1}>
                 <Routes>
                   <Route path="/" element={<HomePage />} />
+                  <Route path="/listen" element={<ListenLearnSingPage />} />
                   <Route path="/learn" element={<LearnRagaPage />} />
                   <Route path="/podcasts" element={<PodcastsPage />} />
                   <Route path="/about" element={<AboutPage />} />

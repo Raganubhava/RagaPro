@@ -8,6 +8,12 @@ interface NavLinkItemProps {
   onClick?: () => void;
   isMobileMenuItem?: boolean;
   colorOverride?: string;
+  fontWeight?: number | string;
+  fontSize?: string | number;
+  letterSpacing?: number;
+  textTransform?: 'none' | 'capitalize' | 'uppercase' | 'lowercase';
+  textDecorationLine?: 'none' | 'underline';
+  fontFamilyOverride?: string;
 }
 
 export const NavLinkItem = ({
@@ -16,8 +22,20 @@ export const NavLinkItem = ({
   onClick,
   isMobileMenuItem,
   colorOverride,
+  fontWeight,
+  fontSize,
+  letterSpacing,
+  textTransform,
+  textDecorationLine,
+  fontFamilyOverride,
 }: NavLinkItemProps) => {
   const media = useMedia();
+  const resolvedWeight = fontWeight ?? 500;
+  const resolvedSize = fontSize ?? '$3';
+  const resolvedLetterSpacing = letterSpacing ?? 0;
+  const resolvedTransform = textTransform ?? 'none';
+  const resolvedDecoration = textDecorationLine;
+  const resolvedFamily = fontFamilyOverride ?? '$body';
 
   return (
     <NavLink
@@ -44,8 +62,11 @@ export const NavLinkItem = ({
         >
           <Text
             color={colorOverride ?? (isActive ? '$primaryDeep' : '$textPrimary')}
-            fontSize="$3"
-            fontFamily="$body"
+            fontSize={resolvedSize}
+            fontFamily={resolvedFamily}
+            fontWeight={resolvedWeight}
+            letterSpacing={resolvedLetterSpacing}
+            textTransform={resolvedTransform}
             lineHeight={20}
             hoverStyle={
               !media.sm
@@ -54,7 +75,9 @@ export const NavLinkItem = ({
                   }
                 : undefined
             }
-            textDecorationLine={!media.sm && isActive ? 'underline' : 'none'}
+            textDecorationLine={
+              resolvedDecoration ?? (!media.sm && isActive ? 'underline' : 'none')
+            }
           >
             {children}
           </Text>
