@@ -229,7 +229,6 @@ export const HomePage = () => {
             </YStack>
 
             <YStack
-              ref={chatBotRef}
               width="100%"
               maxWidth={360}
               backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
@@ -248,12 +247,16 @@ export const HomePage = () => {
               }}
             >
               <Paragraph fontWeight="800" color={isNavy ? '#FFFFFF' : '$primaryDeep'} fontSize="$5">
-                AI Raga Guide
+                Mission — RagaNidhi
               </Paragraph>
               <Paragraph color="$textSecondary" lineHeight={22} $sm={{ fontSize: '$3' }}>
-                Ask raga related questions. The Raga bot waiting for you :)
+                RagaNidhi is an open-ended project dedicated to the discovery and learning of Indian classical music ragas.
+                It brings Carnatic and Hindustani traditions closer together for listeners who approach with open ears.
               </Paragraph>
-              <ChatBotPanel />
+              <Paragraph color="$textSecondary" lineHeight={22} $sm={{ fontSize: '$3' }}>
+                By combining expert insights from renowned artists with knowledge drawn from music history, theory,
+                and performance practice, RagaNidhi enables intelligent exploration and a deeper understanding of ragas across both traditions.
+              </Paragraph>
             </YStack>
           </XStack>
 
@@ -337,26 +340,30 @@ export const HomePage = () => {
             </Paragraph>
           )}
 
-          {/* Mission card */}
+          {/* AI guide card (moved from hero) */}
           <YStack gap="$3" width="100%" paddingTop="$2">
             <YStack
+              ref={chatBotRef}
               padding="$4"
               borderRadius="$radius.12"
-              backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '$surface'}
+              backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
               borderWidth={1}
               borderColor={heroBorder}
-              gap="$2"
-              maxWidth={720}
+              gap="$3"
+              width="100%"
+              maxWidth={520}
+              alignSelf="center"
+              shadowColor={isNavy ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
+              shadowRadius={10}
+              shadowOffset={{ width: 0, height: 4 }}
             >
               <Paragraph fontFamily="$heading" fontSize="$7" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
-                Mission — RagaNidhi
+                AI Raga Guide
               </Paragraph>
               <Paragraph color="$textSecondary" lineHeight={24} fontSize="$4">
-                RagaNidhi is an open-ended project dedicated to the discovery and learning of Indian classical music ragas.
-                It brings Carnatic and Hindustani traditions closer together for listeners who approach with open ears.
-                By combining expert insights from renowned artists with knowledge drawn from music history, theory, and performance practice,
-                RagaNidhi enables intelligent exploration and a deeper understanding of ragas across both traditions.
+                Ask raga related questions. The Raga bot waiting for you :)
               </Paragraph>
+              <ChatBotPanel />
             </YStack>
           </YStack>
         </YStack>
