@@ -287,7 +287,7 @@ export const HomePage = () => {
                 {error}
               </Paragraph>
               <Paragraph fontSize="$sm" color="$textSoft" textAlign="center">
-                Try another spelling or switch systems; the assistant can also help you find nearby matches.
+                Try another spelling or switch traditions; the assistant can also help you find nearby matches.
               </Paragraph>
               <Button
                 marginTop="$2"
@@ -337,47 +337,27 @@ export const HomePage = () => {
             </Paragraph>
           )}
 
-          {/* Highlights */}
+          {/* Mission card */}
           <YStack gap="$3" width="100%" paddingTop="$2">
-            <Paragraph fontFamily="$heading" fontSize="$7" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
-              Why musicians use RagaPro
-            </Paragraph>
-            <XStack gap="$3" flexWrap="wrap">
-              {[
-                {
-                  title: 'Precision search',
-                  body: 'Understands Hindustani/Carnatic variants and validates spellings so you land on the right raga faster.',
-                },
-                {
-                  title: 'Practice-ready detail',
-                  body: 'Arohanam, avarohanam, swaras, and context presented cleanly for quick sessions.',
-                },
-                {
-                  title: 'Guided exploration',
-                  body: 'Ask the AI guide for similar ragas, mood suggestions, or corrections mid-practice.',
-                },
-              ].map((card) => (
-                <YStack
-                  key={card.title}
-                  flexGrow={1}
-                  minWidth={220}
-                  maxWidth={360}
-                  padding="$4"
-                  borderRadius="$radius.10"
-                  backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '$surface'}
-                  borderWidth={1}
-                  borderColor={heroBorder}
-                  gap="$2"
-                >
-                  <Paragraph fontWeight="800" color={isNavy ? '#FFFFFF' : '$primary'} fontSize="$5">
-                    {card.title}
-                  </Paragraph>
-                  <Paragraph color="$textSecondary" lineHeight={22}>
-                    {card.body}
-                  </Paragraph>
-                </YStack>
-              ))}
-            </XStack>
+            <YStack
+              padding="$4"
+              borderRadius="$radius.12"
+              backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '$surface'}
+              borderWidth={1}
+              borderColor={heroBorder}
+              gap="$2"
+              maxWidth={720}
+            >
+              <Paragraph fontFamily="$heading" fontSize="$7" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+                Mission — RagaNidhi
+              </Paragraph>
+              <Paragraph color="$textSecondary" lineHeight={24} fontSize="$4">
+                RagaNidhi is an open-ended project dedicated to the discovery and learning of Indian classical music ragas.
+                It brings Carnatic and Hindustani traditions closer together for listeners who approach with open ears.
+                By combining expert insights from renowned artists with knowledge drawn from music history, theory, and performance practice,
+                RagaNidhi enables intelligent exploration and a deeper understanding of ragas across both traditions.
+              </Paragraph>
+            </YStack>
           </YStack>
         </YStack>
       </PageContainer>
