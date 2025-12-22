@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { Button, H3, Input, Paragraph, TextArea, XStack, YStack, useThemeName } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { Footer } from './Footer';
@@ -172,7 +172,7 @@ export const FeedbackPage = () => {
         throw new Error(text || `HTTP ${res.status}`);
       }
 
-      setMessage('Thank you 🙏! Your feedback has been submitted.');
+      setMessage('Thank you ??! Your feedback has been submitted.');
       setEmail('');
       setFirstName('');
       setLastName('');
@@ -198,7 +198,7 @@ export const FeedbackPage = () => {
           }
         : {
             backgroundImage:
-              "radial-gradient(circle at 18% 12%, rgba(255,186,120,0.25), transparent 40%), radial-gradient(circle at 82% -4%, rgba(103,174,255,0.2), transparent 38%), linear-gradient(180deg, #f9f5ef 0%, #f3eee7 100%)",
+              "none",
           })}
     >
       <PageContainer>
@@ -267,7 +267,7 @@ export const FeedbackPage = () => {
                     color={isNavy ? '#FFFFFF' : '$primaryDeep'}
                     style={{ display: 'inline-flex', alignItems: 'center' }}
                   >
-                    Thank you 🙏
+                    Thank you ??
                   </Paragraph>
                 </XStack>
               ) : showSignup ? (
@@ -414,7 +414,7 @@ export const FeedbackPage = () => {
                 {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
               </Button>
               <Paragraph fontWeight="800" fontSize="$6" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
-                Thank you 🙏
+                Thank you ??
               </Paragraph>
             </YStack>
           )}

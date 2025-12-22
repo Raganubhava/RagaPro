@@ -84,17 +84,15 @@ export const ChatBotPanel = () => {
       });
 
       if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || `HTTP ${res.status}`);
+        throw new Error('No response available.');
       }
 
       const data = await res.json();
       const botText = data?.answer ?? data?.message ?? '';
-      setResponse(botText || 'No response received.');
+      setResponse(botText || 'No response received. Please try another question.');
       setSentCount((c) => c + 1);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Unexpected error';
-      setError(`Could not reach RagaBot. ${msg}`);
+      setError('No response right now. Please try again or ask a different question.');
     } finally {
       setIsLoading(false);
     }

@@ -20,10 +20,10 @@ const customTokens = {
   color: {
     ...defaultConfig.tokens.color,
     // Warm (default) palette (light)
-    background: '#F9F5EF',
-    backgroundStrong: '#F0E8DE',
-    surface: '#FFFFFF',
-    surfaceAlt: '#FBF8F4',
+    background: '#FBEDCB',
+    backgroundStrong: '#F5E1B8',
+    surface: '#FFF8EF',
+    surfaceAlt: '#F7E7CF',
     primary: '#9C4F3C',
     primaryActive: '#7F3E30',
     primaryHover: '#B45B46',

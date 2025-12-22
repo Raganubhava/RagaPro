@@ -87,22 +87,21 @@ export const HomePage = () => {
       try {
         for (const system of prioritizedSystems) {
           try {
-            const result = await getRagaFromAPI(normalizedQuery, system);
-            setLastSystem(system);
-            setSearchResult(result);
-            return;
-          } catch (systemErr) {
-            lastErr = systemErr;
-          }
+          const result = await getRagaFromAPI(normalizedQuery, system);
+          setLastSystem(system);
+          setSearchResult(result);
+          return;
+        } catch (systemErr) {
+          lastErr = systemErr;
         }
-
-        const msg = lastErr instanceof Error ? lastErr.message : 'Unknown error';
-        setError(`Could not find raga "${normalizedQuery}" in the Hindustani or Carnatic catalogs. ${msg}`);
-        setSearchResult(null);
-      } finally {
-        setIsLoading(false);
       }
-      return;
+
+      setError(`Could not find raga "${normalizedQuery}". Please check the spelling or try another raga.`);
+      setSearchResult(null);
+    } finally {
+      setIsLoading(false);
+    }
+    return;
     }
 
     const targetSystem: RagaSystem = systemsToSearch[0];
@@ -112,9 +111,8 @@ export const HomePage = () => {
       setLastSystem(targetSystem);
       setSearchResult(result);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Unknown error';
       const label = targetSystem === 'hindustani' ? 'Hindustani' : 'Carnatic';
-      setError(`Could not find raga "${normalizedQuery}" in the ${label} catalog. ${msg}`);
+      setError(`Could not find raga "${normalizedQuery}" in the ${label} catalog. Please try another name.`);
       setSearchResult(null);
     } finally {
       setIsLoading(false);
@@ -137,7 +135,7 @@ export const HomePage = () => {
           }
         : {
             backgroundImage:
-              "radial-gradient(circle at 18% 12%, rgba(255,186,120,0.25), transparent 40%), radial-gradient(circle at 82% -4%, rgba(103,174,255,0.2), transparent 38%), linear-gradient(180deg, #f9f5ef 0%, #f3eee7 100%)",
+              "none",
           })}
     >
       <PageContainer>
@@ -158,7 +156,7 @@ export const HomePage = () => {
             gap="$4"
             padding="$5"
             borderRadius="$radius.12"
-            backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '#FFFFFF'}
+            backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '$surface'}
             borderWidth={1}
             borderColor={heroBorder}
             shadowColor={isNavy ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.1)'}
@@ -234,7 +232,7 @@ export const HomePage = () => {
               ref={chatBotRef}
               width="100%"
               maxWidth={360}
-              backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '#FFFFFF'}
+              backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
               borderWidth={1}
               borderColor={heroBorder}
               borderRadius="$radius.12"
@@ -366,7 +364,7 @@ export const HomePage = () => {
                   maxWidth={360}
                   padding="$4"
                   borderRadius="$radius.10"
-                  backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '#FFFFFF'}
+                  backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '$surface'}
                   borderWidth={1}
                   borderColor={heroBorder}
                   gap="$2"

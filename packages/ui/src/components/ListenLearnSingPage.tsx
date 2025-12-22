@@ -28,7 +28,7 @@ export const ListenLearnSingPage = () => {
           }
         : {
             backgroundImage:
-              "radial-gradient(circle at 18% 12%, rgba(255,186,120,0.22), transparent 40%), radial-gradient(circle at 82% -4%, rgba(103,174,255,0.22), transparent 38%), linear-gradient(180deg, #f9f5ef 0%, #f3eee7 100%)",
+              "none",
           })}
     >
       <PageContainer>
@@ -44,7 +44,7 @@ export const ListenLearnSingPage = () => {
           <YStack
             padding="$6"
             borderRadius="$radius.12"
-            backgroundColor={isNavy ? 'rgba(255,255,255,0.06)' : '#FFFFFF'}
+            backgroundColor={isNavy ? 'rgba(255,255,255,0.06)' : '$surface'}
             borderWidth={1}
             borderColor={border}
             shadowColor={isNavy ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.08)'}

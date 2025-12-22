@@ -19,7 +19,7 @@ export const HelpPage = () => {
           }
         : {
             backgroundImage:
-              "radial-gradient(circle at 18% 12%, rgba(255,186,120,0.25), transparent 40%), radial-gradient(circle at 82% -4%, rgba(103,174,255,0.2), transparent 38%), linear-gradient(180deg, #f9f5ef 0%, #f3eee7 100%)",
+              "none",
           })}
     >
       <PageContainer>
@@ -56,7 +56,7 @@ export const HelpPage = () => {
                 borderRadius="$radius.12"
                 borderWidth={1}
                 borderColor={heroBorder}
-                backgroundColor={isNavy ? 'rgba(255,255,255,0.08)' : '#FFFFFF'}
+                backgroundColor={isNavy ? 'rgba(255,255,255,0.08)' : '$surface'}
                 $sm={{ display: 'none' }}
               >
                 <img
