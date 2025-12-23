@@ -172,7 +172,7 @@ export const FeedbackPage = () => {
         throw new Error(text || `HTTP ${res.status}`);
       }
 
-      setMessage('Thank you ??! Your feedback has been submitted.');
+      setMessage('Your feedback has been submitted.');
       setEmail('');
       setFirstName('');
       setLastName('');
@@ -260,15 +260,6 @@ export const FeedbackPage = () => {
                   >
                     Submit Feedback
                   </Button>
-                  <Paragraph
-                    fontWeight="800"
-                    fontSize="$6"
-                    lineHeight={28}
-                    color={isNavy ? '#FFFFFF' : '$primaryDeep'}
-                    style={{ display: 'inline-flex', alignItems: 'center' }}
-                  >
-                    Thank you ??
-                  </Paragraph>
                 </XStack>
               ) : showSignup ? (
                 <YStack gap="$3">
@@ -413,9 +404,6 @@ export const FeedbackPage = () => {
               >
                 {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
               </Button>
-              <Paragraph fontWeight="800" fontSize="$6" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
-                Thank you ??
-              </Paragraph>
             </YStack>
           )}
 

@@ -31,11 +31,11 @@ interface InfoRowProps {
 const InfoRow = ({ label, value }: InfoRowProps) => {
   if (!value) return null;
   return (
-    <XStack justifyContent="space-between" alignItems="flex-start" gap="$3">
-      <Paragraph fontWeight="700" color="$textSecondary" minWidth={120}>
-        {label}
+    <XStack justifyContent="space-between" alignItems="flex-start" gap="$2">
+      <Paragraph fontSize="$sm" color="$goldDeep" textTransform="uppercase" letterSpacing={1} flexShrink={0}>
+        {label}:
       </Paragraph>
-      <Paragraph flex={1} color="$textPrimary">
+      <Paragraph fontSize="$md" color="$textPrimary" flex={1} textAlign="right">
         {value}
       </Paragraph>
     </XStack>
@@ -45,15 +45,25 @@ const InfoRow = ({ label, value }: InfoRowProps) => {
 export const HindustaniRagaCard = ({ raga }: { raga: HindustaniRaga }) => {
   return (
     <YStack
-      padding="$4"
-      backgroundColor="$surface"
-      borderRadius="$10"
+      backgroundColor="$surfaceAlt"
       borderWidth={1}
-      borderColor="$borderLight"
+      borderColor="$borderSoft"
+      borderRadius="$radius.14"
+      padding="$4"
       gap="$3"
+      shadowColor="rgba(0,0,0,0.08)"
+      shadowRadius={6}
+      shadowOffset={{ height: 3, width: 0 }}
+      animation="bouncy"
+      width="100%"
+      maxWidth={820}
+      alignSelf="center"
+      borderLeftWidth={3}
+      borderLeftColor="$primary"
+      $sm={{ padding: '$3', borderRadius: '$radius.10' }}
     >
       <YStack gap="$1">
-        <Paragraph fontSize="$7" fontWeight="800" color="$primary">
+        <Paragraph fontSize="$lg" fontWeight="700" color="$primary">
           {raga.ragaName}
         </Paragraph>
         {raga.alternateRagaName && (
@@ -61,22 +71,41 @@ export const HindustaniRagaCard = ({ raga }: { raga: HindustaniRaga }) => {
             Also known as {raga.alternateRagaName}
           </Paragraph>
         )}
-        {raga.thaat && (
-          <Paragraph fontSize="$3" color="$textSoft">
-            Thaat: {raga.thaat}
-          </Paragraph>
-        )}
       </YStack>
 
-      <YStack gap="$2">
-        <InfoRow label="Arohan" value={raga.arohan} />
-        <InfoRow label="Avarohan" value={raga.avarohan} />
-        <InfoRow label="Vaadi" value={raga.vaadi} />
-        <InfoRow label="Samvaadi" value={raga.samvaadi} />
-        <InfoRow label="Pakad" value={raga.pakad} />
-        <InfoRow label="Samay" value={raga.samay} />
-        <InfoRow label="Description" value={raga.description} />
-        <InfoRow label="Compositions" value={raga.compositions} />
+      <YStack gap="$3" backgroundColor="$surface" borderRadius="$radius.10" padding="$3">
+        <YStack gap="$1">
+          {raga.thaat && <InfoRow label="Thaat" value={raga.thaat} />}
+          {raga.samay && <InfoRow label="Samay" value={raga.samay} />}
+        </YStack>
+        <YStack borderBottomWidth={1} borderColor="$borderSoft" />
+
+        <YStack gap="$2">
+          <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
+            Scales
+          </Paragraph>
+          <InfoRow label="Arohan" value={raga.arohan} />
+          <InfoRow label="Avarohan" value={raga.avarohan} />
+        </YStack>
+        <YStack borderBottomWidth={1} borderColor="$borderSoft" />
+
+        <YStack gap="$2">
+          <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
+            Roles
+          </Paragraph>
+          <InfoRow label="Vaadi" value={raga.vaadi} />
+          <InfoRow label="Samvaadi" value={raga.samvaadi} />
+          <InfoRow label="Pakad" value={raga.pakad} />
+        </YStack>
+        <YStack borderBottomWidth={1} borderColor="$borderSoft" />
+
+        <YStack gap="$2">
+          <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
+            Notes
+          </Paragraph>
+          <InfoRow label="Description" value={raga.description} />
+          <InfoRow label="Compositions" value={raga.compositions} />
+        </YStack>
       </YStack>
     </YStack>
   );
