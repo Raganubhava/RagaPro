@@ -30,6 +30,7 @@ export const HomePage = () => {
   const searchSectionRef = useRef<HTMLDivElement | null>(null);
   const chatBotRef = useRef<HTMLDivElement | null>(null);
   const api = useApiClient();
+  const scrollToChatBot = () => chatBotRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   const isValidQuery = (value: string) => /^[A-Za-z\s]+$/.test(value);
   const blockedWords = /\b(abuse|abusive|asshole|bastard|bitch|bloody|bullshit|crap|damn|dick|fuck|fucking|idiot|jerk|moron|nonsense|obscene|pervert|porn|pornographic|racist|sex|sexual|shit|stupid|suck|trash|ugly|violence|violent|vulgar|whore)\b/i;
@@ -311,9 +312,9 @@ export const HomePage = () => {
                 Found raga: <Paragraph fontWeight="700" color="$primary">{searchResult.ragaName}</Paragraph>
               </Paragraph>
               {lastSystem === 'hindustani' && 'thaat' in searchResult ? (
-                <HindustaniRagaCard raga={searchResult} />
+                <HindustaniRagaCard raga={searchResult} onAskAI={scrollToChatBot} />
               ) : (
-                <RagaCard raga={searchResult as Raga} />
+                <RagaCard raga={searchResult as Raga} onAskAI={scrollToChatBot} />
               )}
               <Button
                 onPress={() => {

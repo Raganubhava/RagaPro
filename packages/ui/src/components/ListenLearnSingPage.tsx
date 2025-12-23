@@ -72,10 +72,10 @@ export const ListenLearnSingPage = () => {
               gap="$2"
             >
               <Paragraph fontWeight="800" color={isNavy ? '#FFFFFF' : '$primary'} fontSize="$6">
-                Coming soon
+                Launching shortly
               </Paragraph>
               <Paragraph color="$textSecondary" fontSize="$4" lineHeight={24}>
-                Coming soon: AI-assisted listening drills, guided lessons, and sing-along practice to deepen your raga journey.
+                Launching shortly: AI-assisted listening drills, guided lessons, and sing-along practice to deepen your raga journey.
               </Paragraph>
               <XStack
                 gap="$3"

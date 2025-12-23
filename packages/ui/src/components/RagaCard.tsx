@@ -1,17 +1,19 @@
-import { useMemo, useState } from 'react';
-import { Paragraph, XStack, YStack } from 'tamagui';
+import { useEffect, useMemo, useState } from 'react';
+import { Paragraph, XStack, YStack, Button } from 'tamagui';
 import { AnimatePresence, MotiView } from 'moti';
 import { AudioPlayer } from './AudioPlayer';
 import { ChevronDown } from '@tamagui/lucide-icons';
 import { Raga } from '@raga/data';
+import { expandSwaraValue } from '../constants/swaraMap';
 
 interface RagaCardProps {
   raga: Raga;
+  onAskAI?: () => void;
 }
 
 const RagaDetailRow = ({ label, value }: { label: string; value?: string | number | boolean | null }) => {
-  if (value === undefined || value === null || value === '') return null;
-  const displayValue = typeof value === 'boolean' ? (value ? 'Yes' : 'No') : value;
+  const displayValueRaw = value === undefined || value === null || value === '' ? '—' : value;
+  const displayValue = typeof displayValueRaw === 'boolean' ? (displayValueRaw ? 'Yes' : 'No') : displayValueRaw;
   return (
     <XStack justifyContent="space-between" alignItems="flex-start" gap="$2">
       <Paragraph fontSize="$sm" color="$goldDeep" textTransform="uppercase" letterSpacing={1} flexShrink={0}>
@@ -47,13 +49,27 @@ const InfoChip = ({ label, value }: { label: string; value?: string | number | b
   );
 };
 
-export const RagaCard = ({ raga }: RagaCardProps) => {
-  const [expanded, setExpanded] = useState(false);
+export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
+  const [expanded, setExpanded] = useState(true);
   const audioSrc = useMemo(() => {
     if (!raga.audioFile) return null;
     // Default to mp3; adjust if API returns mime type in the future.
     return `data:audio/mpeg;base64,${raga.audioFile}`;
   }, [raga.audioFile]);
+  useEffect(() => {
+    setExpanded(true);
+  }, [raga]);
+  const hasShadjam = useMemo(() => {
+    const fields = [
+      raga.rishabham,
+      raga.gandharam,
+      raga.madhyamam,
+      raga.panchamam,
+      raga.daivatam,
+      raga.nishadam,
+    ];
+    return fields.some((val) => val?.toUpperCase().includes('S'));
+  }, [raga.daivatam, raga.gandharam, raga.madhyamam, raga.nishadam, raga.panchamam, raga.rishabham]);
 
   return (
     <YStack
@@ -149,12 +165,17 @@ export const RagaCard = ({ raga }: RagaCardProps) => {
                 <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
                   Swaras
                 </Paragraph>
-                <RagaDetailRow label="Rishabham" value={raga.rishabham} />
-                <RagaDetailRow label="Gandharam" value={raga.gandharam} />
-                <RagaDetailRow label="Madhyamam" value={raga.madhyamam} />
-                <RagaDetailRow label="Panchamam" value={raga.panchamam} />
-                <RagaDetailRow label="Daivatam" value={raga.daivatam} />
-                <RagaDetailRow label="Nishadam" value={raga.nishadam} />
+                {hasShadjam && (
+                  <Paragraph fontSize="$sm" color="$textSoft">
+                    Shadjam is included.
+                  </Paragraph>
+                )}
+                <RagaDetailRow label="Rishabham" value={expandSwaraValue(raga.rishabham)} />
+                <RagaDetailRow label="Gandharam" value={expandSwaraValue(raga.gandharam)} />
+                <RagaDetailRow label="Madhyamam" value={expandSwaraValue(raga.madhyamam)} />
+                <RagaDetailRow label="Panchamam" value={expandSwaraValue(raga.panchamam)} />
+                <RagaDetailRow label="Daivatam" value={expandSwaraValue(raga.daivatam)} />
+                <RagaDetailRow label="Nishadam" value={expandSwaraValue(raga.nishadam)} />
                 <YStack borderBottomWidth={1} borderColor="$borderSoft" />
               </YStack>
 
@@ -211,6 +232,19 @@ export const RagaCard = ({ raga }: RagaCardProps) => {
           </MotiView>
         )}
       </AnimatePresence>
+
+      {onAskAI && (
+        <Button
+          size="$3"
+          backgroundColor="$primary"
+          color="$background"
+          alignSelf="flex-start"
+          onPress={onAskAI}
+          hoverStyle={{ backgroundColor: '$primaryHover' }}
+        >
+          Ask AI about this raga
+        </Button>
+      )}
     </YStack>
   );
 };
