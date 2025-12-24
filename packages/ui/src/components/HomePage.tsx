@@ -154,6 +154,8 @@ export const HomePage = () => {
           <XStack
             ref={searchSectionRef}
             width="100%"
+            maxWidth={880}
+            alignSelf="center"
             gap="$4"
             padding="$5"
             borderRadius="$radius.12"
@@ -163,8 +165,8 @@ export const HomePage = () => {
             shadowColor={isNavy ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.1)'}
             shadowRadius={10}
             shadowOffset={{ width: 0, height: 4 }}
-            alignItems="flex-start"
-            justifyContent="space-between"
+            alignItems="center"
+            justifyContent="center"
             flexWrap="wrap"
             $sm={{
               flexDirection: 'column',
@@ -174,7 +176,9 @@ export const HomePage = () => {
           >
             <YStack gap="$3" flex={1} minWidth={260} maxWidth={640} alignItems="center">
               <Paragraph
-                fontFamily="$heading"
+                fontFamily="$body"
+                fontWeight="800"
+                letterSpacing={0.4}
                 fontSize="$8"
                 color={isNavy ? '#FFFFFF' : '$primaryDeep'}
                 textAlign="center"
@@ -229,36 +233,7 @@ export const HomePage = () => {
               </Paragraph>
             </YStack>
 
-            <YStack
-              width="100%"
-              maxWidth={360}
-              backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
-              borderWidth={1}
-              borderColor={heroBorder}
-              borderRadius="$radius.12"
-              padding="$4"
-              gap="$3"
-              shadowColor={isNavy ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
-              shadowRadius={10}
-              shadowOffset={{ width: 0, height: 4 }}
-              flexShrink={0}
-              $sm={{
-                width: '100%',
-                maxWidth: '100%',
-              }}
-            >
-              <Paragraph fontWeight="800" color={isNavy ? '#FFFFFF' : '$primaryDeep'} fontSize="$5">
-                Mission — RagaNidhi
-              </Paragraph>
-              <Paragraph color="$textSecondary" lineHeight={22} $sm={{ fontSize: '$3' }}>
-                RagaNidhi is an open-ended project dedicated to the discovery and learning of Indian classical music ragas.
-                It brings Carnatic and Hindustani traditions closer together for listeners who approach with open ears.
-              </Paragraph>
-              <Paragraph color="$textSecondary" lineHeight={22} $sm={{ fontSize: '$3' }}>
-                By combining expert insights from renowned artists with knowledge drawn from music history, theory,
-                and performance practice, RagaNidhi enables intelligent exploration and a deeper understanding of ragas across both traditions.
-              </Paragraph>
-            </YStack>
+            {/* Reserved for future content next to the search box */}
           </XStack>
 
           {/* Loading State */}
@@ -308,9 +283,31 @@ export const HomePage = () => {
           {/* Success State - Show Raga Details */}
           {searchResult && !isLoading && !error && (
             <YStack width="100%" maxWidth={800} marginHorizontal="auto" gap="$4">
-              <Paragraph fontSize="$sm" color="$textSecondary" textAlign="center">
-                Found raga: <Paragraph fontWeight="700" color="$primary">{searchResult.ragaName}</Paragraph>
-              </Paragraph>
+              <YStack
+                alignItems="center"
+                gap="$2"
+                padding="$3"
+                borderRadius="$radius.10"
+                backgroundColor={isNavy ? 'rgba(255,255,255,0.06)' : '$surface'}
+                borderWidth={1}
+                borderColor={isNavy ? 'rgba(255,255,255,0.1)' : '$borderSoft'}
+                shadowColor={isNavy ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.06)'}
+                shadowRadius={8}
+                shadowOffset={{ width: 0, height: 3 }}
+              >
+                <Paragraph fontSize="$sm" color="$textSecondary" textAlign="center" letterSpacing={0.5}>
+                  Found raga
+                </Paragraph>
+                <Paragraph
+                  fontSize="$8"
+                  fontWeight="800"
+                  color={isNavy ? '#FFFFFF' : '$primaryDeep'}
+                  textAlign="center"
+                  letterSpacing={0.8}
+                >
+                  {searchResult.ragaName}
+                </Paragraph>
+              </YStack>
               {lastSystem === 'hindustani' && 'thaat' in searchResult ? (
                 <HindustaniRagaCard raga={searchResult} onAskAI={scrollToChatBot} />
               ) : (
@@ -341,8 +338,14 @@ export const HomePage = () => {
             </Paragraph>
           )}
 
-          {/* AI guide card (moved from hero) */}
-          <YStack gap="$3" width="100%" paddingTop="$2">
+          {/* AI guide and mission side-by-side */}
+          <XStack
+            gap="$4"
+            flexWrap="wrap"
+            justifyContent="center"
+            paddingTop="$2"
+            alignItems="stretch"
+          >
             <YStack
               ref={chatBotRef}
               padding="$4"
@@ -353,10 +356,10 @@ export const HomePage = () => {
               gap="$3"
               width="100%"
               maxWidth={520}
-              alignSelf="center"
               shadowColor={isNavy ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
               shadowRadius={10}
               shadowOffset={{ width: 0, height: 4 }}
+              flexGrow={1}
             >
               <Paragraph fontFamily="$heading" fontSize="$7" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
                 AI Raga Guide
@@ -366,7 +369,32 @@ export const HomePage = () => {
               </Paragraph>
               <ChatBotPanel />
             </YStack>
-          </YStack>
+
+            <YStack
+              padding="$4"
+              borderRadius="$radius.12"
+              backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
+              borderWidth={1}
+              borderColor={heroBorder}
+              gap="$3"
+              width="100%"
+              maxWidth={520}
+              shadowColor={isNavy ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
+              shadowRadius={10}
+              shadowOffset={{ width: 0, height: 4 }}
+              flexGrow={1}
+            >
+              <Paragraph fontFamily="$heading" fontSize="$7" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+                Mission — RagaNidhi
+              </Paragraph>
+              <Paragraph color="$textSecondary" lineHeight={22} fontSize="$4">
+                RagaNidhi is an open-ended project dedicated to the discovery and learning of Indian classical music ragas. It brings Carnatic and Hindustani traditions closer together for listeners who approach with open ears.
+              </Paragraph>
+              <Paragraph color="$textSecondary" lineHeight={22} fontSize="$4">
+                By combining expert insights from renowned artists with knowledge drawn from music history, theory, and performance practice, RagaNidhi enables intelligent exploration and a deeper understanding of ragas across both traditions.
+              </Paragraph>
+            </YStack>
+          </XStack>
         </YStack>
       </PageContainer>
       <Footer />
