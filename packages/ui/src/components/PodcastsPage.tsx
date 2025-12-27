@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AlertCircle, FileText, Filter, Headphones, PlayCircle, SkipBack, SkipForward } from '@tamagui/lucide-icons';
-import { Button, Paragraph, Spinner, XStack, YStack, useThemeName } from 'tamagui';
+import { Button, Paragraph, Spinner, XStack, YStack, useThemeName, Image } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { AudioPlayer } from './AudioPlayer';
 import { Footer } from './Footer';
@@ -300,6 +300,7 @@ export const PodcastsPage = () => {
               </XStack>
             </YStack>
           </YStack>
+
 
           {loading && (
             <YStack gap="$3" alignItems="center" padding="$4">

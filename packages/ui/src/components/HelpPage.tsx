@@ -1,4 +1,4 @@
-import { H2, H3, Paragraph, XStack, YStack, useThemeName } from 'tamagui';
+import { H2, H3, Paragraph, XStack, YStack, useThemeName, Image } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { Footer } from './Footer';
 
@@ -49,28 +49,31 @@ export const HelpPage = () => {
                 </Paragraph>
               </YStack>
 
-              <YStack
-                width={220}
-                height={160}
-                overflow="hidden"
-                borderRadius="$radius.12"
-                borderWidth={1}
-                borderColor={heroBorder}
-                backgroundColor={isNavy ? 'rgba(255,255,255,0.08)' : '$surface'}
-                $sm={{ display: 'none' }}
-              >
-                <img
-                  src="/hampi.jpg"
-                  alt="Hampi temple"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    display: 'block',
-                  }}
-                />
-              </YStack>
             </XStack>
+          </YStack>
+
+          <YStack
+            alignItems="center"
+            padding="$4"
+            borderRadius="$radius.12"
+            backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
+            borderWidth={1}
+            borderColor={heroBorder}
+            shadowColor={isNavy ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.08)'}
+            shadowRadius={10}
+            shadowOffset={{ width: 0, height: 4 }}
+          >
+            <YStack width="100%" maxWidth={720} overflow="hidden" borderRadius="$radius.12">
+              <Image
+                source={{ uri: '/RagaNidhi2.png' }}
+                width="100%"
+                height={340}
+                resizeMode="contain"
+                $sm={{ height: 240 }}
+                backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '$surface'}
+                alt="RagaNidhi"
+              />
+            </YStack>
           </YStack>
 
           <YStack
