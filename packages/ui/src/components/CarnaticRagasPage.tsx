@@ -76,16 +76,28 @@ export const CarnaticRagasPage = () => {
   const activeBg = isNavy ? 'rgba(255,255,255,0.08)' : '$secondary';
 
   return (
-    <PageContainer>
-      <YStack gap="$6" paddingVertical="$6">
-        <YStack gap="$2">
-          <Paragraph fontSize="$9" fontWeight="800" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
-            Carnatic Ragas Index
-          </Paragraph>
-          <Paragraph color="$textSecondary" lineHeight={24} maxWidth={840}>
-            Browse every Carnatic raga in our catalog. Click a raga to fetch details.
-          </Paragraph>
-        </YStack>
+    <YStack
+      minHeight="100vh"
+      backgroundColor="$background"
+      {...(isNavy
+        ? {
+            backgroundImage:
+              'radial-gradient(circle at 20% 20%, rgba(74,118,255,0.18), transparent 40%), radial-gradient(circle at 80% 0%, rgba(255,148,255,0.14), transparent 42%), linear-gradient(180deg, rgba(11,16,38,0.9) 0%, rgba(11,16,38,0.95) 100%)',
+          }
+        : {
+            backgroundImage: 'none',
+          })}
+    >
+      <PageContainer>
+        <YStack gap="$6" paddingVertical="$6">
+          <YStack gap="$2">
+            <Paragraph fontSize="$9" fontWeight="800" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+              Carnatic Ragas Index
+            </Paragraph>
+            <Paragraph color="$textSecondary" lineHeight={24} maxWidth={840}>
+              Browse every Carnatic raga in our catalog. Click a raga to fetch details.
+            </Paragraph>
+          </YStack>
 
         <YStack gap="$3">
           <Input
@@ -127,7 +139,7 @@ export const CarnaticRagasPage = () => {
 
         <YStack
           backgroundColor={listBg}
-          borderWidth={1}
+          borderWidth={3}
           borderColor={listBorder}
           borderRadius="$radius.12"
           padding="$4"
@@ -142,13 +154,16 @@ export const CarnaticRagasPage = () => {
                 justifyContent="space-between"
                 backgroundColor={isActive ? activeBg : '$background'}
                 borderColor={listBorder}
-                borderWidth={1}
+                borderWidth={3}
                 borderRadius="$radius.8"
                 paddingVertical="$3"
                 paddingHorizontal="$4"
                 onPress={() => handleSelect(name)}
                 iconAfter={isBusy ? undefined : ChevronRight}
                 disabled={isBusy}
+                hoverStyle={{
+                  backgroundColor: isNavy ? 'rgba(255,255,255,0.08)' : '#f0e8de',
+                }}
               >
                 <XStack alignItems="center" gap="$3" flex={1}>
                   <Paragraph
@@ -222,5 +237,6 @@ export const CarnaticRagasPage = () => {
         )}
       </YStack>
     </PageContainer>
+    </YStack>
   );
 };
