@@ -21,3 +21,5 @@ export * from './TopRagasGrid';
 export * from './TampuraSvg';
 export * from './FeedbackPage';
 export * from './HindustaniRagaCard';
+export * from './CarnaticRagasPage';
+export * from './HindustaniRagasPage';

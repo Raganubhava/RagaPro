@@ -15,6 +15,8 @@ import {
   PodcastsPage,
   HelpPage,
   FeedbackPage,
+  CarnaticRagasPage,
+  HindustaniRagasPage,
 } from 'ui';
 
 function App() {
@@ -50,6 +52,8 @@ function App() {
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/help" element={<HelpPage />} />
                   <Route path="/feedback" element={<FeedbackPage />} />
+                  <Route path="/carnatic-ragas" element={<CarnaticRagasPage />} />
+                  <Route path="/hindustani-ragas" element={<HindustaniRagasPage />} />
                   <Route path="/login" element={<p>Login Page</p>} />
                 </Routes>
               </YStack>

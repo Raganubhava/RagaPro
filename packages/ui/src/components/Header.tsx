@@ -187,6 +187,12 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
             <NavLinkItem to="/" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={700} fontSize="$4" letterSpacing={0.3}>
               Home
             </NavLinkItem>
+            <NavLinkItem to="/carnatic-ragas" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={700} fontSize="$4" letterSpacing={0.3}>
+              Carnatic Ragas Index
+            </NavLinkItem>
+            <NavLinkItem to="/hindustani-ragas" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={700} fontSize="$4" letterSpacing={0.3}>
+              Hindustani Ragas Index
+            </NavLinkItem>
             <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={700} fontSize="$4" letterSpacing={0.3}>
               Raga Sessions
             </NavLinkItem>       
@@ -261,6 +267,8 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
           $gtSm={{ display: 'none' }}
         >
           <NavLinkItem to="/" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Home</NavLinkItem>
+          <NavLinkItem to="/carnatic-ragas" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Carnatic Ragas Index</NavLinkItem>
+          <NavLinkItem to="/hindustani-ragas" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Hindustani Ragas Index</NavLinkItem>
           <NavLinkItem to="/about" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">About</NavLinkItem>
           <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Raga Sessions</NavLinkItem>
           <NavLinkItem to="/listen" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Listen Learn Sing</NavLinkItem>
