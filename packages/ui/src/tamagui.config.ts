@@ -84,24 +84,25 @@ const tamaguiConfig = createTamagui({
       borderSoft: customTokens.color.borderSoft,
       borderLight: customTokens.color.borderLight,
     },
-    navy: {
-      background: '#0B1026', // deep navy
+    dark: {
+      background: '#0B1026', // deep navy-inspired dark
       backgroundStrong: '#0B1026',
-      color: '#F5F7FF',
-      primary: '#F5F7FF', // foreground text/buttons
+      color: '#FFFFFF',
+      text: '#FFFFFF', // default body text in dark theme
+      primary: '#FFFFFF', // foreground text/buttons
       primaryHover: '#FFFFFF',
-      primaryActive: '#E6EAFA',
-      primaryDeep: '#C9CFEC',
+      primaryActive: '#FFFFFF',
+      primaryDeep: '#FFFFFF',
       secondary: '#D8A55C',
-      accent: '#F5F7FF',
+      accent: '#FFFFFF',
       borderColor: '#1C2140',
       surface: '#0B1026',
       surfaceAlt: '#12183A',
       gold: '#D8A55C',
       goldDeep: '#C1874E',
       textPrimary: '#FFFFFF',
-      textSecondary: '#E6EAFA',
-      textSoft: '#C9CFEC',
+      textSecondary: '#FFFFFF',
+      textSoft: '#FFFFFF',
       borderSoft: '#262C4F',
       borderLight: '#343A5D',
     },

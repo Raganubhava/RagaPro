@@ -15,14 +15,40 @@ export const CarnaticRagasPage = () => {
   const [loadingName, setLoadingName] = useState<string | null>(null);
   const [filterText, setFilterText] = useState('');
   const [letterFilter, setLetterFilter] = useState<string | null>(null);
+  const [ragas, setRagas] = useState<string[]>(CARNATIC_RAGAS);
   const api = useApiClient();
   const detailsRef = useRef<HTMLDivElement | null>(null);
   const themeName = useThemeName();
-  const isNavy = themeName?.toLowerCase().includes('navy');
+  const isDark = themeName?.toLowerCase().includes('dark');
+  const darkBackground = '#0B1026';
+  const darkSurface = '#12183A';
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadRagas = async () => {
+      try {
+        const data = await api.fetchJson<unknown>(API_ENDPOINTS.allRagas);
+        const names = Array.isArray(data)
+          ? data
+              .map((item) => (typeof item === 'string' ? item : (item as { ragaName?: string }).ragaName))
+              .filter((name): name is string => Boolean(name))
+          : [];
+        if (isMounted && names.length > 0) {
+          setRagas(names);
+        }
+      } catch {
+        // Keep static list on failure.
+      }
+    };
+    loadRagas();
+    return () => {
+      isMounted = false;
+    };
+  }, [api]);
 
   const sortedRagas = useMemo(
-    () => [...CARNATIC_RAGAS].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' })),
-    []
+    () => [...ragas].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' })),
+    [ragas]
   );
   const filteredRagas = useMemo(() => {
     const query = filterText.trim().toLowerCase();
@@ -71,15 +97,15 @@ export const CarnaticRagasPage = () => {
     }
   };
 
-  const listBorder = isNavy ? 'rgba(255,255,255,0.08)' : '#E5D6C8';
-  const listBg = isNavy ? 'rgba(255,255,255,0.03)' : '$surface';
-  const activeBg = isNavy ? 'rgba(255,255,255,0.08)' : '$secondary';
+  const listBorder = isDark ? 'rgba(255,255,255,0.08)' : '#E5D6C8';
+  const listBg = isDark ? darkSurface : '$surface';
+  const activeBg = isDark ? 'rgba(255,255,255,0.08)' : '$secondary';
 
   return (
     <YStack
       minHeight="100vh"
-      backgroundColor="$background"
-      {...(isNavy
+      backgroundColor={isDark ? darkBackground : '$background'}
+      {...(isDark
         ? {
             backgroundImage:
               'radial-gradient(circle at 20% 20%, rgba(74,118,255,0.18), transparent 40%), radial-gradient(circle at 80% 0%, rgba(255,148,255,0.14), transparent 42%), linear-gradient(180deg, rgba(11,16,38,0.9) 0%, rgba(11,16,38,0.95) 100%)',
@@ -91,10 +117,10 @@ export const CarnaticRagasPage = () => {
       <PageContainer>
         <YStack gap="$6" paddingVertical="$6">
           <YStack gap="$2">
-            <Paragraph fontSize="$9" fontWeight="800" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+            <Paragraph fontSize="$9" fontWeight="800" color={isDark ? '#FFFFFF' : '$primaryDeep'}>
               Carnatic Ragas Index
             </Paragraph>
-            <Paragraph color="$textSecondary" lineHeight={24} maxWidth={840}>
+            <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24} maxWidth={840}>
               Browse every Carnatic raga in our catalog. Click a raga to fetch details.
             </Paragraph>
           </YStack>
@@ -105,14 +131,17 @@ export const CarnaticRagasPage = () => {
             value={filterText}
             onChangeText={setFilterText}
             borderColor="$borderSoft"
-            backgroundColor="$surface"
+            backgroundColor={isDark ? darkSurface : '$surface'}
+            color={isDark ? '#FFFFFF' : '$textPrimary'}
+            placeholderTextColor={isDark ? 'rgba(255,255,255,0.7)' : '$textSoft'}
           />
           <XStack gap="$2" flexWrap="wrap">
             <Button
               size="$2"
-              backgroundColor={letterFilter === null ? '$secondary' : '$surface'}
+              backgroundColor={letterFilter === null ? '$secondary' : isDark ? darkSurface : '$surface'}
               borderColor="$borderSoft"
               borderWidth={1}
+              color={isDark ? '#FFFFFF' : '$textPrimary'}
               onPress={() => setLetterFilter(null)}
             >
               All
@@ -124,9 +153,10 @@ export const CarnaticRagasPage = () => {
                 <Button
                   key={letter}
                   size="$2"
-                  backgroundColor={isActive ? '$secondary' : '$surface'}
+                  backgroundColor={isActive ? '$secondary' : isDark ? darkSurface : '$surface'}
                   borderColor="$borderSoft"
                   borderWidth={1}
+                  color={isDark ? '#FFFFFF' : '$textPrimary'}
                   disabled={!hasNames}
                   onPress={() => setLetterFilter(letter)}
                 >
@@ -152,7 +182,7 @@ export const CarnaticRagasPage = () => {
               <Button
                 key={name}
                 justifyContent="space-between"
-                backgroundColor={isActive ? activeBg : '$background'}
+                backgroundColor={isActive ? activeBg : isDark ? darkBackground : '$background'}
                 borderColor={listBorder}
                 borderWidth={3}
                 borderRadius="$radius.8"
@@ -162,13 +192,13 @@ export const CarnaticRagasPage = () => {
                 iconAfter={isBusy ? undefined : ChevronRight}
                 disabled={isBusy}
                 hoverStyle={{
-                  backgroundColor: isNavy ? 'rgba(255,255,255,0.08)' : '#f0e8de',
+                  backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : '#f0e8de',
                 }}
               >
                 <XStack alignItems="center" gap="$3" flex={1}>
                   <Paragraph
                     flex={1}
-                    color={isNavy ? '#FFFFFF' : '$primaryDeep'}
+                    color={isDark ? '#FFFFFF' : '$primaryDeep'}
                     fontWeight="700"
                     letterSpacing={0.2}
                   >
@@ -182,15 +212,16 @@ export const CarnaticRagasPage = () => {
         </YStack>
 
         <XStack alignItems="center" justifyContent="space-between" gap="$3" flexWrap="wrap">
-          <Paragraph color="$textSecondary">
+          <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'}>
             Page {page} of {pageCount} ({filteredRagas.length} ragas)
           </Paragraph>
           <XStack gap="$2">
             <Button
               size="$2"
-              backgroundColor="$surface"
+              backgroundColor={isDark ? darkSurface : '$surface'}
               borderColor="$borderSoft"
               borderWidth={1}
+              color={isDark ? '#FFFFFF' : '$textPrimary'}
               disabled={page === 1}
               onPress={() => setPage((p) => Math.max(1, p - 1))}
             >
@@ -198,9 +229,10 @@ export const CarnaticRagasPage = () => {
             </Button>
             <Button
               size="$2"
-              backgroundColor="$surface"
+              backgroundColor={isDark ? darkSurface : '$surface'}
               borderColor="$borderSoft"
               borderWidth={1}
+              color={isDark ? '#FFFFFF' : '$textPrimary'}
               disabled={page === pageCount}
               onPress={() => setPage((p) => Math.min(pageCount, p + 1))}
             >
@@ -212,8 +244,8 @@ export const CarnaticRagasPage = () => {
         {error && (
           <YStack
             borderWidth={1}
-            borderColor={isNavy ? 'rgba(255,87,87,0.3)' : '$borderSoft'}
-            backgroundColor={isNavy ? 'rgba(255,87,87,0.08)' : '$backgroundStrong'}
+            borderColor={isDark ? 'rgba(255,87,87,0.3)' : '$borderSoft'}
+            backgroundColor={isDark ? 'rgba(255,87,87,0.08)' : '$backgroundStrong'}
             borderRadius="$radius.10"
             padding="$4"
             gap="$2"
@@ -221,7 +253,7 @@ export const CarnaticRagasPage = () => {
             <Paragraph fontWeight="700" color="$primaryActive">
               Unable to fetch raga
             </Paragraph>
-            <Paragraph color="$textSecondary">{error}</Paragraph>
+            <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'}>{error}</Paragraph>
           </YStack>
         )}
 
@@ -229,7 +261,7 @@ export const CarnaticRagasPage = () => {
 
         {selectedRaga && (
           <YStack gap="$3">
-            <Paragraph fontSize="$7" fontWeight="800" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+            <Paragraph fontSize="$7" fontWeight="800" color={isDark ? '#FFFFFF' : '$primaryDeep'}>
               {selectedRaga.ragaName}
             </Paragraph>
             <RagaCard raga={selectedRaga} />

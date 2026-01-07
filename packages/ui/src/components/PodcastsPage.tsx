@@ -81,7 +81,7 @@ export const PodcastsPage = () => {
   const [category, setCategory] = useState<MediaCategory>('all');
   const [page, setPage] = useState(1);
   const themeName = useThemeName();
-  const isNavy = themeName?.toLowerCase().includes('navy');
+  const isDark = themeName?.toLowerCase().includes('dark');
   const pageSize = 6;
 
   const filteredItems = useMemo(() => {
@@ -159,14 +159,14 @@ export const PodcastsPage = () => {
     openBlobInNewTab(url, mimeType);
   };
 
-  const heroBorder = isNavy ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
+  const heroBorder = isDark ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
 
   return (
     <YStack
       minHeight="100vh"
       backgroundColor="$background"
-      color={isNavy ? '#F5F7FF' : '$textPrimary'}
-      {...(isNavy
+      color={isDark ? '#F5F7FF' : '$textPrimary'}
+      {...(isDark
         ? {
             backgroundImage:
               'radial-gradient(circle at 20% 20%, rgba(74,118,255,0.18), transparent 40%), radial-gradient(circle at 80% 0%, rgba(255,148,255,0.14), transparent 42%), linear-gradient(180deg, rgba(11,16,38,0.9) 0%, rgba(11,16,38,0.95) 100%)',
@@ -191,10 +191,10 @@ export const PodcastsPage = () => {
             width="100%"
             padding="$5"
             borderRadius="$radius.12"
-            backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.92)'}
+            backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.92)'}
             borderWidth={1}
             borderColor={heroBorder}
-            shadowColor={isNavy ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.12)'}
+            shadowColor={isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.12)'}
             shadowRadius={12}
             shadowOffset={{ width: 0, height: 6 }}
             gap="$4"
@@ -211,10 +211,10 @@ export const PodcastsPage = () => {
               $sm={{ flexDirection: 'column', gap: '$3' }}
             >
               <YStack gap="$3" flex={1} minWidth={260}>
-                <Paragraph fontFamily="$heading" fontSize="$9" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+                <Paragraph fontFamily="$heading" fontSize="$9" color={isDark ? '#FFFFFF' : '$primaryDeep'}>
                   Raga Sessions
                 </Paragraph>
-                <Paragraph color="$textSecondary" fontSize="$4" lineHeight={26}>
+                <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$4" lineHeight={26}>
                   Curated PDFs, audio tracks, and video lessons pulled live from your archive—ready for practice on any device.
                 </Paragraph>
                 <XStack gap="$3" flexWrap="wrap">
@@ -230,7 +230,7 @@ export const PodcastsPage = () => {
                   </Button>
                   <Button
                     size="$4"
-                    backgroundColor={isNavy ? '$surface' : '$surfaceAlt'}
+                    backgroundColor={isDark ? '$surface' : '$surfaceAlt'}
                     color="$primary"
                     borderWidth={1}
                     borderColor={heroBorder}
@@ -256,15 +256,15 @@ export const PodcastsPage = () => {
                     key={item.label}
                     padding="$3"
                     borderRadius="$radius.10"
-                    backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '$surface'}
+                    backgroundColor={isDark ? 'rgba(255,255,255,0.04)' : '$surface'}
                     borderWidth={1}
                     borderColor={heroBorder}
                     minWidth={120}
                   >
-                    <Paragraph color="$textSecondary" fontSize="$3">
+                    <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$3">
                       {item.label}
                     </Paragraph>
-                    <Paragraph color={isNavy ? '#FFFFFF' : '$primary'} fontWeight="800" fontSize="$5">
+                    <Paragraph color={isDark ? '#FFFFFF' : '$primary'} fontWeight="800" fontSize="$5">
                       {item.value}
                     </Paragraph>
                   </YStack>
@@ -275,8 +275,8 @@ export const PodcastsPage = () => {
             {/* Filters */}
             <YStack gap="$3">
               <XStack gap="$2" alignItems="center">
-                <Filter size={16} color="$textSecondary" />
-                <Paragraph color="$textSecondary" fontSize="$3">
+                <Filter size={16} color={isDark ? '#FFFFFF' : '$textSecondary'} />
+                <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$3">
                   Filter by type
                 </Paragraph>
               </XStack>
@@ -305,7 +305,7 @@ export const PodcastsPage = () => {
           {loading && (
             <YStack gap="$3" alignItems="center" padding="$4">
               <Spinner size="large" color="$primary" />
-              <Paragraph color="$textSecondary">Loading Raga Sessions...</Paragraph>
+              <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'}>Loading Raga Sessions...</Paragraph>
             </YStack>
           )}
 
@@ -313,10 +313,10 @@ export const PodcastsPage = () => {
             <YStack
               gap="$3"
               padding="$4"
-              backgroundColor={isNavy ? 'rgba(255,87,87,0.08)' : '$backgroundStrong'}
+              backgroundColor={isDark ? 'rgba(255,87,87,0.08)' : '$backgroundStrong'}
               borderRadius="$10"
               borderWidth={1}
-              borderColor={isNavy ? 'rgba(255,87,87,0.25)' : '$borderSoft'}
+              borderColor={isDark ? 'rgba(255,87,87,0.25)' : '$borderSoft'}
             >
               <XStack gap="$2" alignItems="center">
                 <AlertCircle color="$primaryActive" />
@@ -358,7 +358,7 @@ export const PodcastsPage = () => {
                           key={`${file.fileName}-${index}`}
                           gap="$3"
                           padding="$4"
-                          backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surfaceAlt'}
+                          backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surfaceAlt'}
                           borderRadius="$radius.10"
                           borderWidth={1}
                           borderColor={heroBorder}
@@ -370,7 +370,7 @@ export const PodcastsPage = () => {
                           <XStack alignItems="center" justifyContent="space-between">
                             <XStack alignItems="center" gap="$3">
                               <Icon color="$primary" />
-                              <Paragraph fontWeight="700" fontSize="$5" color="$textPrimary">
+                              <Paragraph fontWeight="700" fontSize="$5" color={isDark ? '#FFFFFF' : '$textPrimary'}>
                                 {file.fileName}
                               </Paragraph>
                             </XStack>
@@ -415,7 +415,7 @@ export const PodcastsPage = () => {
 
                           {isVideo && (
                             <YStack gap="$2">
-                              <Paragraph color="$textSecondary" fontSize="$2">
+                              <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$2">
                                 Video preview
                               </Paragraph>
                               <video
@@ -440,7 +440,7 @@ export const PodcastsPage = () => {
                           )}
 
                           {!isPdf && !isAudio && !isVideo && (
-                            <Paragraph color="$textSecondary">Unsupported file type</Paragraph>
+                            <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'}>Unsupported file type</Paragraph>
                           )}
                         </YStack>
                       );
@@ -454,7 +454,7 @@ export const PodcastsPage = () => {
                           disabled={currentPage === 1}
                           onPress={() => setPage((p) => Math.max(1, p - 1))}
                         />
-                        <Paragraph color="$textSecondary">
+                        <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'}>
                           Page {currentPage} of {totalPages}
                         </Paragraph>
                         <Button
@@ -467,7 +467,7 @@ export const PodcastsPage = () => {
                     )}
                   </>
                 ) : (
-                  <Paragraph color="$textSecondary">
+                  <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'}>
                     No sessions available yet. Add files to the archive to see them here.
                   </Paragraph>
                 )}
@@ -478,19 +478,19 @@ export const PodcastsPage = () => {
           <YStack
             gap="$3"
             padding="$4"
-            backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
+            backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surface'}
             borderRadius="$radius.12"
             borderWidth={1}
             borderColor={heroBorder}
-            shadowColor={isNavy ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.08)'}
+            shadowColor={isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.08)'}
             shadowRadius={10}
             shadowOffset={{ width: 0, height: 4 }}
             $sm={{ padding: '$3' }}
           >
-            <Paragraph fontWeight="800" color={isNavy ? '#FFFFFF' : '$primaryDeep'} fontSize="$5">
+            <Paragraph fontWeight="800" color={isDark ? '#FFFFFF' : '$primaryDeep'} fontSize="$5">
               Note
             </Paragraph>
-            <Paragraph color="$textSecondary" lineHeight={22}>
+            <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={22}>
               Raga sessions are presentations or raga related content in audio or PDF files. You can submit a request to add your content.
             </Paragraph>
             <Button
@@ -502,7 +502,7 @@ export const PodcastsPage = () => {
               borderRadius="$radius.8"
               hoverStyle={{ backgroundColor: '$primaryHover' }}
             >
-              <a href="/feedback" style={{ fontWeight: 800, fontSize: '16px', letterSpacing: 0.2 }}>
+              <a href="/feedback" style={{ fontWeight: 800, fontSize: '16px', letterSpacing: 0.2, color: isDark ? '#FFFFFF' : 'inherit' }}>
                 Submit Feedback
               </a>
             </Button>

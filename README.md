@@ -91,6 +91,12 @@ To run the linter across the entire project, use:
 ```sh
 pnpm lint
 ```
+
+### 5. Key routes
+
+- Carnatic Ragas Index: http://localhost:5173/carnatic-ragas (lists Carnatic ragas with filters and pagination)
+- Hindustani Ragas Index: http://localhost:5173/hindustani-ragas (lists Hindustani ragas with filters and pagination)
+
 =======
 # RagaPro
 RagaPro is the UI interface for Raga API collection

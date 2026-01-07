@@ -26,7 +26,7 @@ export const HomePage = () => {
     carnatic: true,
   });
   const themeName = useThemeName();
-  const isNavy = themeName?.toLowerCase().includes('navy');
+  const isDark = themeName?.toLowerCase().includes('dark');
   const searchSectionRef = useRef<HTMLDivElement | null>(null);
   const chatBotRef = useRef<HTMLDivElement | null>(null);
   const api = useApiClient();
@@ -120,7 +120,7 @@ export const HomePage = () => {
     }
   };
 
-  const heroBorder = isNavy ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
+  const heroBorder = isDark ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
 
   return (
     <YStack
@@ -128,8 +128,8 @@ export const HomePage = () => {
       backgroundColor="$background"
       position="relative"
       overflow="hidden"
-      color={isNavy ? '#F5F7FF' : '$textPrimary'}
-      {...(isNavy
+      color={isDark ? '#F5F7FF' : '$textPrimary'}
+      {...(isDark
         ? {
             backgroundImage:
               'radial-gradient(circle at 20% 20%, rgba(74,118,255,0.18), transparent 40%), radial-gradient(circle at 80% 0%, rgba(255,148,255,0.14), transparent 42%), linear-gradient(180deg, rgba(11,16,38,0.9) 0%, rgba(11,16,38,0.95) 100%)',
@@ -159,10 +159,10 @@ export const HomePage = () => {
             gap="$4"
             padding="$5"
             borderRadius="$radius.12"
-            backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '$surface'}
+            backgroundColor={isDark ? 'rgba(255,255,255,0.04)' : '$surface'}
             borderWidth={1}
             borderColor={heroBorder}
-            shadowColor={isNavy ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.1)'}
+            shadowColor={isDark ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.1)'}
             shadowRadius={10}
             shadowOffset={{ width: 0, height: 4 }}
             alignItems="center"
@@ -180,13 +180,19 @@ export const HomePage = () => {
                 fontWeight="800"
                 letterSpacing={0.4}
                 fontSize="$8"
-                color={isNavy ? '#FFFFFF' : '$primaryDeep'}
+                color={isDark ? '#FFFFFF' : '$primaryDeep'}
                 textAlign="center"
                 $sm={{ fontSize: '$7' }}
               >
                 Search any raga
               </Paragraph>
-              <Paragraph color="$textSecondary" fontSize="$4" lineHeight={24} textAlign="center" $sm={{ fontSize: '$3' }}>
+              <Paragraph
+                color={isDark ? '#FFFFFF' : '$textSecondary'}
+                fontSize="$4"
+                lineHeight={24}
+                textAlign="center"
+                $sm={{ fontSize: '$3' }}
+              >
                 Enter a Carnatic or Hindustani raga name and click Search. Scroll down to view the raga details.
               </Paragraph>
               <RagaSearchBar
@@ -198,7 +204,7 @@ export const HomePage = () => {
                 onSearch={handleSearch}
               />
               <XStack gap="$4" alignItems="center" justifyContent="center" flexWrap="wrap">
-                <Paragraph fontWeight="700" color={isNavy ? '#FFFFFF' : '$primary'} fontSize="$4">
+                <Paragraph fontWeight="700" color={isDark ? '#FFFFFF' : '$primary'} fontSize="$4">
                   Tradition
                 </Paragraph>
                 <XStack gap="$3" alignItems="center" flexWrap="wrap" justifyContent="center">
@@ -221,14 +227,14 @@ export const HomePage = () => {
                           <Check size="$1" />
                         </Checkbox.Indicator>
                       </Checkbox>
-                      <Label htmlFor={`tradition-${systemKey}`} color="$textSecondary" fontSize="$3">
+                      <Label htmlFor={`tradition-${systemKey}`} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$3">
                         {systemKey === 'hindustani' ? 'Hindustani' : 'Carnatic'}
                       </Label>
                     </XStack>
                   ))}
                 </XStack>
               </XStack>
-              <Paragraph color="$textSecondary" fontSize="$3" marginTop="$1">
+              <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$3" marginTop="$1">
                 Tip: Choose traditions above (Hindustani/Carnatic) to control where we search first.
               </Paragraph>
             </YStack>
@@ -240,7 +246,7 @@ export const HomePage = () => {
           {isLoading && (
             <YStack gap="$3" alignItems="center" paddingTop="$4">
               <Spinner size="large" color="$primary" />
-              <Paragraph fontSize="$lg" color="$textSecondary">
+              <Paragraph fontSize="$lg" color={isDark ? '#FFFFFF' : '$textSecondary'}>
                 Loading raga details...
               </Paragraph>
             </YStack>
@@ -252,20 +258,20 @@ export const HomePage = () => {
               gap="$3"
               alignItems="center"
               padding="$4"
-              backgroundColor={isNavy ? 'rgba(255,87,87,0.08)' : '$backgroundStrong'}
+              backgroundColor={isDark ? 'rgba(255,87,87,0.08)' : '$backgroundStrong'}
               borderRadius="$10"
               maxWidth={600}
               marginHorizontal="auto"
               borderWidth={1}
-              borderColor={isNavy ? 'rgba(255,87,87,0.25)' : '$borderSoft'}
+              borderColor={isDark ? 'rgba(255,87,87,0.25)' : '$borderSoft'}
             >
               <Paragraph fontSize="$lg" color="$primaryActive" fontWeight="700">
                 Oops!
               </Paragraph>
-              <Paragraph fontSize="$md" color="$text" textAlign="center">
+              <Paragraph fontSize="$md" color={isDark ? '#FFFFFF' : '$text'} textAlign="center">
                 {error}
               </Paragraph>
-              <Paragraph fontSize="$sm" color="$textSoft" textAlign="center">
+              <Paragraph fontSize="$sm" color={isDark ? '#FFFFFF' : '$textSoft'} textAlign="center">
                 Try another spelling or switch traditions; the assistant can also help you find nearby matches.
               </Paragraph>
               <Button
@@ -288,20 +294,20 @@ export const HomePage = () => {
                 gap="$2"
                 padding="$3"
                 borderRadius="$radius.10"
-                backgroundColor={isNavy ? 'rgba(255,255,255,0.06)' : '$surface'}
+                backgroundColor={isDark ? 'rgba(255,255,255,0.06)' : '$surface'}
                 borderWidth={1}
-                borderColor={isNavy ? 'rgba(255,255,255,0.1)' : '$borderSoft'}
-                shadowColor={isNavy ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.06)'}
+                borderColor={isDark ? 'rgba(255,255,255,0.1)' : '$borderSoft'}
+                shadowColor={isDark ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.06)'}
                 shadowRadius={8}
                 shadowOffset={{ width: 0, height: 3 }}
               >
-                <Paragraph fontSize="$sm" color="$textSecondary" textAlign="center" letterSpacing={0.5}>
+                <Paragraph fontSize="$sm" color={isDark ? '#FFFFFF' : '$textSecondary'} textAlign="center" letterSpacing={0.5}>
                   Found raga
                 </Paragraph>
                 <Paragraph
                   fontSize="$8"
                   fontWeight="800"
-                  color={isNavy ? '#FFFFFF' : '$primaryDeep'}
+                  color={isDark ? '#FFFFFF' : '$primaryDeep'}
                   textAlign="center"
                   letterSpacing={0.8}
                 >
@@ -321,7 +327,7 @@ export const HomePage = () => {
                   handleScrollToSearch();
                 }}
                 backgroundColor="$secondary"
-                color="$text"
+                color={isDark ? '#FFFFFF' : '$text'}
                 size="$3"
                 alignSelf="center"
                 paddingHorizontal="$5"
@@ -333,7 +339,7 @@ export const HomePage = () => {
 
           {/* No Results Message */}
           {hasSearched && !searchResult && !isLoading && !error && (
-            <Paragraph fontSize="$lg" color="$textSecondary" marginTop="$4" textAlign="center">
+            <Paragraph fontSize="$lg" color={isDark ? '#FFFFFF' : '$textSecondary'} marginTop="$4" textAlign="center">
               Enter a raga name and search to get started
             </Paragraph>
           )}
@@ -350,21 +356,21 @@ export const HomePage = () => {
               ref={chatBotRef}
               padding="$4"
               borderRadius="$radius.12"
-              backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
+              backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surface'}
               borderWidth={1}
               borderColor={heroBorder}
               gap="$3"
               width="100%"
               maxWidth={520}
-              shadowColor={isNavy ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
+              shadowColor={isDark ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
               shadowRadius={10}
               shadowOffset={{ width: 0, height: 4 }}
               flexGrow={1}
             >
-              <Paragraph fontFamily="$heading" fontSize="$7" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+              <Paragraph fontFamily="$heading" fontSize="$7" color={isDark ? '#FFFFFF' : '$primaryDeep'}>
                 AI Raga Guide
               </Paragraph>
-              <Paragraph color="$textSecondary" lineHeight={24} fontSize="$4">
+              <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24} fontSize="$4">
                 Ask raga related questions. The Raga bot waiting for you :)
               </Paragraph>
               <ChatBotPanel />
@@ -373,24 +379,24 @@ export const HomePage = () => {
             <YStack
               padding="$4"
               borderRadius="$radius.12"
-              backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
+              backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surface'}
               borderWidth={1}
               borderColor={heroBorder}
               gap="$3"
               width="100%"
               maxWidth={520}
-              shadowColor={isNavy ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
+              shadowColor={isDark ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
               shadowRadius={10}
               shadowOffset={{ width: 0, height: 4 }}
               flexGrow={1}
             >
-              <Paragraph fontFamily="$heading" fontSize="$7" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+              <Paragraph fontFamily="$heading" fontSize="$7" color={isDark ? '#FFFFFF' : '$primaryDeep'}>
                 Mission — RagaNidhi
               </Paragraph>
-              <Paragraph color="$textSecondary" lineHeight={22} fontSize="$4">
+              <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={22} fontSize="$4">
                 RagaNidhi is an open-ended project dedicated to the discovery and learning of Indian classical music ragas. It brings Carnatic and Hindustani traditions closer together for listeners who approach with open ears.
               </Paragraph>
-              <Paragraph color="$textSecondary" lineHeight={22} fontSize="$4">
+              <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={22} fontSize="$4">
                 By combining expert insights from renowned artists with knowledge drawn from music history, theory, and performance practice, RagaNidhi enables intelligent exploration and a deeper understanding of ragas across both traditions.
               </Paragraph>
             </YStack>

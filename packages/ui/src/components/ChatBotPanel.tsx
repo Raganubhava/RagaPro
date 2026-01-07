@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Button, Paragraph, TextArea, XStack, YStack, Spinner, useThemeName } from 'tamagui';
 import { API_ENDPOINTS } from '../constants/api';
+import { HINDUSTANI_RAGAS } from '../constants/hindustaniRagas';
+import { CARNATIC_RAGAS } from '../constants/carnaticRagas';
 
 export const ChatBotPanel = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -10,7 +12,7 @@ export const ChatBotPanel = () => {
   const [error, setError] = useState<string | null>(null);
   const [sentCount, setSentCount] = useState(0);
   const themeName = useThemeName();
-  const isNavy = themeName?.toLowerCase().includes('navy');
+  const isDark = themeName?.toLowerCase().includes('dark');
 
   const maxLength = 600;
   const injectionPattern = /\b(select|insert|update|delete|drop|alter|truncate)\b/i;
@@ -54,6 +56,15 @@ export const ChatBotPanel = () => {
     'What is the arohana/avarohana of Hamsadhwani?',
   ];
 
+  const findLikelyRaga = (text: string) => {
+    const lower = text.toLowerCase();
+    const hindustaniMatch = HINDUSTANI_RAGAS.find((name) => lower.includes(name.toLowerCase()));
+    if (hindustaniMatch) return { system: 'hindustani' as const, name: hindustaniMatch };
+    const carnaticMatch = CARNATIC_RAGAS.find((name) => lower.includes(name.toLowerCase()));
+    if (carnaticMatch) return { system: 'carnatic' as const, name: carnaticMatch };
+    return null;
+  };
+
   const handleSend = async () => {
     const cleaned = sanitize(prompt);
     if (!cleaned) {
@@ -84,12 +95,19 @@ export const ChatBotPanel = () => {
     setResponse(null);
 
     try {
-      const res = await fetch(API_ENDPOINTS.chatBot, {
+      const target = findLikelyRaga(cleaned);
+      const endpoint = target?.system === 'hindustani' ? API_ENDPOINTS.chatBotHindustani : API_ENDPOINTS.chatBot;
+
+      const payload = target
+        ? { message: cleaned, ragaName: target.name, system: target.system }
+        : { message: cleaned };
+
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: cleaned }),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
@@ -110,19 +128,19 @@ export const ChatBotPanel = () => {
   return (
     <YStack
       width="100%"
-      maxWidth={isNavy ? 520 : 560}
+      maxWidth={isDark ? 520 : 560}
       alignSelf="stretch"
       gap="$3"
       padding="$5"
-      backgroundColor={isNavy ? 'rgba(18,24,58,0.9)' : 'rgba(255,255,255,0.92)'}
+      backgroundColor={isDark ? 'rgba(18,24,58,0.9)' : 'rgba(255,255,255,0.92)'}
       borderRadius="$radius.12"
       borderWidth={2}
-      borderColor={isNavy ? 'rgba(255,255,255,0.14)' : '$borderSoft'}
-      shadowColor={isNavy ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.08)'}
+      borderColor={isDark ? 'rgba(255,255,255,0.14)' : '$borderSoft'}
+      shadowColor={isDark ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.08)'}
       shadowRadius={12}
       shadowOffset={{ height: 4, width: 0 }}
       style={{
-        backgroundImage: isNavy
+        backgroundImage: isDark
           ? 'radial-gradient(700px 400px at 20% 10%, rgba(88,129,255,0.18), transparent 55%), radial-gradient(600px 320px at 80% 0%, rgba(255,143,143,0.16), transparent 50%)'
           : 'radial-gradient(700px 400px at 20% 10%, rgba(255,205,167,0.24), transparent 55%), radial-gradient(600px 320px at 80% 0%, rgba(255,183,143,0.2), transparent 50%)',
       }}
@@ -134,22 +152,22 @@ export const ChatBotPanel = () => {
             fontFamily="$heading"
             fontWeight="800"
             letterSpacing={0.3}
-            color={isNavy ? '#FFFFFF' : '$primaryDeep'}
+            color={isDark ? '#FFFFFF' : '$primaryDeep'}
           >
             AI Raga Guide
           </Paragraph>
-          <Paragraph color="$textSecondary" fontSize="$3">
+          <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$3">
             Fast answers about any raga
           </Paragraph>
         </YStack>
         <Button
           size="$3"
-          backgroundColor={isNavy ? 'rgba(255,255,255,0.06)' : '$surface'}
-          color={isNavy ? '#FFFFFF' : '$primary'}
+          backgroundColor={isDark ? 'rgba(255,255,255,0.06)' : '$surface'}
+          color={isDark ? '#FFFFFF' : '$primary'}
           borderWidth={1}
-          borderColor={isNavy ? 'rgba(255,255,255,0.18)' : '$borderSoft'}
+          borderColor={isDark ? 'rgba(255,255,255,0.18)' : '$borderSoft'}
           onPress={() => setIsOpen((prev) => !prev)}
-          hoverStyle={{ backgroundColor: isNavy ? 'rgba(255,255,255,0.1)' : '$surfaceAlt' }}
+          hoverStyle={{ backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : '$surfaceAlt' }}
           animation="bouncy"
         >
           {isOpen ? 'Hide' : 'Open'}
@@ -163,10 +181,10 @@ export const ChatBotPanel = () => {
               <Button
                 key={q}
                 size="$2"
-                backgroundColor={isNavy ? 'rgba(255,255,255,0.08)' : '$surface'}
-                color="$textPrimary"
+                backgroundColor={isDark ? 'rgba(255,255,255,0.08)' : '$surface'}
+                color={isDark ? '#FFFFFF' : '$textPrimary'}
                 borderWidth={1}
-                borderColor={isNavy ? 'rgba(255,255,255,0.14)' : '$borderSoft'}
+                borderColor={isDark ? 'rgba(255,255,255,0.14)' : '$borderSoft'}
                 onPress={() => setPrompt(q)}
               >
                 {q}
@@ -216,7 +234,7 @@ export const ChatBotPanel = () => {
               maxHeight={200}
               overflow="auto"
             >
-              <Paragraph fontSize="$3" color="$textSecondary">
+              <Paragraph fontSize="$3" color={isDark ? '#FFFFFF' : '$textSecondary'}>
                 RagaBot says:
               </Paragraph>
               <Paragraph fontSize="$4" color="$textPrimary">

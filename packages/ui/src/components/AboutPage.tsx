@@ -1,7 +1,9 @@
-import { H3, Paragraph, YStack } from 'tamagui';
+import { H3, Paragraph, YStack, useThemeName } from 'tamagui';
 import { PageContainer } from './PageContainer';
 
 export const AboutPage = () => {
+  const themeName = useThemeName();
+  const isDark = themeName?.toLowerCase().includes('dark');
   return (
     <PageContainer>
       <YStack
@@ -22,12 +24,12 @@ export const AboutPage = () => {
           full-stack applications, and tools that enhance productivity and creativity. Over the years, I&apos;ve developed
           solutions across AI, web development, cloud architecture, and automation.
         </Paragraph>
-        <Paragraph color="$textSecondary" lineHeight={24}>
+        <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
           Outside programming, I enjoy exploring Indian classical music, especially Carnatic ragas — the inspiration
           for this Raga App project. My goal is to make learning ragas easier through technology, interactive tools,
           and accessible design.
         </Paragraph>
-        <Paragraph color="$textSecondary" lineHeight={24}>
+        <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
           If you&apos;d like to connect, collaborate, or explore more of my work, visit my website{' '}
           <Paragraph asChild color="$primary" textDecorationLine="underline" fontWeight="700">
             <a href="https://bheemashankar.net/" target="_blank" rel="noreferrer">

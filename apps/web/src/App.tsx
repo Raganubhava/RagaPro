@@ -20,8 +20,8 @@ import {
 } from 'ui';
 
 function App() {
-  const [theme, setTheme] = useState<'light' | 'navy'>('light');
-  const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'navy' : 'light'));
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
 
   const hideScrollbarCss = `
     .hide-scrollbar {
@@ -32,12 +32,16 @@ function App() {
       display: none;
     }
   `;
+  const themeBodyCss =
+    theme === 'dark'
+      ? 'body { color: #FFFFFF; background-color: #0B1026; }'
+      : 'body { color: #3E2B23; background-color: #FBEDCB; }';
 
   return (
     <BrowserRouter>
       <TamaguiProvider config={tamaguiConfig} defaultTheme={theme}>
         <Theme name={theme}>
-          <style>{hideScrollbarCss}</style>
+          <style>{hideScrollbarCss + themeBodyCss}</style>
           {/* This YStack is the full viewport height */}
           <YStack f={1} minHeight="100vh" backgroundColor="$background">
             <Header onToggleTheme={toggleTheme} currentTheme={theme} />

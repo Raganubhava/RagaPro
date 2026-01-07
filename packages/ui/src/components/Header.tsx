@@ -6,7 +6,7 @@ import { API_ENDPOINTS } from '../constants/api';
 
 interface HeaderProps {
   onToggleTheme: () => void;
-  currentTheme: 'light' | 'navy';
+  currentTheme: 'light' | 'dark';
 }
 
 export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
@@ -26,10 +26,10 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
   const [signupError, setSignupError] = useState<string | null>(null);
   const [signupMessage, setSignupMessage] = useState<string | null>(null);
   const [isSigningUp, setIsSigningUp] = useState(false);
-  const isNavy = currentTheme === 'navy';
-  const headerBg = isNavy ? 'rgba(11,16,38,0.9)' : '#FBF8F4';
-  const headerBorder = isNavy ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
-  const navColor = isNavy ? '#FFFFFF' : '#9C4F3C';
+  const isDark = currentTheme === 'dark';
+  const headerBg = isDark ? 'rgba(11,16,38,0.9)' : '#FBF8F4';
+  const headerBorder = isDark ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
+  const navColor = isDark ? '#FFFFFF' : '#9C4F3C';
 
   const handleNavLinkClick = () => {
     if (menuOpen) {
@@ -148,11 +148,11 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
           <NavLinkItem
             to="/"
             onClick={handleNavLinkClick}
-            colorOverride={isNavy ? '#FFFFFF' : '$primaryDeep'}
+            colorOverride={isDark ? '#FFFFFF' : '$primaryDeep'}
           >
             <Paragraph
               fontWeight="600"
-              color={isNavy ? '#FFFFFF' : '$primaryDeep'}
+              color={isDark ? '#FFFFFF' : '$primaryDeep'}
               fontSize="$lg"
               fontFamily="$heading"
               style={{ whiteSpace: 'nowrap', cursor: 'pointer' }}
@@ -165,7 +165,7 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
           <Paragraph
             aria-hidden="true"
             style={{
-              borderLeft: `1px solid ${isNavy ? 'rgba(255,255,255,0.3)' : '#E5D6C8'}`,
+              borderLeft: `1px solid ${isDark ? 'rgba(255,255,255,0.3)' : '#E5D6C8'}`,
               height: 20,
               marginLeft: 8,
               marginRight: 8,
@@ -275,11 +275,11 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
           <NavLinkItem to="/help" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Help</NavLinkItem>
           <NavLinkItem to="/feedback" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Feedback</NavLinkItem>
           {/* Login hidden for now */}
-          <Button
-            icon={currentTheme === 'light' ? Moon : Sun}
-            backgroundColor="$surface"
-            borderWidth={1}
-            borderColor="$primaryDeep"
+            <Button
+              icon={currentTheme === 'light' ? Moon : Sun}
+              backgroundColor="$surface"
+              borderWidth={1}
+              borderColor="$primaryDeep"
             borderRadius="$radius.6"
             padding="$3"
             onPress={() => {
@@ -289,7 +289,7 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
             animation="bouncy"
           >
             <Paragraph color="$primary" fontWeight="600">
-              Switch to {currentTheme === 'light' ? 'Navy' : 'Light'} Theme
+              Switch to {currentTheme === 'light' ? 'Dark' : 'Light'} Theme
             </Paragraph>
           </Button>
         </YStack>

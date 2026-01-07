@@ -31,8 +31,8 @@ export const FeedbackPage = () => {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const themeName = useThemeName();
-  const isNavy = themeName?.toLowerCase().includes('navy');
-  const heroBorder = isNavy ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
+  const isDark = themeName?.toLowerCase().includes('dark');
+  const heroBorder = isDark ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
 
   const nameRegex = /^[A-Za-z\s\-']+$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -190,8 +190,8 @@ export const FeedbackPage = () => {
     <YStack
       minHeight="100vh"
       backgroundColor="$background"
-      color={isNavy ? '#F5F7FF' : '$textPrimary'}
-      {...(isNavy
+      color={isDark ? '#F5F7FF' : '$textPrimary'}
+      {...(isDark
         ? {
             backgroundImage:
               'radial-gradient(circle at 20% 20%, rgba(74,118,255,0.18), transparent 40%), radial-gradient(circle at 80% 0%, rgba(255,148,255,0.14), transparent 42%), linear-gradient(180deg, rgba(11,16,38,0.9) 0%, rgba(11,16,38,0.95) 100%)',
@@ -217,18 +217,18 @@ export const FeedbackPage = () => {
           <YStack
             padding="$5"
             borderRadius="$radius.12"
-            backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.92)'}
+            backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.92)'}
             borderWidth={1}
             borderColor={heroBorder}
-            shadowColor={isNavy ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.12)'}
+            shadowColor={isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.12)'}
             shadowRadius={12}
             shadowOffset={{ width: 0, height: 6 }}
             gap="$3"
           >
-            <Paragraph fontFamily="$heading" fontSize="$9" color={isNavy ? '#FFFFFF' : '$primaryDeep'} $sm={{ fontSize: '$7' }}>
+            <Paragraph fontFamily="$heading" fontSize="$9" color={isDark ? '#FFFFFF' : '$primaryDeep'} $sm={{ fontSize: '$7' }}>
               Share Your Feedback
             </Paragraph>
-            <Paragraph fontSize="$4" color="$textSecondary" $sm={{ fontSize: '$3' }}>
+            <Paragraph fontSize="$4" color={isDark ? '#FFFFFF' : '$textSecondary'} $sm={{ fontSize: '$3' }}>
               Tell us if you found this website / app useful, and also any suggestions or changes you'd like to see.
             </Paragraph>
           </YStack>
@@ -237,11 +237,11 @@ export const FeedbackPage = () => {
             <YStack
               gap="$3"
               padding="$5"
-              backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
+              backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surface'}
               borderRadius="$radius.12"
               borderWidth={1}
               borderColor={heroBorder}
-              shadowColor={isNavy ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
+              shadowColor={isDark ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
               shadowRadius={10}
               shadowOffset={{ width: 0, height: 4 }}
             >
@@ -286,7 +286,7 @@ export const FeedbackPage = () => {
                       borderColor="$borderSoft"
                       borderWidth={1}
                       backgroundColor="$surface"
-                      color="$text"
+                      color={isDark ? '#FFFFFF' : '$text'}
                       paddingHorizontal="$5"
                       onPress={() => { setShowSignup(false); setSignupError(null); setSignupMessage(null); }}
                     >
@@ -354,11 +354,11 @@ export const FeedbackPage = () => {
               <YStack
                 gap="$3"
                 padding="$5"
-                backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
+                backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surface'}
                 borderRadius="$radius.12"
                 borderWidth={1}
                 borderColor={heroBorder}
-                shadowColor={isNavy ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
+                shadowColor={isDark ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.08)'}
                 shadowRadius={10}
                 shadowOffset={{ width: 0, height: 4 }}
               >
@@ -385,7 +385,7 @@ export const FeedbackPage = () => {
                 </Paragraph>
               )}
 
-              <Paragraph color="$textSecondary" lineHeight={22}>
+              <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={22}>
                 Tell us if you found this website / app useful, and also any suggestions or changes you&apos;d like to see.
               </Paragraph>
 
@@ -423,12 +423,12 @@ export const FeedbackPage = () => {
               full-stack applications, and tools that enhance productivity and creativity. Over the years, I&apos;ve
               developed solutions across AI, web development, cloud architecture, and automation.
             </Paragraph>
-            <Paragraph color="$textSecondary" lineHeight={24}>
+            <Paragraph color={isDark ? '#000000' : '$textSecondary'} lineHeight={24}>
               Outside programming, I enjoy exploring Indian classical music, especially Carnatic ragas - the inspiration
               for this Raga App project. My goal is to make learning ragas easier through technology, interactive tools,
               and accessible design.
             </Paragraph>
-            <Paragraph color="$textSecondary" lineHeight={24}>
+            <Paragraph color={isDark ? '#000000' : '$textSecondary'} lineHeight={24}>
               If you&apos;d like to connect, collaborate, or explore more of my work, visit my website{' '}
               <Paragraph asChild color="$primary" textDecorationLine="underline" fontWeight="700">
                 <a href="https://bheemashankar.net/" target="_blank" rel="noreferrer">

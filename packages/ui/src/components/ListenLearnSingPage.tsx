@@ -5,8 +5,8 @@ import { NavLinkItem } from './NavLinkItem';
 
 export const ListenLearnSingPage = () => {
   const themeName = useThemeName();
-  const isNavy = themeName?.toLowerCase().includes('navy');
-  const border = isNavy ? 'rgba(255,255,255,0.14)' : '#E5D6C8';
+  const isDark = themeName?.toLowerCase().includes('dark');
+  const border = isDark ? 'rgba(255,255,255,0.14)' : '#E5D6C8';
 
   const pulseGlow = `
     @keyframes pulseGlow {
@@ -20,8 +20,8 @@ export const ListenLearnSingPage = () => {
     <YStack
       minHeight="100vh"
       backgroundColor="$background"
-      color={isNavy ? '#F5F7FF' : '$textPrimary'}
-      {...(isNavy
+      color={isDark ? '#F5F7FF' : '$textPrimary'}
+      {...(isDark
         ? {
             backgroundImage:
               'radial-gradient(circle at 18% 18%, rgba(74,118,255,0.18), transparent 42%), radial-gradient(circle at 82% -6%, rgba(255,148,255,0.16), transparent 40%), linear-gradient(180deg, rgba(11,16,38,0.92) 0%, rgba(11,16,38,0.96) 100%)',
@@ -44,37 +44,37 @@ export const ListenLearnSingPage = () => {
           <YStack
             padding="$6"
             borderRadius="$radius.12"
-            backgroundColor={isNavy ? 'rgba(255,255,255,0.06)' : '$surface'}
+            backgroundColor={isDark ? 'rgba(255,255,255,0.06)' : '$surface'}
             borderWidth={1}
             borderColor={border}
-            shadowColor={isNavy ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.08)'}
+            shadowColor={isDark ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.08)'}
             shadowRadius={12}
             shadowOffset={{ width: 0, height: 6 }}
             gap="$3"
             overflow="hidden"
           >
-            <Paragraph fontFamily="$heading" fontSize="$9" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+            <Paragraph fontFamily="$heading" fontSize="$9" color={isDark ? '#FFFFFF' : '$primaryDeep'}>
               Listen · Learn · Sing
             </Paragraph>
-              <Paragraph fontSize="$4" color="$textSecondary" lineHeight={26}>
+              <Paragraph fontSize="$4" color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={26}>
                 We&apos;re building modules to help you absorb ragas through structured lessons, and sing-along guides with help of AI.
               </Paragraph>
             <YStack
               marginTop="$2"
               padding="$5"
               borderRadius="$radius.12"
-              backgroundColor={isNavy ? 'rgba(255,255,255,0.08)' : '$surface'}
+              backgroundColor={isDark ? 'rgba(255,255,255,0.08)' : '$surface'}
               borderWidth={1}
               borderColor={border}
-              shadowColor={isNavy ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.06)'}
+              shadowColor={isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.06)'}
               shadowRadius={10}
               shadowOffset={{ width: 0, height: 4 }}
               gap="$2"
             >
-              <Paragraph fontWeight="800" color={isNavy ? '#FFFFFF' : '$primary'} fontSize="$6">
+              <Paragraph fontWeight="800" color={isDark ? '#FFFFFF' : '$primary'} fontSize="$6">
                 Launching shortly
               </Paragraph>
-              <Paragraph color="$textSecondary" fontSize="$4" lineHeight={24}>
+              <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$4" lineHeight={24}>
                 Launching shortly: AI-assisted listening drills, guided lessons, and sing-along practice to deepen your raga journey.
               </Paragraph>
               <XStack
@@ -88,6 +88,8 @@ export const ListenLearnSingPage = () => {
                   asChild
                   color="#FFFFFF"
                   borderRadius="$radius.10"
+                  borderWidth={0}
+                  borderColor="transparent"
                   paddingHorizontal="$5"
                   paddingVertical="$3"
                   colorOverride="#FFFFFF"
@@ -97,15 +99,16 @@ export const ListenLearnSingPage = () => {
                   textTransform="uppercase"
                   textDecorationLine="underline"
                   style={{
-                    backgroundImage: 'linear-gradient(120deg, #ff6cab 0%, #7366ff 50%, #29c4ff 100%)',
-                    boxShadow: isNavy
-                      ? '0 12px 32px rgba(255,255,255,0.12)'
-                      : '0 12px 32px rgba(255, 108, 171, 0.32)',
-                    animation: 'pulseGlow 2.5s ease-in-out infinite',
+                    backgroundColor: 'transparent',
+                    backgroundImage: 'none',
+                    boxShadow: 'none',
+                    animation: 'none',
                   }}
                   hoverStyle={{ opacity: 0.92 }}
                 >
-                  <NavLinkItem to="/learn">Find my Sruti</NavLinkItem>
+                  <NavLinkItem to="/learn" colorOverride={isDark ? '#FFFFFF' : '$textPrimary'}>
+                    Find my Sruti
+                  </NavLinkItem>
                 </Button>
               </XStack>
             </YStack>
@@ -115,7 +118,7 @@ export const ListenLearnSingPage = () => {
               overflow="hidden"
               borderWidth={1}
               borderColor={border}
-              shadowColor={isNavy ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.06)'}
+              shadowColor={isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.06)'}
               shadowRadius={10}
               shadowOffset={{ width: 0, height: 4 }}
             >

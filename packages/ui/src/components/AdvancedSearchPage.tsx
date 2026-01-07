@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { H3, Paragraph, YStack } from 'tamagui';
+import { H3, Paragraph, YStack, useThemeName } from 'tamagui';
 import { RagaSearchBar } from './RagaSearchBar';
 import { PageContainer } from './PageContainer';
 import { RagaCardSkeletonGrid } from './RagaCardSkeletonGrid';
@@ -7,6 +7,8 @@ import { TopRagasGrid } from './TopRagasGrid';
 import { sampleRagas } from '@raga/data';
 
 export const AdvancedSearchPage = () => {
+  const themeName = useThemeName();
+  const isDark = themeName?.toLowerCase().includes('dark');
   const [searchText, setSearchText] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<typeof sampleRagas>([]);
@@ -34,7 +36,7 @@ export const AdvancedSearchPage = () => {
           onChange={setSearchText}
           onSearch={handleSearch}
         />
-        <Paragraph color="$textSecondary">
+        <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'}>
           Find ragas by name, scale, or mood.
         </Paragraph>
 

@@ -17,8 +17,8 @@ export const LearnRagaPage = () => {
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const themeName = useThemeName();
-  const isNavy = themeName?.toLowerCase().includes('navy');
-  const heroBorder = isNavy ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
+  const isDark = themeName?.toLowerCase().includes('dark');
+  const heroBorder = isDark ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
 
   const updatePreview = (blob: Blob | null) => {
     setPreviewUrl((prev) => {
@@ -128,8 +128,8 @@ export const LearnRagaPage = () => {
     <YStack
       minHeight="100vh"
       backgroundColor="$background"
-      color={isNavy ? '#F5F7FF' : '$textPrimary'}
-      {...(isNavy
+      color={isDark ? '#F5F7FF' : '$textPrimary'}
+      {...(isDark
         ? {
             backgroundImage:
               'radial-gradient(circle at 20% 20%, rgba(74,118,255,0.18), transparent 40%), radial-gradient(circle at 80% 0%, rgba(255,148,255,0.14), transparent 42%), linear-gradient(180deg, rgba(11,16,38,0.9) 0%, rgba(11,16,38,0.95) 100%)',
@@ -154,18 +154,18 @@ export const LearnRagaPage = () => {
           <YStack
             padding="$5"
             borderRadius="$radius.12"
-            backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.92)'}
+            backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.92)'}
             borderWidth={1}
             borderColor={heroBorder}
-            shadowColor={isNavy ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.12)'}
+            shadowColor={isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.12)'}
             shadowRadius={12}
             shadowOffset={{ width: 0, height: 6 }}
             gap="$4"
           >
-            <Paragraph fontFamily="$heading" fontSize="$9" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+            <Paragraph fontFamily="$heading" fontSize="$9" color={isDark ? '#FFFFFF' : '$primaryDeep'}>
               Sruti detection
             </Paragraph>
-            <Paragraph fontSize="$4" color="$textSecondary" lineHeight={26}>
+            <Paragraph fontSize="$4" color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={26}>
               Record a short sample or upload audio; we will detect your base note and sruti with instant feedback.
             </Paragraph>
             <XStack gap="$3" flexWrap="wrap">
@@ -178,10 +178,10 @@ export const LearnRagaPage = () => {
                   key={item}
                   padding="$3"
                   borderRadius="$radius.10"
-                  backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
+                  backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surface'}
                   borderWidth={1}
                   borderColor={heroBorder}
-                  color="$textSecondary"
+                  color={isDark ? '#FFFFFF' : '$textSecondary'}
                   fontSize="$3"
                 >
                   {item}
@@ -203,12 +203,12 @@ export const LearnRagaPage = () => {
               flex={1}
               gap="$3"
               padding="$5"
-              backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
+              backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surface'}
               borderRadius="$radius.12"
               borderWidth={1}
               borderColor={heroBorder}
               minWidth={320}
-              shadowColor={isNavy ? 'rgba(0,0,0,0.25)' : 'rgba(0,0,0,0.08)'}
+              shadowColor={isDark ? 'rgba(0,0,0,0.25)' : 'rgba(0,0,0,0.08)'}
               shadowRadius={10}
               shadowOffset={{ width: 0, height: 4 }}
               $sm={{
@@ -216,7 +216,7 @@ export const LearnRagaPage = () => {
                 padding: '$4',
               }}
             >
-              <Paragraph fontWeight="800" color={isNavy ? '#FFFFFF' : '$primaryDeep'} fontSize="$5">
+              <Paragraph fontWeight="800" color={isDark ? '#FFFFFF' : '$primaryDeep'} fontSize="$5">
                 Record or upload
               </Paragraph>
               <XStack gap="$3" alignItems="center" flexWrap="wrap">
@@ -256,13 +256,13 @@ export const LearnRagaPage = () => {
                   </Paragraph>
                 </XStack>
               )}
-              <Paragraph fontSize="$3" color="$textSecondary">
+              <Paragraph fontSize="$3" color={isDark ? '#FFFFFF' : '$textSecondary'}>
                 Or upload an audio file (mp3/webm):
               </Paragraph>
               <XStack gap="$3" alignItems="center" flexWrap="wrap">
                 <Button
                   backgroundColor="$secondary"
-                  color="$text"
+                  color={isDark ? '#FFFFFF' : '$text'}
                   onPress={() => fileInputRef.current?.click()}
                   borderWidth={1}
                   borderColor={heroBorder}
@@ -270,7 +270,7 @@ export const LearnRagaPage = () => {
                 >
                   Choose File
                 </Button>
-                <Paragraph color="$textSecondary" fontSize="$3">
+                <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$3">
                   {selectedFile ? selectedFile.name : recordedBlob ? 'Recording ready to submit' : 'No file selected'}
                 </Paragraph>
                 <input
@@ -286,7 +286,7 @@ export const LearnRagaPage = () => {
                   gap="$2"
                   padding="$3"
                   borderRadius="$radius.10"
-                  backgroundColor={isNavy ? 'rgba(255,255,255,0.04)' : '$surfaceAlt'}
+                  backgroundColor={isDark ? 'rgba(255,255,255,0.04)' : '$surfaceAlt'}
                   borderWidth={1}
                   borderColor={heroBorder}
                 >
@@ -294,7 +294,7 @@ export const LearnRagaPage = () => {
                     Preview recording
                   </Paragraph>
                   <audio controls src={previewUrl} style={{ width: '100%' }} />
-                  <Paragraph color="$textSecondary" fontSize="$3">
+                  <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$3">
                     Listen back before submitting to confirm the recording.
                   </Paragraph>
                 </YStack>
@@ -311,14 +311,14 @@ export const LearnRagaPage = () => {
               >
                 Submit for Sruti Detection
               </Button>
-              {status && <Paragraph color="$textSecondary">{status}</Paragraph>}
+              {status && <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'}>{status}</Paragraph>}
               {error && <Paragraph color="$primaryActive">{error}</Paragraph>}
               {result && (
                 <YStack
                   gap="$2"
                   padding="$3"
                   borderRadius="$radius.10"
-                  backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surfaceAlt'}
+                  backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surfaceAlt'}
                   borderWidth={1}
                   borderColor={heroBorder}
                 >
@@ -334,14 +334,14 @@ export const LearnRagaPage = () => {
             <YStack
               width={280}
               minHeight={320}
-              backgroundColor={isNavy ? 'rgba(255,255,255,0.05)' : '$surface'}
+              backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surface'}
               borderRadius="$radius.12"
               borderWidth={1}
               borderColor={heroBorder}
               overflow="hidden"
               alignItems="stretch"
               justifyContent="space-between"
-              shadowColor={isNavy ? 'rgba(0,0,0,0.25)' : 'rgba(0,0,0,0.08)'}
+              shadowColor={isDark ? 'rgba(0,0,0,0.25)' : 'rgba(0,0,0,0.08)'}
               shadowRadius={10}
               shadowOffset={{ width: 0, height: 4 }}
               $sm={{
@@ -359,13 +359,13 @@ export const LearnRagaPage = () => {
                 }}
               />
               <YStack padding="$4" gap="$2">
-                <Paragraph fontWeight="800" color={isNavy ? '#FFFFFF' : '$primaryDeep'}>
+                <Paragraph fontWeight="800" color={isDark ? '#FFFFFF' : '$primaryDeep'}>
                   Quick tips
                 </Paragraph>
-                <Paragraph color="$textSecondary" fontSize="$3">
+                <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$3">
                   Record in a quiet space and keep samples 5-10 seconds. Just sing “Sa” or let the sruti play in the background to find sruti.
                 </Paragraph>
-                <Paragraph color="$textSecondary" fontSize="$3">
+                <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$3">
                   Uploads support common audio formats. We&apos;ll report note + sruti in one pass.
                 </Paragraph>
               </YStack>
