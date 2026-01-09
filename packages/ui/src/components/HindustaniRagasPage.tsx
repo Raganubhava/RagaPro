@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Input, Paragraph, Spinner, XStack, YStack, useThemeName } from 'tamagui';
 import { ChevronRight } from '@tamagui/lucide-icons';
 import { PageContainer } from './PageContainer';
+import { Footer } from './Footer';
 import { API_ENDPOINTS } from '../constants/api';
 import { HINDUSTANI_RAGAS } from '../constants/hindustaniRagas';
 import { useApiClient } from '../hooks/useApi';
@@ -267,6 +268,7 @@ export const HindustaniRagasPage = () => {
         )}
       </YStack>
       </PageContainer>
+      <Footer />
     </YStack>
   );
 };

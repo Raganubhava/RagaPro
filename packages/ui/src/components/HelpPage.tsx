@@ -905,10 +905,6 @@ export const HelpPage = () => {
             </YStack>
 
 
-            <Paragraph color={isDark ? '#FFFFFF' : '$textPrimary'} lineHeight={26} fontWeight="600">
-              Start exploring the beauty, science, and spirituality of Indian classical music with RagaNidhi—your companion for learning, practice, and discovery.
-            </Paragraph>
-
         </YStack>
       </PageContainer>
 

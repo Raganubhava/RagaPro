@@ -393,6 +393,7 @@ export const PodcastsPage = () => {
                               color="$background"
                               size="$3"
                               hoverStyle={{ backgroundColor: '$primaryActive', color: '$background' }}
+                              pressStyle={{ backgroundColor: '$primaryActive', color: '$background' }}
                             >
                               View / Download
                             </Button>
@@ -407,6 +408,7 @@ export const PodcastsPage = () => {
                                 borderColor="$borderSoft"
                                 onPress={() => handleOpenLink(fileUrl, mimeType)}
                                 hoverStyle={{ backgroundColor: '$background', borderColor: '$primary', color: '$primary' }}
+                                pressStyle={{ backgroundColor: '$surfaceAlt', borderColor: '$primary', color: '$primary' }}
                               >
                                 Open Link
                               </Button>
@@ -433,6 +435,7 @@ export const PodcastsPage = () => {
                                 borderColor="$borderSoft"
                                 onPress={() => handleOpenLink(fileUrl, mimeType)}
                                 hoverStyle={{ backgroundColor: '$background', borderColor: '$primary', color: '$primary' }}
+                                pressStyle={{ backgroundColor: '$surfaceAlt', borderColor: '$primary', color: '$primary' }}
                               >
                                 Open Link
                               </Button>

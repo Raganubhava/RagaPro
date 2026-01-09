@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Input, Paragraph, Spinner, XStack, YStack, useThemeName } from 'tamagui';
 import { ChevronRight } from '@tamagui/lucide-icons';
 import { PageContainer } from './PageContainer';
+import { Footer } from './Footer';
 import { API_ENDPOINTS } from '../constants/api';
 import { CARNATIC_RAGAS } from '../constants/carnaticRagas';
 import { useApiClient } from '../hooks/useApi';
@@ -269,6 +270,7 @@ export const CarnaticRagasPage = () => {
         )}
       </YStack>
     </PageContainer>
+    <Footer />
     </YStack>
   );
 };

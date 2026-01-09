@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://raganidhi.com/sitemap.xml

@@ -24,7 +24,8 @@
       "react-native-reanimated": "3.19.4"
     },
     "onlyBuiltDependencies": [
-      "esbuild"
+      "esbuild",
+      "puppeteer"
     ]
   }
 }

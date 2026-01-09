@@ -1,7 +1,9 @@
-import { Paragraph, XStack } from 'tamagui';
+import { Paragraph, XStack, useThemeName } from 'tamagui';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const themeName = useThemeName();
+  const isDark = themeName?.toLowerCase().includes('dark');
 
   return (
     <XStack
@@ -13,8 +15,8 @@ export const Footer = () => {
       borderTopColor="$borderLight"
       backgroundColor="transparent"
     >
-      <Paragraph size="$1" color="$textSecondary" o={0.7}>
-        © {currentYear} RagaPro. All rights reserved. 
+      <Paragraph size="$1" color={isDark ? '#FFFFFF' : '$textSecondary'} o={0.7}>
+        © {currentYear} RagaNidhi. All rights reserved. 
         {/* Design by MC. */}
       </Paragraph>
     </XStack>

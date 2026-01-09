@@ -5,12 +5,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "prerender": "node scripts/prerender.mjs",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.23.1",
     "tamagui": "^1.96.8",
     "@tamagui/config": "^1.96.8",
@@ -28,6 +30,8 @@
     "@babel/preset-flow": "^7.24.7",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
+    "@prerenderer/prerenderer": "^1.2.4",
+    "@prerenderer/renderer-puppeteer": "^1.2.4",
     "@tamagui/vite-plugin": "^1.96.8",
     "@vitejs/plugin-react": "^4.3.1",
     "@vitejs/plugin-basic-ssl": "^1.1.0",
