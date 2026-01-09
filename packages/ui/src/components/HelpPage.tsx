@@ -1,4 +1,4 @@
-import { H2, H3, Paragraph, XStack, YStack, useThemeName, Image } from 'tamagui';
+import { H2, H3, Paragraph, Text, XStack, YStack, useThemeName, Image } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { Footer } from './Footer';
 
@@ -57,6 +57,24 @@ export const HelpPage = () => {
     { thaat: 'Marva', carnatic: 'Gamanashrama (53rd Mela)' },
     { thaat: 'Poorvi', carnatic: 'Kamavardhani (51st Mela)' },
     { thaat: 'Todi', carnatic: 'Shubhapantuvarali (45th Mela)' },
+  ];
+
+  const melakartaM1 = [
+    { chakra: 'Indu Chakra', ragas: ['Kanakangi', 'Ratnangi', 'Ganamoorthy', 'Vanaspathi', 'Manavathi', 'Taanaroopi'] },
+    { chakra: 'Netra Chakra', ragas: ['Senavathi', 'Hanumathodi', 'Dhenuka', 'Natakapriya', 'Kokilapriya', 'Roopavathi'] },
+    { chakra: 'Agni Chakra', ragas: ['Gayakapriya', 'Vakulabharanam', 'Mayamalavagowla', 'Chakravakam', 'Suryakanthi', 'Hatakambari'] },
+    { chakra: 'Veda Chakra', ragas: ['Jhankaradwani', 'Natabhairavi', 'Keeravani', 'Kharaharapriya', 'Gowrimanohari', 'Varunapriya'] },
+    { chakra: 'Baana Chakra', ragas: ['Mararanjani', 'Charukesi', 'Sarasangi', 'Harikambhoji', 'Dheera Shankarabharanam', 'Naganandini'] },
+    { chakra: 'Ruthu Chakra', ragas: ['Yagapriya', 'Ragavardhini', 'Gangeyabhooshani', 'Vagadheeshwari', 'Soolini', 'Chalanata'] },
+  ];
+
+  const melakartaM2 = [
+    { chakra: 'Rushi Chakra', ragas: ['Salagamu', 'Jalarnavamu', 'Jhalavarali', 'Navaneetamu', 'Pavani', 'Raghupriya'] },
+    { chakra: 'Vasu Chakra', ragas: ['Gavambhodi', 'Bhavapriya', 'Shubhapantuvarali', 'Shadvidamargini', 'Suvarnangi', 'Divyamani'] },
+    { chakra: 'Brahma Chakra', ragas: ['Dhavalambari', 'Namanarayani', 'Kamavardhini', 'Ramapriya', 'Gamanashrama', 'Vishwambhari'] },
+    { chakra: 'Disi Chakra', ragas: ['Shyamalangi', 'Shanmukhapriya', 'Simhendramadhyama', 'Hemavathi', 'Dharmavathi', 'Neetimathi'] },
+    { chakra: 'Rudra Chakra', ragas: ['Kantamani', 'Rushabhapriya', 'Latangi', 'Vachaaspathi', 'Mechakalyani', 'Chitrambari'] },
+    { chakra: 'Adithya Chakra', ragas: ['Sucharitra', 'Jyothiswaroopini', 'Dhatuvardhini', 'Nasikabhooshani', 'Kosalamu', 'Rasikapriya'] },
   ];
 
   const identityTerms = [
@@ -288,7 +306,24 @@ export const HelpPage = () => {
     },
     {
       title: 'Which raga is used in film song/film music?',
-      description: <>You can reach me at shankar.maruvada@gmail.com, and I will respond as soon as possible.</>,
+      description: (
+        <>
+          You can reach me at shankar.maruvada@gmail.com, and I will respond as soon as possible.{' '}
+          <Text
+            color={isDark ? '#FFFFFF' : '$primary'}
+            fontWeight="700"
+            textDecorationLine="underline"
+            cursor="pointer"
+            onPress={() => {
+              if (typeof document === 'undefined') return;
+              const target = document.getElementById('melakarta-72');
+              target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
+          >
+            72 Melakarthas
+          </Text>
+        </>
+      ),
     },
   ];
 
@@ -654,6 +689,100 @@ export const HelpPage = () => {
                 </YStack>
               ))}
             </XStack>
+
+            <YStack
+              id="melakarta-72"
+              gap="$4"
+              padding="$5"
+              borderRadius="$radius.12"
+              backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surface'}
+              borderWidth={1}
+              borderColor={heroBorder}
+              shadowColor={isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.08)'}
+              shadowRadius={10}
+              shadowOffset={{ width: 0, height: 4 }}
+              $sm={{ padding: '$4' }}
+            >
+              <H3 fontFamily="$heading" color={isDark ? '#FFFFFF' : '$primary'} fontSize="$5">
+                72 Melakarthas
+              </H3>
+
+              <Paragraph fontWeight="700" color={isDark ? '#FFFFFF' : '$primary'} fontSize="$4">
+                Suddha Madhyamam (M1) — Melakarta Ragas 1–36
+              </Paragraph>
+              <YStack borderWidth={1} borderColor={cardBorder} borderRadius="$radius.10" overflow="hidden">
+                <XStack
+                  backgroundColor={cardBg}
+                  borderBottomWidth={1}
+                  borderColor={cardBorder}
+                  paddingVertical="$2"
+                  paddingHorizontal="$3"
+                  gap="$2"
+                >
+                  <Paragraph flexBasis="30%" flexGrow={1} fontWeight="700" color={isDark ? '#FFFFFF' : '$textPrimary'} fontSize="$2">
+                    Chakra
+                  </Paragraph>
+                  <Paragraph flexBasis="70%" flexGrow={1} fontWeight="700" color={isDark ? '#FFFFFF' : '$textPrimary'} fontSize="$2">
+                    Ragas
+                  </Paragraph>
+                </XStack>
+                {melakartaM1.map((row) => (
+                  <XStack
+                    key={row.chakra}
+                    borderBottomWidth={1}
+                    borderColor={cardBorder}
+                    paddingVertical="$2"
+                    paddingHorizontal="$3"
+                    gap="$2"
+                  >
+                    <Paragraph flexBasis="30%" flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$2">
+                      {row.chakra}
+                    </Paragraph>
+                    <Paragraph flexBasis="70%" flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$2">
+                      {row.ragas.join(', ')}
+                    </Paragraph>
+                  </XStack>
+                ))}
+              </YStack>
+
+              <Paragraph fontWeight="700" color={isDark ? '#FFFFFF' : '$primary'} fontSize="$4" marginTop="$2">
+                Prati Madhyamam (M2) — Melakarta Ragas 37–72
+              </Paragraph>
+              <YStack borderWidth={1} borderColor={cardBorder} borderRadius="$radius.10" overflow="hidden">
+                <XStack
+                  backgroundColor={cardBg}
+                  borderBottomWidth={1}
+                  borderColor={cardBorder}
+                  paddingVertical="$2"
+                  paddingHorizontal="$3"
+                  gap="$2"
+                >
+                  <Paragraph flexBasis="30%" flexGrow={1} fontWeight="700" color={isDark ? '#FFFFFF' : '$textPrimary'} fontSize="$2">
+                    Chakra
+                  </Paragraph>
+                  <Paragraph flexBasis="70%" flexGrow={1} fontWeight="700" color={isDark ? '#FFFFFF' : '$textPrimary'} fontSize="$2">
+                    Ragas
+                  </Paragraph>
+                </XStack>
+                {melakartaM2.map((row) => (
+                  <XStack
+                    key={row.chakra}
+                    borderBottomWidth={1}
+                    borderColor={cardBorder}
+                    paddingVertical="$2"
+                    paddingHorizontal="$3"
+                    gap="$2"
+                  >
+                    <Paragraph flexBasis="30%" flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$2">
+                      {row.chakra}
+                    </Paragraph>
+                    <Paragraph flexBasis="70%" flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$2">
+                      {row.ragas.join(', ')}
+                    </Paragraph>
+                  </XStack>
+                ))}
+              </YStack>
+            </YStack>
 
           </YStack>
 
