@@ -46,6 +46,19 @@ export const HelpPage = () => {
     { hindustani: 'sa (upper)', full: 'shadja', carnatic: 'Tara Shadjam' },
   ];
 
+  const thaatTable = [
+    { thaat: 'Bilaval', carnatic: 'Dheerashankarabharanam (29th Mela)' },
+    { thaat: 'Kafi', carnatic: 'Kharaharapriya (22nd Mela)' },
+    { thaat: 'Bhairavi', carnatic: 'Hanumatodi (8th Mela)' },
+    { thaat: 'Kalyan', carnatic: 'Kalyani (65th Mela)' },
+    { thaat: 'Khamaj', carnatic: 'Harikambhoji (28th Mela)' },
+    { thaat: 'Asavari', carnatic: 'Natabhairavi (20th Mela)' },
+    { thaat: 'Bhairav', carnatic: 'Mayamalavagowla (15th Mela)' },
+    { thaat: 'Marva', carnatic: 'Gamanashrama (53rd Mela)' },
+    { thaat: 'Poorvi', carnatic: 'Kamavardhani (51st Mela)' },
+    { thaat: 'Todi', carnatic: 'Shubhapantuvarali (45th Mela)' },
+  ];
+
   const identityTerms = [
     {
       term: 'Vadi Swaram',
@@ -141,6 +154,34 @@ export const HelpPage = () => {
       description: 'Hexatonic scale (six notes).',
     },
     {
+      term: 'Sampurna Shadavam',
+      description: '7 swaras in arohanam and 6 swaras in avarohanam.',
+    },
+    {
+      term: 'Shadava Sampurnam',
+      description: '6 swaras in arohanam and 7 swaras in avarohanam.',
+    },
+    {
+      term: 'Sampurna Audavam',
+      description: '7 swaras in arohanam and 5 swaras in avarohanam.',
+    },
+    {
+      term: 'Audava Sampurnam',
+      description: '5 swaras in arohanam and 7 swaras in avarohanam.',
+    },
+    {
+      term: 'Shadava Shadavam',
+      description: '6 swaras in arohanam and 6 swaras in avarohanam.',
+    },
+    {
+      term: 'Audava Shadavam',
+      description: '5 swaras in arohanam and 6 swaras in avarohanam.',
+    },
+    {
+      term: 'Audava Audavam',
+      description: '5 swaras in arohanam and 5 swaras in avarohanam.',
+    },
+    {
       term: 'Nisadantya',
       description: 'Raga whose phrases or scale end on Ni instead of Sa.',
     },
@@ -151,9 +192,7 @@ export const HelpPage = () => {
       title: 'What Is a Raga?',
       description: (
         <>
-          A raga is a structured melodic framework made from swaras, forming the foundation of Indian classical music.
-          Raga is derived from a melakarta, which is equivalent to a scale in Western music. Indian classical music cannot
-          exist without the presence of Raga (or Raag).
+          Ragam is the foundation of Indian classical music. Raga emerges from the factors of Arohana/Arohan and Avarohana/Avarohan. Arohana/Arohan is the ascending order of swaras, such as S R G M P D N S, and Avarohana/Avarohan is the descending order of swaras S N D P M G R S. The combination of these swara groups and their movements that give pleasantness to the ears and the mind is called Ragam. Raga has its own shape, color, and mood.
         </>
       ),
     },
@@ -161,8 +200,47 @@ export const HelpPage = () => {
       title: 'Hindustani Ragas',
       description: (
         <>
-          Browse ragas from the major Thaats-Bilawal, Kalyan, Bhairav, Asavari, Kafi, Bhairavi, Marva, Poorvi. Understand the
-          time theory, vadi-samvadi, pakad, chalan, and iconic bandishes.
+          The ten Thaats are Kalyaan Thaat, Bilaawal Thaat, Khamaaj Thaat, Bhairav Thaat, Poorvi Thaat, Maarva Thaat, Kaafi Thaat, Aasaavari Thaat, Bhairavi Thaat, and Todi Thaat.
+          <YStack
+            marginTop="$3"
+            borderWidth={1}
+            borderColor={cardBorder}
+            borderRadius="$radius.10"
+            overflow="hidden"
+          >
+            <XStack
+              backgroundColor={cardBg}
+              borderBottomWidth={1}
+              borderColor={cardBorder}
+              paddingVertical="$2"
+              paddingHorizontal="$3"
+              gap="$2"
+            >
+              <Paragraph flexBasis="35%" flexGrow={1} fontWeight="700" color={isDark ? '#FFFFFF' : '$textPrimary'} fontSize="$2">
+                Thaat
+              </Paragraph>
+              <Paragraph flexBasis="65%" flexGrow={1} fontWeight="700" color={isDark ? '#FFFFFF' : '$textPrimary'} fontSize="$2">
+                Carnatic Equivalent (Mela / Raga)
+              </Paragraph>
+            </XStack>
+            {thaatTable.map((row) => (
+              <XStack
+                key={`${row.thaat}-${row.carnatic}`}
+                borderBottomWidth={1}
+                borderColor={cardBorder}
+                paddingVertical="$2"
+                paddingHorizontal="$3"
+                gap="$2"
+              >
+                <Paragraph flexBasis="35%" flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$2">
+                  {row.thaat}
+                </Paragraph>
+                <Paragraph flexBasis="65%" flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$2">
+                  {row.carnatic}
+                </Paragraph>
+              </XStack>
+            ))}
+          </YStack>
         </>
       ),
     },
@@ -170,8 +248,7 @@ export const HelpPage = () => {
       title: 'Carnatic Ragas',
       description: (
         <>
-          Explore Melakarta ragas, Janya ragas, arohana-avarohana, gamakas, prayogas, compositions, and audio demonstrations.
-          Learn the raga identity using swaras, graha swarams, nyasa swarams, jeeva swarams, and characteristic phrases.
+          Janaka ragas or Melakartha ragas are 72 in number. The 72 Melakartha ragas are formed by three classifications of swaras: R-G-M-D-N. Out of these 72 Melakartha ragas, the first 36 ragas are called Suddha Madhyama and the other 36 are called Prati Madhyama. The first 36 Suddha Madhyama Melakartha ragas have 6 chakras, and the Prati Madhyama ragas also have their 6 chakras. The swarasthana varieties of the five variable swaras are as follows: Rishabham has Suddha Rishabham, Chatusruti Rishabham, and Shatsruti Rishabham. Gandharam includes Suddha Gandharam, Sadharana Gandharam, and Antara Gandharam. Madhyamam has two varieties, Suddha Madhyamam and Prati Madhyamam. Dhaivatam consists of Suddha Dhaivatam, Chatusruti Dhaivatam, and Shatsruti Dhaivatam. Nishadam includes Suddha Nishadam, Kaisiki Nishadam, and Kakali Nishadam.
         </>
       ),
     },
