@@ -8,6 +8,7 @@ export const HelpPage = () => {
   const heroBorder = isDark ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
   const cardBg = isDark ? 'rgba(255,255,255,0.06)' : '$surface';
   const cardBorder = isDark ? 'rgba(255,255,255,0.16)' : '$borderSoft';
+  const mintRow = '#E3F4D1';
 
   const structuralTerms = [
     {
@@ -22,12 +23,12 @@ export const HelpPage = () => {
 
   const swaras = [
     'S – Shadja / Shadjam',
-    'R – Rishabha / Rishabham',
-    'G – Gandhara / Gandharam',
-    'M – Madhyama / Madhyamam',
-    'P – Panchama / Panchamam',
-    'D – Daivata / Daivatam',
-    'N – Nishada / Nishadam',
+    'R – Rishab / Rishabham',
+    'G – Gandhar / Gandharam',
+    'M – Madhyam / Madhyamam',
+    'P – Pancham / Panchamam',
+    'D – Dhaivat / Daivatam',
+    'N – Nishaad / Nishadam',
   ];
 
   const swaraTable = [
@@ -241,7 +242,7 @@ export const HelpPage = () => {
                 Carnatic Equivalent (Mela / Raga)
               </Paragraph>
             </XStack>
-            {thaatTable.map((row) => (
+            {thaatTable.map((row, index) => (
               <XStack
                 key={`${row.thaat}-${row.carnatic}`}
                 borderBottomWidth={1}
@@ -249,6 +250,7 @@ export const HelpPage = () => {
                 paddingVertical="$2"
                 paddingHorizontal="$3"
                 gap="$2"
+                backgroundColor={isDark ? 'transparent' : index % 2 === 1 ? mintRow : 'transparent'}
               >
                 <Paragraph flexBasis="35%" flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$2">
                   {row.thaat}
@@ -532,7 +534,7 @@ export const HelpPage = () => {
                     Equivalent Carnatic Note
                   </Paragraph>
                 </XStack>
-                {swaraTable.map((row) => (
+                {swaraTable.map((row, index) => (
                   <XStack
                     key={`${row.hindustani}-${row.carnatic}`}
                     borderBottomWidth={1}
@@ -540,6 +542,7 @@ export const HelpPage = () => {
                     paddingVertical="$2"
                     paddingHorizontal="$3"
                     gap="$2"
+                    backgroundColor={isDark ? 'transparent' : index % 2 === 1 ? mintRow : 'transparent'}
                   >
                     <Paragraph flexBasis="30%" flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$3">
                       {row.hindustani}
@@ -726,7 +729,7 @@ export const HelpPage = () => {
                     Ragas
                   </Paragraph>
                 </XStack>
-                {melakartaM1.map((row) => (
+                {melakartaM1.map((row, index) => (
                   <XStack
                     key={row.chakra}
                     borderBottomWidth={1}
@@ -734,6 +737,7 @@ export const HelpPage = () => {
                     paddingVertical="$2"
                     paddingHorizontal="$3"
                     gap="$2"
+                    backgroundColor={isDark ? 'transparent' : index % 2 === 1 ? mintRow : 'transparent'}
                   >
                     <Paragraph flexBasis="30%" flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$2">
                       {row.chakra}
@@ -764,7 +768,7 @@ export const HelpPage = () => {
                     Ragas
                   </Paragraph>
                 </XStack>
-                {melakartaM2.map((row) => (
+                {melakartaM2.map((row, index) => (
                   <XStack
                     key={row.chakra}
                     borderBottomWidth={1}
@@ -772,6 +776,7 @@ export const HelpPage = () => {
                     paddingVertical="$2"
                     paddingHorizontal="$3"
                     gap="$2"
+                    backgroundColor={isDark ? 'transparent' : index % 2 === 1 ? mintRow : 'transparent'}
                   >
                     <Paragraph flexBasis="30%" flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$2">
                       {row.chakra}
@@ -897,7 +902,10 @@ export const HelpPage = () => {
                 Contact
               </Paragraph>
               <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
-                📧 Email: shankar.maruvada@gmail.com
+                📧 Email:{' '}
+                <Paragraph asChild color={isDark ? '#B7F4D1' : '#2E8B57'} fontWeight="700">
+                  <a href="mailto:shankar.maruvada@gmail.com">shankar.maruvada@gmail.com</a>
+                </Paragraph>
               </Paragraph>
               <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
                 For collaboration, feedback, or inquiries related to RagaNidhi.

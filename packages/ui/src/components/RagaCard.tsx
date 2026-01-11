@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Paragraph, XStack, YStack, Button } from 'tamagui';
+import { Paragraph, XStack, YStack, Button, useThemeName } from 'tamagui';
 import { AnimatePresence, MotiView } from 'moti';
 import { AudioPlayer } from './AudioPlayer';
 import { ChevronDown } from '@tamagui/lucide-icons';
@@ -62,6 +62,11 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
     jeeva: false,
     ragaType: false,
   });
+  const themeName = useThemeName();
+  const isDark = themeName?.toLowerCase().includes('dark');
+  const cardBorder = isDark ? 'rgba(255,255,255,0.12)' : '$borderSoft';
+  const softSurface = isDark ? 'rgba(255,255,255,0.05)' : '$surfaceAlt';
+  const pillSurface = isDark ? 'rgba(255,255,255,0.08)' : '$secondary';
   const audioSrc = useMemo(() => {
     if (!raga.audioFile) return null;
     // Default to mp3; adjust if API returns mime type in the future.
@@ -105,13 +110,13 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
 
   return (
     <YStack
-      backgroundColor="$surfaceAlt"
+      backgroundColor={softSurface}
       borderWidth={1}
-      borderColor="$borderSoft"
+      borderColor={cardBorder}
       borderRadius="$radius.14"
       padding="$4"
       gap="$3"
-      shadowColor="rgba(0,0,0,0.08)"
+      shadowColor={isDark ? 'rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.08)'}
       shadowRadius={6}
       shadowOffset={{ height: 3, width: 0 }}
       animation="bouncy"
@@ -128,8 +133,13 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
         alignItems="center"
         cursor="pointer"
         onPress={() => setExpanded(!expanded)}
+        padding="$3"
+        borderRadius="$radius.10"
+        backgroundColor={isDark ? 'rgba(255,255,255,0.04)' : '$surface'}
+        borderWidth={1}
+        borderColor={cardBorder}
       >
-        <Paragraph fontSize="$lg" fontWeight="700" color="$primary">
+        <Paragraph fontSize="$7" fontWeight="800" color="$primary" fontFamily="$heading" letterSpacing={0.6}>
           Raga: {raga.ragaName}
         </Paragraph>
         <MotiView
@@ -148,7 +158,7 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
         </XStack>
         <RagaDetailRow label="Alternative Name" value={raga.alternativeRagaName} />
       </YStack>
-      <YStack borderBottomWidth={1} borderColor="$borderSoft" />
+      <YStack borderBottomWidth={1} borderColor={cardBorder} />
 
       <AnimatePresence>
         {expanded && (
@@ -159,16 +169,22 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
             transition={{ type: 'spring', duration: 300 }}
             style={{ overflow: 'hidden' }}
           >
-            <YStack
-              backgroundColor="$surface"
-              borderRadius="$radius.10"
-              padding="$3"
-              gap="$3"
-              marginTop="$3"
-            >
+              <YStack
+                backgroundColor="$surface"
+                borderRadius="$radius.10"
+                padding="$3"
+                gap="$3"
+                marginTop="$3"
+              >
               {/* Audio Section */}
               <YStack gap="$2">
-                <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
+                <Paragraph
+                  fontSize="$4"
+                  fontWeight="700"
+                  color={isDark ? '#FFFFFF' : '$primary'}
+                  fontFamily="$heading"
+                  letterSpacing={0.4}
+                >
                   Audio
                 </Paragraph>
                 {audioSrc ? (
@@ -182,15 +198,21 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
 
               {/* Arohana & Avarohana Section */}
               <YStack gap="$2">
-                <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
-                  Scales
+                <Paragraph
+                  fontSize="$4"
+                  fontWeight="700"
+                  color={isDark ? '#FFFFFF' : '$primary'}
+                  fontFamily="$heading"
+                  letterSpacing={0.4}
+                >
+                  Scale
                 </Paragraph>
                 <YStack
                   padding="$3"
                   borderRadius="$radius.10"
-                  backgroundColor="$surfaceAlt"
+                  backgroundColor={softSurface}
                   borderWidth={1}
-                  borderColor="$borderSoft"
+                  borderColor={cardBorder}
                   gap="$3"
                 >
                   <YStack gap="$2">
@@ -200,6 +222,8 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                       fontWeight="700"
                       textDecorationLine="underline"
                       onPress={() => setShowArohanaTip((prev) => !prev)}
+                      onHoverIn={() => setShowArohanaTip(true)}
+                      onHoverOut={() => setShowArohanaTip(false)}
                       cursor="pointer"
                     >
                       Arohana
@@ -212,10 +236,10 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                     <XStack
                       paddingVertical="$2"
                       paddingHorizontal="$3"
-                      backgroundColor="$secondary"
+                      backgroundColor={pillSurface}
                       borderRadius="$radius.6"
                       borderWidth={1}
-                      borderColor="$borderSoft"
+                      borderColor={cardBorder}
                     >
                       <Paragraph fontSize="$md" color="$textPrimary" letterSpacing={1}>
                         {raga.arohana || '—'}
@@ -229,6 +253,8 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                       fontWeight="700"
                       textDecorationLine="underline"
                       onPress={() => setShowAvarohanaTip((prev) => !prev)}
+                      onHoverIn={() => setShowAvarohanaTip(true)}
+                      onHoverOut={() => setShowAvarohanaTip(false)}
                       cursor="pointer"
                     >
                       Avarohana
@@ -252,22 +278,28 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                     </XStack>
                   </YStack>
                 </YStack>
-                <YStack borderBottomWidth={1} borderColor="$borderSoft" />
+                <YStack borderBottomWidth={1} borderColor={cardBorder} />
               </YStack>
 
               {/* Swaras Section */}
               <YStack gap="$2">
-                <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
-                  Swaras
-                </Paragraph>
-                <YStack
-                  padding="$3"
-                  borderRadius="$radius.10"
-                  backgroundColor="$surfaceAlt"
-                  borderWidth={1}
-                  borderColor="$borderSoft"
-                  gap="$3"
+                <Paragraph
+                  fontSize="$4"
+                  fontWeight="700"
+                  color={isDark ? '#FFFFFF' : '$primary'}
+                  fontFamily="$heading"
+                  letterSpacing={0.4}
                 >
+                  Swarasthanas
+                </Paragraph>
+                  <YStack
+                    padding="$3"
+                    borderRadius="$radius.10"
+                    backgroundColor={softSurface}
+                    borderWidth={1}
+                    borderColor={cardBorder}
+                    gap="$3"
+                  >
                   {hasShadjam && (
                     <Paragraph fontSize="$sm" color="$textSoft">
                       Shadjam is included.
@@ -289,10 +321,10 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                         flex={1}
                         paddingVertical="$2"
                         paddingHorizontal="$3"
-                        backgroundColor="$secondary"
+                        backgroundColor={pillSurface}
                         borderRadius="$radius.6"
                         borderWidth={1}
-                        borderColor="$borderSoft"
+                        borderColor={cardBorder}
                       >
                         <Paragraph fontSize="$md" color="$textPrimary">
                           {item.value || '—'}
@@ -301,13 +333,19 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                     </XStack>
                   ))}
                 </YStack>
-                <YStack borderBottomWidth={1} borderColor="$borderSoft" />
+                <YStack borderBottomWidth={1} borderColor={cardBorder} />
               </YStack>
 
               {/* Swara Roles Section */}
               <YStack gap="$2">
-                <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
-                  Swara Roles
+                <Paragraph
+                  fontSize="$4"
+                  fontWeight="700"
+                  color={isDark ? '#FFFFFF' : '$primary'}
+                  fontFamily="$heading"
+                  letterSpacing={0.4}
+                >
+                  Characteristics
                 </Paragraph>
                 <YStack
                   padding="$3"
@@ -326,22 +364,34 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                   ] as const).map((item) => (
                     <YStack key={item.label} gap="$2">
                       <XStack gap="$3" alignItems="center">
-                        <Paragraph
-                          flexBasis={140}
-                          color="$primary"
-                          fontWeight="700"
-                          fontSize="$sm"
-                          textDecorationLine="underline"
-                          cursor="pointer"
-                          onPress={() =>
-                            setRoleTips((prev) => ({
-                              ...prev,
-                              [item.tipKey]: !prev[item.tipKey],
-                            }))
-                          }
-                        >
-                          {item.label}:
-                        </Paragraph>
+                    <Paragraph
+                      flexBasis={140}
+                      color="$primary"
+                      fontWeight="700"
+                      fontSize="$sm"
+                      textDecorationLine="underline"
+                      cursor="pointer"
+                      onPress={() =>
+                        setRoleTips((prev) => ({
+                          ...prev,
+                          [item.tipKey]: !prev[item.tipKey],
+                        }))
+                      }
+                      onHoverIn={() =>
+                        setRoleTips((prev) => ({
+                          ...prev,
+                          [item.tipKey]: true,
+                        }))
+                      }
+                      onHoverOut={() =>
+                        setRoleTips((prev) => ({
+                          ...prev,
+                          [item.tipKey]: false,
+                        }))
+                      }
+                    >
+                      {item.label}:
+                    </Paragraph>
                         <XStack
                           flex={1}
                           paddingVertical="$2"
@@ -364,20 +414,17 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                     </YStack>
                   ))}
                 </YStack>
-                <YStack borderBottomWidth={1} borderColor="$borderSoft" />
+                <YStack borderBottomWidth={1} borderColor={cardBorder} />
               </YStack>
 
-              {/* Characteristics Section */}
+              {/* Raga Type Section */}
               <YStack gap="$2">
-                <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
-                  Characteristics
-                </Paragraph>
                 <YStack
                   padding="$3"
                   borderRadius="$radius.10"
-                  backgroundColor="$surfaceAlt"
+                  backgroundColor={softSurface}
                   borderWidth={1}
-                  borderColor="$borderSoft"
+                  borderColor={cardBorder}
                   gap="$2"
                 >
                   <XStack gap="$3" alignItems="center">
@@ -389,6 +436,8 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                       textDecorationLine="underline"
                       cursor="pointer"
                       onPress={() => setRoleTips((prev) => ({ ...prev, ragaType: !prev.ragaType }))}
+                      onHoverIn={() => setRoleTips((prev) => ({ ...prev, ragaType: true }))}
+                      onHoverOut={() => setRoleTips((prev) => ({ ...prev, ragaType: false }))}
                     >
                       Raga Type:
                     </Paragraph>
@@ -396,10 +445,10 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                       flex={1}
                       paddingVertical="$2"
                       paddingHorizontal="$3"
-                      backgroundColor="$secondary"
+                      backgroundColor={pillSurface}
                       borderRadius="$radius.6"
                       borderWidth={1}
-                      borderColor="$borderSoft"
+                      borderColor={cardBorder}
                     >
                       <Paragraph fontSize="$md" color="$textPrimary">
                         {raga.ragaType || '—'}
@@ -412,12 +461,18 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                     </Paragraph>
                   )}
                 </YStack>
-                <YStack borderBottomWidth={1} borderColor="$borderSoft" />
+                <YStack borderBottomWidth={1} borderColor={cardBorder} />
               </YStack>
 
               {/* Additional Info Section */}
               <YStack gap="$2">
-                <Paragraph fontSize="$sm" fontWeight="600" color="$primary">
+                <Paragraph
+                  fontSize="$4"
+                  fontWeight="700"
+                  color={isDark ? '#FFFFFF' : '$primary'}
+                  fontFamily="$heading"
+                  letterSpacing={0.4}
+                >
                   Additional Information
                 </Paragraph>
                 <RagaDetailRow label="Apuroopa Prayogas" value={raga.apuroopaPrayogas} />
@@ -426,9 +481,9 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                 <YStack
                   padding="$3"
                   borderRadius="$radius.10"
-                  backgroundColor="$surfaceAlt"
+                  backgroundColor={softSurface}
                   borderWidth={1}
-                  borderColor="$borderSoft"
+                  borderColor={cardBorder}
                   gap="$3"
                 >
                   <YStack gap="$1">

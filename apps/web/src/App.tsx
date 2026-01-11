@@ -106,10 +106,11 @@ function App() {
                       path="/"
                       element={(
                         <Seo
-                          title="Raganidhi – Carnatic & Hindustani Ragas Reference Library"
-                          description="Explore detailed information on Carnatic and Hindustani ragas – arohana, avarohana, compositions, and more with Raganidhi."
+                          title="RagaNidhi – Discover and Learn Indian Classical Music Ragas"
+                          description="RagaNidhi is an intelligent platform for discovering and learning Indian classical music ragas across Carnatic and Hindustani traditions."
                           url={baseUrl}
                           imageUrl={ogImage}
+                          robots="index,follow"
                           jsonLd={homeJsonLd}
                         >
                           <HomePage />

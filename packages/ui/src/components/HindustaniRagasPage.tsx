@@ -269,6 +269,7 @@ export const HindustaniRagasPage = () => {
               asChild
               color={isDark ? '#FFFFFF' : '$textSecondary'}
               textDecorationLine="underline"
+              fontSize="$3"
               alignSelf="flex-start"
             >
               <a href={`/hindustani-ragas/${toRagaSlug(selectedRaga.ragaName)}`}>Open full page</a>
