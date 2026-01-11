@@ -8,6 +8,7 @@ import { CARNATIC_RAGAS } from '../constants/carnaticRagas';
 import { useApiClient } from '../hooks/useApi';
 import { Raga } from '@raga/data';
 import { RagaCard } from './RagaCard';
+import { toRagaSlug } from '../utils/slug';
 
 export const CarnaticRagasPage = () => {
   const [selectedName, setSelectedName] = useState<string | null>(null);
@@ -266,6 +267,15 @@ export const CarnaticRagasPage = () => {
               {selectedRaga.ragaName}
             </Paragraph>
             <RagaCard raga={selectedRaga} />
+            <Button
+              asChild
+              backgroundColor="$primary"
+              color="$background"
+              size="$3"
+              alignSelf="flex-start"
+            >
+              <a href={`/carnatic-ragas/${toRagaSlug(selectedRaga.ragaName)}`}>Open full page</a>
+            </Button>
           </YStack>
         )}
       </YStack>

@@ -11,6 +11,7 @@ import { HindustaniRaga, HindustaniRagaCard } from './HindustaniRagaCard';
 import { isHindustaniRaga } from '../constants/hindustaniRagas';
 import { API_ENDPOINTS } from '../constants/api';
 import { useApiClient } from '../hooks/useApi';
+import { toRagaSlug } from '../utils/slug';
 
 type RagaSystem = 'carnatic' | 'hindustani';
 
@@ -121,6 +122,10 @@ export const HomePage = () => {
   };
 
   const heroBorder = isDark ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
+  const detailPath =
+    searchResult && lastSystem
+      ? `/${lastSystem === 'hindustani' ? 'hindustani-ragas' : 'carnatic-ragas'}/${toRagaSlug(searchResult.ragaName)}`
+      : '';
 
   return (
     <YStack
@@ -318,6 +323,17 @@ export const HomePage = () => {
                 <HindustaniRagaCard raga={searchResult} onAskAI={scrollToChatBot} />
               ) : (
                 <RagaCard raga={searchResult as Raga} onAskAI={scrollToChatBot} />
+              )}
+              {detailPath && (
+                <Button
+                  asChild
+                  backgroundColor="$primary"
+                  color="$background"
+                  size="$3"
+                  alignSelf="center"
+                >
+                  <a href={detailPath}>Open full page</a>
+                </Button>
               )}
               <Button
                 onPress={() => {

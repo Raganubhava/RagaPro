@@ -22,6 +22,7 @@ import {
   HINDUSTANI_RAGAS,
 } from 'ui';
 import { Seo } from './Seo';
+import { CarnaticRagaDetailPage, HindustaniRagaDetailPage } from './RagaDetailPages';
 
 function App() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -48,19 +49,19 @@ function App() {
     {
       '@context': 'https://schema.org',
       '@type': 'Organization',
-      name: 'RagaNidhi',
+      name: 'Raganidhi',
       url: baseUrl,
       logo: ogImage,
     },
     {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
-      name: 'RagaNidhi',
+      name: 'Raganidhi',
       url: baseUrl,
       description: defaultDescription,
       potentialAction: {
         '@type': 'SearchAction',
-        target: `${baseUrl}/?q={search_term_string}`,
+        target: `${baseUrl}/carnatic-ragas?search={search_term_string}`,
         'query-input': 'required name=search_term_string',
       },
     },
@@ -105,8 +106,8 @@ function App() {
                       path="/"
                       element={(
                         <Seo
-                          title="RagaNidhi | Search Indian Classical Music Ragas"
-                          description={defaultDescription}
+                          title="Raganidhi – Carnatic & Hindustani Ragas Reference Library"
+                          description="Explore detailed information on Carnatic and Hindustani ragas – arohana, avarohana, compositions, and more with Raganidhi."
                           url={baseUrl}
                           imageUrl={ogImage}
                           jsonLd={homeJsonLd}
@@ -175,8 +176,8 @@ function App() {
                       path="/help"
                       element={(
                         <Seo
-                          title="Help | RagaNidhi"
-                          description={defaultDescription}
+                          title="How to Use Raganidhi | Help & FAQ"
+                          description="Learn how to search and explore Carnatic and Hindustani ragas using Raganidhi."
                           url={`${baseUrl}/help`}
                           imageUrl={ogImage}
                           jsonLd={pageJsonLd('Help', `${baseUrl}/help`)}
@@ -204,15 +205,15 @@ function App() {
                       path="/carnatic-ragas"
                       element={(
                         <Seo
-                          title="Carnatic Ragas Index | RagaNidhi"
-                          description="Search Carnatic ragas and explore detailed information, swaras, and raga structure."
+                          title="Carnatic Ragas List with Details | Raganidhi"
+                          description="Browse Carnatic ragas with scales, parent ragas, and compositions. A structured ragas reference for learners and musicians."
                           url={`${baseUrl}/carnatic-ragas`}
                           imageUrl={ogImage}
                           jsonLd={[
                             pageJsonLd(
-                              'Carnatic Ragas Index',
+                              'Carnatic Ragas List with Details',
                               `${baseUrl}/carnatic-ragas`,
-                              'Search Carnatic ragas and explore detailed information, swaras, and raga structure.',
+                              'Browse Carnatic ragas with scales, parent ragas, and compositions. A structured ragas reference for learners and musicians.',
                             ),
                             itemListJsonLd('Carnatic Ragas', `${baseUrl}/carnatic-ragas`, CARNATIC_RAGAS),
                           ]}
@@ -221,19 +222,20 @@ function App() {
                         </Seo>
                       )}
                     />
+                    <Route path="/carnatic-ragas/:slug" element={<CarnaticRagaDetailPage />} />
                     <Route
                       path="/hindustani-ragas"
                       element={(
                         <Seo
-                          title="Hindustani Ragas Index | RagaNidhi"
-                          description="Search Hindustani ragas and explore detailed information, swaras, and raga structure."
+                          title="Hindustani Ragas List with Details | Raganidhi"
+                          description="Explore Hindustani ragas with time of performance, structure, and key phrases for students and performers."
                           url={`${baseUrl}/hindustani-ragas`}
                           imageUrl={ogImage}
                           jsonLd={[
                             pageJsonLd(
-                              'Hindustani Ragas Index',
+                              'Hindustani Ragas List with Details',
                               `${baseUrl}/hindustani-ragas`,
-                              'Search Hindustani ragas and explore detailed information, swaras, and raga structure.',
+                              'Explore Hindustani ragas with time of performance, structure, and key phrases for students and performers.',
                             ),
                             itemListJsonLd('Hindustani Ragas', `${baseUrl}/hindustani-ragas`, HINDUSTANI_RAGAS),
                           ]}
@@ -242,6 +244,7 @@ function App() {
                         </Seo>
                       )}
                     />
+                    <Route path="/hindustani-ragas/:slug" element={<HindustaniRagaDetailPage />} />
                     <Route
                       path="/login"
                       element={(

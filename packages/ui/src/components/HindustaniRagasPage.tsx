@@ -7,6 +7,7 @@ import { API_ENDPOINTS } from '../constants/api';
 import { HINDUSTANI_RAGAS } from '../constants/hindustaniRagas';
 import { useApiClient } from '../hooks/useApi';
 import { HindustaniRaga, HindustaniRagaCard } from './HindustaniRagaCard';
+import { toRagaSlug } from '../utils/slug';
 
 export const HindustaniRagasPage = () => {
   const [selectedName, setSelectedName] = useState<string | null>(null);
@@ -264,6 +265,15 @@ export const HindustaniRagasPage = () => {
               {selectedRaga.ragaName}
             </Paragraph>
             <HindustaniRagaCard raga={selectedRaga} />
+            <Button
+              asChild
+              backgroundColor="$primary"
+              color="$background"
+              size="$3"
+              alignSelf="flex-start"
+            >
+              <a href={`/hindustani-ragas/${toRagaSlug(selectedRaga.ragaName)}`}>Open full page</a>
+            </Button>
           </YStack>
         )}
       </YStack>
