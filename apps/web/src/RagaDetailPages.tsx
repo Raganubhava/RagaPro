@@ -132,15 +132,14 @@ export const CarnaticRagaDetailPage = () => {
 
             {raga && <RagaCard raga={raga} />}
 
-            <Button
+            <Paragraph
               asChild
-              backgroundColor="$secondary"
-              color={isDark ? '#FFFFFF' : '$text'}
-              size="$3"
+              color={isDark ? '#FFFFFF' : '$textSecondary'}
+              textDecorationLine="underline"
               alignSelf="flex-start"
             >
               <a href="/carnatic-ragas">Back to Carnatic Ragas</a>
-            </Button>
+            </Paragraph>
           </YStack>
         </PageContainer>
         <Footer />
@@ -232,15 +231,14 @@ export const HindustaniRagaDetailPage = () => {
 
             {raga && <HindustaniRagaCard raga={raga} />}
 
-            <Button
+            <Paragraph
               asChild
-              backgroundColor="$secondary"
-              color={isDark ? '#FFFFFF' : '$text'}
-              size="$3"
+              color={isDark ? '#FFFFFF' : '$textSecondary'}
+              textDecorationLine="underline"
               alignSelf="flex-start"
             >
               <a href="/hindustani-ragas">Back to Hindustani Ragas</a>
-            </Button>
+            </Paragraph>
           </YStack>
         </PageContainer>
         <Footer />

@@ -267,15 +267,14 @@ export const CarnaticRagasPage = () => {
               {selectedRaga.ragaName}
             </Paragraph>
             <RagaCard raga={selectedRaga} />
-            <Button
+            <Paragraph
               asChild
-              backgroundColor="$primary"
-              color="$background"
-              size="$3"
+              color={isDark ? '#FFFFFF' : '$textSecondary'}
+              textDecorationLine="underline"
               alignSelf="flex-start"
             >
               <a href={`/carnatic-ragas/${toRagaSlug(selectedRaga.ragaName)}`}>Open full page</a>
-            </Button>
+            </Paragraph>
           </YStack>
         )}
       </YStack>

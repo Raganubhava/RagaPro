@@ -325,15 +325,14 @@ export const HomePage = () => {
                 <RagaCard raga={searchResult as Raga} onAskAI={scrollToChatBot} />
               )}
               {detailPath && (
-                <Button
+                <Paragraph
                   asChild
-                  backgroundColor="$primary"
-                  color="$background"
-                  size="$3"
+                  color={isDark ? '#FFFFFF' : '$textSecondary'}
+                  textDecorationLine="underline"
                   alignSelf="center"
                 >
                   <a href={detailPath}>Open full page</a>
-                </Button>
+                </Paragraph>
               )}
               <Button
                 onPress={() => {

@@ -265,15 +265,14 @@ export const HindustaniRagasPage = () => {
               {selectedRaga.ragaName}
             </Paragraph>
             <HindustaniRagaCard raga={selectedRaga} />
-            <Button
+            <Paragraph
               asChild
-              backgroundColor="$primary"
-              color="$background"
-              size="$3"
+              color={isDark ? '#FFFFFF' : '$textSecondary'}
+              textDecorationLine="underline"
               alignSelf="flex-start"
             >
               <a href={`/hindustani-ragas/${toRagaSlug(selectedRaga.ragaName)}`}>Open full page</a>
-            </Button>
+            </Paragraph>
           </YStack>
         )}
       </YStack>

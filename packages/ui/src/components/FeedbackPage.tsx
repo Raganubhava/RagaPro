@@ -410,7 +410,7 @@ export const FeedbackPage = () => {
           <YStack
             gap="$3"
             padding="$4"
-            backgroundColor="$surfaceAlt"
+            backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surfaceAlt'}
             borderRadius="$radius.10"
             borderWidth={1}
             borderColor="$borderSoft"
@@ -418,17 +418,17 @@ export const FeedbackPage = () => {
             <H3 fontFamily="$heading" color="$primary">
               About
             </H3>
-            <Paragraph color="$textPrimary" lineHeight={24}>
+            <Paragraph color={isDark ? '#FFFFFF' : '$textPrimary'} lineHeight={24}>
               I&apos;m Bheema Shankar Maruvada, a software developer passionate about building intelligent systems,
               full-stack applications, and tools that enhance productivity and creativity. Over the years, I&apos;ve
               developed solutions across AI, web development, cloud architecture, and automation.
             </Paragraph>
-            <Paragraph color={isDark ? '#000000' : '$textSecondary'} lineHeight={24}>
+            <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
               Outside programming, I enjoy exploring Indian classical music, especially Carnatic ragas - the inspiration
               for this Raga App project. My goal is to make learning ragas easier through technology, interactive tools,
               and accessible design.
             </Paragraph>
-            <Paragraph color={isDark ? '#000000' : '$textSecondary'} lineHeight={24}>
+            <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
               If you&apos;d like to connect, collaborate, or explore more of my work, visit my website{' '}
               <Paragraph asChild color="$primary" textDecorationLine="underline" fontWeight="700">
                 <a href="https://bheemashankar.net/" target="_blank" rel="noreferrer">

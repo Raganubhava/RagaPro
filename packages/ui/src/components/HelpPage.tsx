@@ -32,17 +32,17 @@ export const HelpPage = () => {
 
   const swaraTable = [
     { hindustani: 'sa', full: 'shadja', carnatic: 'Sa (Shadjam)' },
-    { hindustani: 'komal re', full: 'komal rishabha', carnatic: 'Shuddha Rishabham' },
-    { hindustani: 'shuddha re', full: 'shuddha rishabha', carnatic: 'Chatusruti Rishabham' },
-    { hindustani: 'komal ga', full: 'komal gandhaara', carnatic: 'Sadharana Gandharam' },
-    { hindustani: 'shuddha ga', full: 'shuddha gandhaara', carnatic: 'Antara Gandharam' },
-    { hindustani: 'shuddha ma', full: 'shuddha madhyama', carnatic: 'Shuddha Madhyamam' },
-    { hindustani: 'tivra ma', full: 'tivra madhyama', carnatic: 'Prati Madhyamam' },
-    { hindustani: 'pa', full: 'panchama', carnatic: 'Panchamam' },
-    { hindustani: 'komal dha', full: 'komal dhaivata', carnatic: 'Shuddha Dhaivatam' },
-    { hindustani: 'shuddha dha', full: 'shuddha dhaivata', carnatic: 'Chatusruti Dhaivatam' },
-    { hindustani: 'komal ni', full: 'komal nishaada', carnatic: 'Kaisiki Nishadam' },
-    { hindustani: 'shuddha ni', full: 'shuddha nishaada', carnatic: 'Kakali Nishadam' },
+    { hindustani: 'komal re', full: 'komal Rishabh', carnatic: 'Shuddha Rishabham' },
+    { hindustani: 'shuddha re', full: 'shuddha Rishabh', carnatic: 'Chatusruti Rishabham' },
+    { hindustani: 'komal ga', full: 'komal gandhaar', carnatic: 'Sadharana Gandharam' },
+    { hindustani: 'shuddha ga', full: 'shuddha gandhaar', carnatic: 'Antara Gandharam' },
+    { hindustani: 'shuddha ma', full: 'shuddha madhyam', carnatic: 'Shuddha Madhyamam' },
+    { hindustani: 'tivra ma', full: 'tivra madhyam', carnatic: 'Prati Madhyamam' },
+    { hindustani: 'pa', full: 'pancham', carnatic: 'Panchamam' },
+    { hindustani: 'komal dha', full: 'komal dhaivat', carnatic: 'Shuddha Dhaivatam' },
+    { hindustani: 'shuddha dha', full: 'shuddha dhaivat', carnatic: 'Chatusruti Dhaivatam' },
+    { hindustani: 'komal ni', full: 'komal nishaad', carnatic: 'Kaisiki Nishadam' },
+    { hindustani: 'shuddha ni', full: 'shuddha nishaad', carnatic: 'Kakali Nishadam' },
     { hindustani: 'sa (upper)', full: 'shadja', carnatic: 'Tara Shadjam' },
   ];
 
