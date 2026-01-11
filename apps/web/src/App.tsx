@@ -2,7 +2,7 @@ import '@tamagui/core/reset.css';
 import '@tamagui/font-inter/css/400.css';
 import '@tamagui/font-inter/css/700.css';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { TamaguiProvider, Theme, YStack } from 'tamagui';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -25,8 +25,15 @@ import { Seo } from './Seo';
 import { CarnaticRagaDetailPage, HindustaniRagaDetailPage } from './RagaDetailPages';
 
 function App() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window === 'undefined') return 'light';
+    return window.localStorage.getItem('raga.theme') === 'dark' ? 'dark' : 'light';
+  });
   const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem('raga.theme', theme);
+  }, [theme]);
 
   const hideScrollbarCss = `
     .hide-scrollbar {

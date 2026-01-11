@@ -346,56 +346,6 @@ export const HelpPage = () => {
     >
       <PageContainer>
         <YStack gap="$6" maxWidth={960} marginHorizontal="auto" paddingVertical="$6" $sm={{ paddingHorizontal: '$3' }}>
-          <YStack
-            padding="$5"
-            borderRadius="$radius.12"
-            backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.92)'}
-            borderWidth={1}
-            borderColor={heroBorder}
-            shadowColor={isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.12)'}
-            shadowRadius={12}
-            shadowOffset={{ width: 0, height: 6 }}
-            gap="$4"
-          >
-            <XStack gap="$4" alignItems="center" justifyContent="space-between" flexWrap="wrap">
-              <YStack gap="$3" flex={1} minWidth={260}>
-                <H2 fontFamily="$heading" color={isDark ? '#FFFFFF' : '$primaryDeep'} $sm={{ fontSize: '$7', textAlign: 'center' }}>
-                  Explore the World of Indian Classical Ragas
-                </H2>
-
-                <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={26} $sm={{ textAlign: 'center' }}>
-                  RagaNidhi is your companion to decode Carnatic and Hindustani ragas: arohana/avarohana, lakshana, audio, and practice tips.
-                </Paragraph>
-              </YStack>
-
-            </XStack>
-          </YStack>
-
-          <YStack
-            alignItems="center"
-            padding="$4"
-            borderRadius="$radius.12"
-            backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surface'}
-            borderWidth={1}
-            borderColor={heroBorder}
-            shadowColor={isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.08)'}
-            shadowRadius={10}
-            shadowOffset={{ width: 0, height: 4 }}
-          >
-            <YStack width="100%" maxWidth={720} overflow="hidden" borderRadius="$radius.12">
-              <Image
-                source={{ uri: '/RagaNidhi2.png' }}
-                width="100%"
-                height={340}
-                resizeMode="contain"
-                $sm={{ height: 240 }}
-                backgroundColor={isDark ? 'rgba(255,255,255,0.04)' : '$surface'}
-                alt="RagaNidhi"
-              />
-            </YStack>
-
-            <YStack gap="$2" />
-          </YStack>
 
           <YStack
             gap="$5"

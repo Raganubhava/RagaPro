@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 Sitemap: https://raganidhi.com/sitemap.xml
+Sitemap: https://raganidhi.com/sitemap-ragas.xml

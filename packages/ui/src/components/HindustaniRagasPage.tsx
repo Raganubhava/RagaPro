@@ -183,6 +183,7 @@ export const HindustaniRagasPage = () => {
                 key={name}
                 justifyContent="space-between"
                 backgroundColor={isActive ? activeBg : isDark ? darkBackground : '$background'}
+                color={isDark ? '#FFFFFF' : '$primaryDeep'}
                 borderColor={listBorder}
                 borderWidth={3}
                 borderRadius="$radius.8"
@@ -201,8 +202,15 @@ export const HindustaniRagasPage = () => {
                     color={isDark ? '#FFFFFF' : '$primaryDeep'}
                     fontWeight="700"
                     letterSpacing={0.2}
+                    asChild
                   >
-                    {name}
+                    <a
+                      href={`/hindustani-ragas/${toRagaSlug(name)}`}
+                      onClick={(event) => event.stopPropagation()}
+                      style={{ textDecoration: 'underline', color: isDark ? '#FFFFFF' : 'inherit' }}
+                    >
+                      {name}
+                    </a>
                   </Paragraph>
                   {isBusy && <Spinner size="small" color="$primary" />}
                 </XStack>

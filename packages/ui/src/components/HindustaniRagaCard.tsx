@@ -26,25 +26,6 @@ export interface HindustaniRaga {
   audioFile?: string | null;
 }
 
-interface InfoRowProps {
-  label: string;
-  value?: string | null;
-}
-
-const InfoRow = ({ label, value }: InfoRowProps) => {
-  const displayValue = value && value !== '' ? value : '—';
-  return (
-    <XStack justifyContent="space-between" alignItems="flex-start" gap="$2">
-      <Paragraph fontSize="$sm" color={labelColor} textTransform="uppercase" letterSpacing={1} flexShrink={0}>
-        {label}:
-      </Paragraph>
-      <Paragraph fontSize="$md" color={textPrimary} flex={1} textAlign="right">
-        {displayValue}
-      </Paragraph>
-    </XStack>
-  );
-};
-
 export const HindustaniRagaCard = ({ raga, onAskAI }: { raga: HindustaniRaga; onAskAI?: () => void }) => {
   const [expanded, setExpanded] = useState(true);
   const [showThaatTip, setShowThaatTip] = useState(false);

@@ -38,6 +38,17 @@ export const AboutPage = () => {
           </Paragraph>{' '}
           or reach out through the contact options provided.
         </Paragraph>
+        <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
+          Book: <Paragraph asChild color="$primary" textDecorationLine="underline" fontWeight="700">
+            <a
+              href="https://www.amazon.com/Hamsadhwani-Journey-Melody-Carnatic-Music/dp/9356489602/ref=sr_1_1?crid=1VLKVM3RUXN0M&dib=eyJ2IjoiMSJ9.bD1EO_VgNTvjyWfGG0n77A.DjnZqnRBgkzHuqLL9_2R1visXcJeig-GokVUUBr2eW0&dib_tag=se&keywords=hamsadhwani+book&qid=1768160892&sprefix=hamsadhwani+book%2Caps%2C145&sr=8-1"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Hamsadhwani: Journey into the Melody of Carnatic Music
+            </a>
+          </Paragraph>
+        </Paragraph>
       </YStack>
     </PageContainer>
   );

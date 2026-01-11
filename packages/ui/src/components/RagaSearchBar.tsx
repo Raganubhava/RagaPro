@@ -5,12 +5,16 @@ interface RagaSearchBarProps {
   value: string;
   onChange: (value: string) => void;
   onSearch: () => void;
+  suggestions?: Array<{ name: string; system: 'carnatic' | 'hindustani' }>;
+  onSelectSuggestion?: (name: string) => void;
 }
 
 export const RagaSearchBar = ({
   value,
   onChange,
   onSearch,
+  suggestions,
+  onSelectSuggestion,
 }: RagaSearchBarProps) => {
   return (
     <YStack
@@ -60,6 +64,41 @@ export const RagaSearchBar = ({
           }}
         />
       </XStack>
+
+      {suggestions && suggestions.length > 0 && (
+        <YStack
+          width="100%"
+          maxWidth={720}
+          borderWidth={1}
+          borderColor="$borderSoft"
+          borderRadius="$radius.10"
+          backgroundColor="$surface"
+          overflow="hidden"
+        >
+          {suggestions.map((item) => (
+            <XStack
+              key={`${item.system}-${item.name}`}
+              paddingHorizontal="$4"
+              paddingVertical="$3"
+              gap="$3"
+              alignItems="center"
+              borderBottomWidth={1}
+              borderColor="$borderSoft"
+              onPress={() => onSelectSuggestion?.(item.name)}
+              cursor="pointer"
+              hoverStyle={{ backgroundColor: '$surfaceAlt' }}
+              pressStyle={{ backgroundColor: '$surfaceAlt' }}
+            >
+              <Paragraph color="$textPrimary" fontWeight="600">
+                {item.name}
+              </Paragraph>
+              <Paragraph color="$textSecondary" fontSize="$2">
+                {item.system === 'carnatic' ? 'Carnatic' : 'Hindustani'}
+              </Paragraph>
+            </XStack>
+          ))}
+        </YStack>
+      )}
 
       <Button
         theme="active"

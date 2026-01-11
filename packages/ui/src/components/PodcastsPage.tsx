@@ -191,7 +191,7 @@ export const PodcastsPage = () => {
             width="100%"
             padding="$5"
             borderRadius="$radius.12"
-            backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.92)'}
+            backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '#F7E7CF'}
             borderWidth={1}
             borderColor={heroBorder}
             shadowColor={isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.12)'}
@@ -496,19 +496,11 @@ export const PodcastsPage = () => {
             <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={22}>
               Raga sessions are presentations or raga related content in audio or PDF files. You can submit a request to add your content.
             </Paragraph>
-            <Button
-              asChild
-              backgroundColor="$primary"
-              color="$surface"
-              paddingHorizontal="$5"
-              size="$3"
-              borderRadius="$radius.8"
-              hoverStyle={{ backgroundColor: '$primaryHover' }}
-            >
-              <a href="/feedback" style={{ fontWeight: 800, fontSize: '16px', letterSpacing: 0.2, color: isDark ? '#FFFFFF' : 'inherit' }}>
-                Submit Feedback
+            <Paragraph asChild color={isDark ? '#FFFFFF' : '$textSecondary'}>
+              <a href="/feedback" style={{ textDecoration: 'underline', color: 'inherit' }}>
+                Submit feedback
               </a>
-            </Button>
+            </Paragraph>
           </YStack>
         </YStack>
       </PageContainer>

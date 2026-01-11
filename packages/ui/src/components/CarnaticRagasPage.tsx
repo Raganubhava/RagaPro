@@ -185,6 +185,7 @@ export const CarnaticRagasPage = () => {
                 key={name}
                 justifyContent="space-between"
                 backgroundColor={isActive ? activeBg : isDark ? darkBackground : '$background'}
+                color={isDark ? '#FFFFFF' : '$primaryDeep'}
                 borderColor={listBorder}
                 borderWidth={3}
                 borderRadius="$radius.8"
@@ -196,6 +197,9 @@ export const CarnaticRagasPage = () => {
                 hoverStyle={{
                   backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : '#f0e8de',
                 }}
+                pressStyle={{
+                  backgroundColor: isDark ? 'rgba(255,255,255,0.08)' : '#f0e8de',
+                }}
               >
                 <XStack alignItems="center" gap="$3" flex={1}>
                   <Paragraph
@@ -203,8 +207,15 @@ export const CarnaticRagasPage = () => {
                     color={isDark ? '#FFFFFF' : '$primaryDeep'}
                     fontWeight="700"
                     letterSpacing={0.2}
+                    asChild
                   >
-                    {name}
+                    <a
+                      href={`/carnatic-ragas/${toRagaSlug(name)}`}
+                      onClick={(event) => event.stopPropagation()}
+                      style={{ textDecoration: 'underline', color: isDark ? '#FFFFFF' : 'inherit' }}
+                    >
+                      {name}
+                    </a>
                   </Paragraph>
                   {isBusy && <Spinner size="small" color="$primary" />}
                 </XStack>

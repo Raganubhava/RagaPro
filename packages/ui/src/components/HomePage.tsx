@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Checkbox, Label, Paragraph, Spinner, XStack, YStack, useThemeName } from 'tamagui';
 import { Check } from '@tamagui/lucide-icons';
 import { RagaSearchBar } from './RagaSearchBar';
@@ -8,7 +8,8 @@ import { ChatBotPanel } from './ChatBotPanel';
 import { Footer } from './Footer';
 import { Raga } from '@raga/data';
 import { HindustaniRaga, HindustaniRagaCard } from './HindustaniRagaCard';
-import { isHindustaniRaga } from '../constants/hindustaniRagas';
+import { CARNATIC_RAGAS } from '../constants/carnaticRagas';
+import { HINDUSTANI_RAGAS, isHindustaniRaga } from '../constants/hindustaniRagas';
 import { API_ENDPOINTS } from '../constants/api';
 import { useApiClient } from '../hooks/useApi';
 import { toRagaSlug } from '../utils/slug';
@@ -26,6 +27,7 @@ export const HomePage = () => {
     hindustani: true,
     carnatic: true,
   });
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const themeName = useThemeName();
   const isDark = themeName?.toLowerCase().includes('dark');
   const searchSectionRef = useRef<HTMLDivElement | null>(null);
@@ -48,22 +50,24 @@ export const HomePage = () => {
     searchSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handleSearch = async () => {
-    if (searchText.trim() === '') {
+  const handleSearch = async (overrideQuery?: string) => {
+    setShowSuggestions(false);
+    const query = overrideQuery ?? searchText;
+    if (query.trim() === '') {
       setSearchResult(null);
       setError('Please enter a raga name to search.');
       setHasSearched(false);
       return;
     }
 
-    if (!isValidQuery(searchText.trim())) {
+    if (!isValidQuery(query.trim())) {
       setError('Please enter letters and spaces only (A-Z).');
       setSearchResult(null);
       setHasSearched(false);
       return;
     }
 
-    if (blockedWords.test(searchText.trim())) {
+    if (blockedWords.test(query.trim())) {
       setError('This is a sacred site for ragas. Please avoid inappropriate content and search for a raga name.');
       setSearchResult(null);
       setHasSearched(false);
@@ -74,7 +78,7 @@ export const HomePage = () => {
     setError(null);
     setHasSearched(true);
 
-    const normalizedQuery = searchText.trim();
+    const normalizedQuery = query.trim();
     const selectedSystems: RagaSystem[] = [];
     if (systemFilters.hindustani) selectedSystems.push('hindustani');
     if (systemFilters.carnatic) selectedSystems.push('carnatic');
@@ -122,10 +126,47 @@ export const HomePage = () => {
   };
 
   const heroBorder = isDark ? 'rgba(255,255,255,0.12)' : '#E5D6C8';
+  const suggestions = useMemo(() => {
+    const query = searchText.trim().toLowerCase();
+    if (!query) return [];
+    const maxItems = 8;
+    const matches: Array<{ name: string; system: RagaSystem }> = [];
+    const addMatches = (names: readonly string[], system: RagaSystem) => {
+      for (const name of names) {
+        if (matches.length >= maxItems) return;
+        if (name.toLowerCase().startsWith(query)) {
+          matches.push({ name, system });
+        }
+      }
+    };
+    addMatches(CARNATIC_RAGAS, 'carnatic');
+    addMatches(HINDUSTANI_RAGAS, 'hindustani');
+    return matches;
+  }, [searchText]);
+  const handleSuggestionSelect = (name: string) => {
+    setSearchText(name);
+    setError(null);
+    setHasSearched(false);
+    setShowSuggestions(false);
+    handleSearch(name);
+  };
   const detailPath =
     searchResult && lastSystem
       ? `/${lastSystem === 'hindustani' ? 'hindustani-ragas' : 'carnatic-ragas'}/${toRagaSlug(searchResult.ragaName)}`
       : '';
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const handleOutsideClick = (event: MouseEvent) => {
+      const target = event.target as Node | null;
+      if (!target || !searchSectionRef.current) return;
+      if (!searchSectionRef.current.contains(target)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
 
   return (
     <YStack
@@ -164,7 +205,7 @@ export const HomePage = () => {
             gap="$4"
             padding="$5"
             borderRadius="$radius.12"
-            backgroundColor={isDark ? 'rgba(255,255,255,0.04)' : '$surface'}
+            backgroundColor={isDark ? 'rgba(255,255,255,0.04)' : '#F7E7CF'}
             borderWidth={1}
             borderColor={heroBorder}
             shadowColor={isDark ? 'rgba(0,0,0,0.28)' : 'rgba(0,0,0,0.1)'}
@@ -204,9 +245,12 @@ export const HomePage = () => {
                 value={searchText}
                 onChange={(val) => {
                   setSearchText(val);
+                  setShowSuggestions(val.trim().length > 0);
                   if (error) setError(null);
                 }}
-                onSearch={handleSearch}
+                onSearch={() => handleSearch()}
+                suggestions={showSuggestions ? suggestions : []}
+                onSelectSuggestion={handleSuggestionSelect}
               />
               <XStack gap="$4" alignItems="center" justifyContent="center" flexWrap="wrap">
                 <Paragraph fontWeight="700" color={isDark ? '#FFFFFF' : '$primary'} fontSize="$4">
@@ -299,7 +343,7 @@ export const HomePage = () => {
                 gap="$2"
                 padding="$3"
                 borderRadius="$radius.10"
-                backgroundColor={isDark ? 'rgba(255,255,255,0.06)' : '$surface'}
+                backgroundColor={isDark ? 'rgba(255,255,255,0.06)' : '#DFF5E6'}
                 borderWidth={1}
                 borderColor={isDark ? 'rgba(255,255,255,0.1)' : '$borderSoft'}
                 shadowColor={isDark ? 'rgba(0,0,0,0.24)' : 'rgba(0,0,0,0.06)'}
@@ -339,6 +383,7 @@ export const HomePage = () => {
                   setSearchResult(null);
                   setSearchText('');
                   setHasSearched(false);
+                  setShowSuggestions(false);
                   handleScrollToSearch();
                 }}
                 backgroundColor="$secondary"

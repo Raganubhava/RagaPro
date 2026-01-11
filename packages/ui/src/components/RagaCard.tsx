@@ -187,13 +187,22 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                 >
                   Audio
                 </Paragraph>
-                {audioSrc ? (
-                  <AudioPlayer src={audioSrc} />
-                ) : (
-                  <Paragraph fontSize="$sm" color="$textSecondary">
-                    No audio available.
-                  </Paragraph>
-                )}
+                <YStack
+                  padding="$3"
+                  borderRadius="$radius.10"
+                  backgroundColor={softSurface}
+                  borderWidth={1}
+                  borderColor={cardBorder}
+                  gap="$2"
+                >
+                  {audioSrc ? (
+                    <AudioPlayer src={audioSrc} />
+                  ) : (
+                    <Paragraph fontSize="$sm" color="$textSecondary">
+                      No audio available.
+                    </Paragraph>
+                  )}
+                </YStack>
               </YStack>
 
               {/* Arohana & Avarohana Section */}
@@ -300,11 +309,9 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                     borderColor={cardBorder}
                     gap="$3"
                   >
-                  {hasShadjam && (
-                    <Paragraph fontSize="$sm" color="$textSoft">
-                      Shadjam is included.
-                    </Paragraph>
-                  )}
+                  <Paragraph fontSize="$sm" color="$textSoft">
+                    Shadjam (S) is included.
+                  </Paragraph>
                   {([
                     { label: 'Rishabham (R)', value: expandSwaraValue(raga.rishabham) },
                     { label: 'Gandharam (G)', value: expandSwaraValue(raga.gandharam) },
@@ -475,9 +482,18 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                 >
                   Additional Information
                 </Paragraph>
-                <RagaDetailRow label="Apuroopa Prayogas" value={raga.apuroopaPrayogas} />
-                <RagaDetailRow label="Swara Sancharam" value={raga.swaraSancharam} />
-                <RagaDetailRow label="Additional Notes" value={raga.additionalNotes} />
+                <YStack
+                  padding="$3"
+                  borderRadius="$radius.10"
+                  backgroundColor={softSurface}
+                  borderWidth={1}
+                  borderColor={cardBorder}
+                  gap="$3"
+                >
+                  <RagaDetailRow label="Apuroopa Prayogas" value={raga.apuroopaPrayogas} />
+                  <RagaDetailRow label="Swara Sancharam" value={raga.swaraSancharam} />
+                  <RagaDetailRow label="Additional Notes" value={raga.additionalNotes} />
+                </YStack>
                 <YStack
                   padding="$3"
                   borderRadius="$radius.10"
