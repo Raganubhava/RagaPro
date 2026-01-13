@@ -35,7 +35,7 @@ export const HomePage = () => {
   const api = useApiClient();
   const scrollToChatBot = () => chatBotRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  const isValidQuery = (value: string) => /^[A-Za-z\s]+$/.test(value);
+  const isValidQuery = (value: string) => /^[A-Za-z\s'-]+$/.test(value);
   const blockedWords = /\b(abuse|abusive|asshole|bastard|bitch|bloody|bullshit|crap|damn|dick|fuck|fucking|idiot|jerk|moron|nonsense|obscene|pervert|porn|pornographic|racist|sex|sexual|shit|stupid|suck|trash|ugly|violence|violent|vulgar|whore)\b/i;
 
   const getRagaFromAPI = useCallback(
@@ -46,28 +46,48 @@ export const HomePage = () => {
     [api]
   );
 
+  const parseQuery = (value: string) => {
+    const trimmed = value.trim();
+    const match = trimmed.match(/\(([^)]+)\)\s*$/);
+    let systemOverride: RagaSystem | null = null;
+    let cleaned = trimmed;
+    if (match) {
+      const tag = match[1].toLowerCase();
+      if (tag.includes('hindustani')) systemOverride = 'hindustani';
+      if (tag.includes('carnatic')) systemOverride = 'carnatic';
+      cleaned = trimmed.replace(/\s*\([^)]+\)\s*$/, '').trim();
+    }
+    cleaned = cleaned.replace(/\s+/g, ' ');
+    return { cleaned, systemOverride, original: trimmed };
+  };
+
   const handleScrollToSearch = () => {
     searchSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handleSearch = async (overrideQuery?: string) => {
+  const handleSearch = async (overrideQuery?: string, overrideSystem?: RagaSystem | null) => {
     setShowSuggestions(false);
     const query = overrideQuery ?? searchText;
-    if (query.trim() === '') {
+    const parsed = parseQuery(query);
+    const parsedQuery = {
+      ...parsed,
+      systemOverride: overrideSystem ?? parsed.systemOverride,
+    };
+    if (parsedQuery.cleaned === '') {
       setSearchResult(null);
       setError('Please enter a raga name to search.');
       setHasSearched(false);
       return;
     }
 
-    if (!isValidQuery(query.trim())) {
-      setError('Please enter letters and spaces only (A-Z).');
+    if (!isValidQuery(parsedQuery.cleaned)) {
+      setError('Please enter letters, spaces, apostrophes, or hyphens only (A-Z).');
       setSearchResult(null);
       setHasSearched(false);
       return;
     }
 
-    if (blockedWords.test(query.trim())) {
+    if (blockedWords.test(parsedQuery.cleaned)) {
       setError('This is a sacred site for ragas. Please avoid inappropriate content and search for a raga name.');
       setSearchResult(null);
       setHasSearched(false);
@@ -78,11 +98,19 @@ export const HomePage = () => {
     setError(null);
     setHasSearched(true);
 
-    const normalizedQuery = query.trim();
+    const normalizedQuery = parsedQuery.cleaned;
+    const queryCandidates =
+      parsedQuery.original && parsedQuery.original !== normalizedQuery
+        ? [normalizedQuery, parsedQuery.original]
+        : [normalizedQuery];
     const selectedSystems: RagaSystem[] = [];
     if (systemFilters.hindustani) selectedSystems.push('hindustani');
     if (systemFilters.carnatic) selectedSystems.push('carnatic');
-    const systemsToSearch = selectedSystems.length === 0 ? (['hindustani', 'carnatic'] as const) : selectedSystems;
+    const systemsToSearch = parsedQuery.systemOverride
+      ? [parsedQuery.systemOverride]
+      : selectedSystems.length === 0
+      ? (['hindustani', 'carnatic'] as const)
+      : selectedSystems;
 
     if (systemsToSearch.length === 2) {
       const prioritizedSystems: RagaSystem[] = isHindustaniRaga(normalizedQuery)
@@ -90,30 +118,50 @@ export const HomePage = () => {
         : ['carnatic', 'hindustani'];
 
       let lastErr: unknown = null;
-      try {
-        for (const system of prioritizedSystems) {
-          try {
-          const result = await getRagaFromAPI(normalizedQuery, system);
-          setLastSystem(system);
-          setSearchResult(result);
-          return;
-        } catch (systemErr) {
-          lastErr = systemErr;
-        }
-      }
+        try {
+          for (const system of prioritizedSystems) {
+            try {
+              let result: Raga | HindustaniRaga | null = null;
+              let systemErr: unknown = null;
+              for (const candidate of queryCandidates) {
+                try {
+                  result = await getRagaFromAPI(candidate, system);
+                  break;
+                } catch (candidateErr) {
+                  systemErr = candidateErr;
+                }
+              }
+              if (!result) throw systemErr;
+              setLastSystem(system);
+              setSearchResult(result);
+              return;
+            } catch (systemErr) {
+              lastErr = systemErr;
+            }
+          }
 
-      setError(`Could not find raga "${normalizedQuery}". Please check the spelling or try another raga.`);
-      setSearchResult(null);
-    } finally {
-      setIsLoading(false);
-    }
-    return;
-    }
+          setError(`Could not find raga "${normalizedQuery}". Please check the spelling or try another raga.`);
+          setSearchResult(null);
+        } finally {
+          setIsLoading(false);
+        }
+        return;
+      }
 
     const targetSystem: RagaSystem = systemsToSearch[0];
 
     try {
-      const result = await getRagaFromAPI(normalizedQuery, targetSystem);
+      let result: Raga | HindustaniRaga | null = null;
+      let lastErr: unknown = null;
+      for (const candidate of queryCandidates) {
+        try {
+          result = await getRagaFromAPI(candidate, targetSystem);
+          break;
+        } catch (candidateErr) {
+          lastErr = candidateErr;
+        }
+      }
+      if (!result) throw lastErr;
       setLastSystem(targetSystem);
       setSearchResult(result);
     } catch (err) {
@@ -143,12 +191,12 @@ export const HomePage = () => {
     addMatches(HINDUSTANI_RAGAS, 'hindustani');
     return matches;
   }, [searchText]);
-  const handleSuggestionSelect = (name: string) => {
+  const handleSuggestionSelect = (name: string, system: RagaSystem) => {
     setSearchText(name);
     setError(null);
     setHasSearched(false);
     setShowSuggestions(false);
-    handleSearch(name);
+    handleSearch(name, system);
   };
   const detailPath =
     searchResult && lastSystem

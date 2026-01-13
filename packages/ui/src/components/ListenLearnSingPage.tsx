@@ -54,7 +54,7 @@ export const ListenLearnSingPage = () => {
             overflow="hidden"
           >
             <Paragraph fontFamily="$heading" fontSize="$9" color={isDark ? '#FFFFFF' : '$primaryDeep'}>
-              Listen · Learn · Sing
+              Learn
             </Paragraph>
               <Paragraph fontSize="$4" color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={26}>
                 We&apos;re building modules to help you absorb ragas through structured lessons, and sing-along guides with help of AI.

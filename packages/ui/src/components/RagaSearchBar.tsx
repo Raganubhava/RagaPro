@@ -6,7 +6,7 @@ interface RagaSearchBarProps {
   onChange: (value: string) => void;
   onSearch: () => void;
   suggestions?: Array<{ name: string; system: 'carnatic' | 'hindustani' }>;
-  onSelectSuggestion?: (name: string) => void;
+  onSelectSuggestion?: (name: string, system: 'carnatic' | 'hindustani') => void;
 }
 
 export const RagaSearchBar = ({
@@ -84,7 +84,7 @@ export const RagaSearchBar = ({
               alignItems="center"
               borderBottomWidth={1}
               borderColor="$borderSoft"
-              onPress={() => onSelectSuggestion?.(item.name)}
+              onPress={() => onSelectSuggestion?.(item.name, item.system)}
               cursor="pointer"
               hoverStyle={{ backgroundColor: '$surfaceAlt' }}
               pressStyle={{ backgroundColor: '$surfaceAlt' }}

@@ -197,7 +197,7 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
               Raga Sessions
             </NavLinkItem>       
             <NavLinkItem to="/listen" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={700} fontSize="$4" letterSpacing={0.3}>
-              Listen Learn Sing
+                Learn
             </NavLinkItem>
             <NavLinkItem to="/help" onClick={handleNavLinkClick} colorOverride={navColor} fontWeight={700} fontSize="$4" letterSpacing={0.3}>
                 Help
@@ -271,7 +271,7 @@ export const Header = ({ onToggleTheme, currentTheme }: HeaderProps) => {
           <NavLinkItem to="/hindustani-ragas" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Hindustani Ragas Index</NavLinkItem>
           <NavLinkItem to="/about" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">About</NavLinkItem>
           <NavLinkItem to="/podcasts" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Raga Sessions</NavLinkItem>
-          <NavLinkItem to="/listen" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Listen Learn Sing</NavLinkItem>
+          <NavLinkItem to="/listen" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Learn</NavLinkItem>
           <NavLinkItem to="/help" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Help</NavLinkItem>
           <NavLinkItem to="/feedback" onClick={handleNavLinkClick} isMobileMenuItem colorOverride="#FFFFFF">Feedback</NavLinkItem>
           {/* Login hidden for now */}
