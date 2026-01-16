@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 type SeoProps = {
   title: string;
   description: string;
+  keywords?: string;
   url: string;
   imageUrl?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
@@ -13,12 +14,13 @@ type SeoProps = {
 
 const SITE_NAME = 'RagaNidhi';
 
-export const Seo = ({ title, description, url, imageUrl, jsonLd, robots = 'index,follow', children }: SeoProps) => (
+export const Seo = ({ title, description, keywords, url, imageUrl, jsonLd, robots = 'index,follow', children }: SeoProps) => (
   <>
     <Helmet>
       <title>{title}</title>
       <link rel="canonical" href={url} />
       <meta name="description" content={description} />
+      {keywords ? <meta name="keywords" content={keywords} /> : null}
       <meta name="robots" content={robots} />
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:type" content="website" />

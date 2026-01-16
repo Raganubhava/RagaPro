@@ -51,7 +51,9 @@ function App() {
   const baseUrl = 'https://raganidhi.com';
   const ogImage = `${baseUrl}/RagaNidhi2.png`;
   const defaultDescription =
-    'Search Indian classical music ragas (Carnatic or Hindustani). Explore detailed information for hundreds of ragas.';
+    "RagaNidhi - The World's Most Powerful Raga Search Engine for Carnatic & Hindustani Music Learning and Discovery. Explore thousands of ragas with arohana, avarohana, lakshana, swaras, compositions, vadi, samvadi, and AI-powered raga Bot - all in one intelligent platform. Learn ragas, learn indian classical music.";
+  const homeKeywords =
+    'raga search engine, carnatic raga search, hindustani raga search, indian classical music ragas, raga finder, arohana avarohana, raga lakshana, vadi samvadi, swara sancharas, carnatic music learning, hindustani music learning, raga discovery, raga database, ai raga search, ai music bot, indian classical music ai, raga identification, learn ragas online, raga compositions, melakarta ragas, janya ragas, hindustani thaat system, raga theory, classical music education india';
   const homeJsonLd = [
     {
       '@context': 'https://schema.org',
@@ -114,7 +116,8 @@ function App() {
                       element={(
                         <Seo
                           title="RagaNidhi – Discover and Learn Indian Classical Music Ragas"
-                          description="RagaNidhi is an intelligent platform for discovering and learning Indian classical music ragas across Carnatic and Hindustani traditions."
+                          description={defaultDescription}
+                          keywords={homeKeywords}
                           url={baseUrl}
                           imageUrl={ogImage}
                           robots="index,follow"
