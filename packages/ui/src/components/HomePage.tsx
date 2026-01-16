@@ -273,12 +273,22 @@ export const HomePage = () => {
                 fontFamily="$body"
                 fontWeight="800"
                 letterSpacing={0.4}
-                fontSize="$8"
+                fontSize="$6"
                 color={isDark ? '#FFFFFF' : '$primaryDeep'}
                 textAlign="center"
-                $sm={{ fontSize: '$7' }}
+                $sm={{ fontSize: '$5' }}
               >
-                Search any raga
+                Welcome to RagaNidhi. Raga discovery and learning made easy!
+              </Paragraph>
+              <Paragraph
+                color={isDark ? '#FFFFFF' : '$textSecondary'}
+                fontSize="$4"
+                fontWeight="700"
+                lineHeight={24}
+                textAlign="center"
+                $sm={{ fontSize: '$3' }}
+              >
+                रञ्जकः स्वरसन्दर्भः राग इत्यभिधीयते।
               </Paragraph>
               <Paragraph
                 color={isDark ? '#FFFFFF' : '$textSecondary'}

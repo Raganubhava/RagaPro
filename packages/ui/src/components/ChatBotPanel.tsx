@@ -185,6 +185,10 @@ export const ChatBotPanel = () => {
                 color={isDark ? '#FFFFFF' : '$textPrimary'}
                 borderWidth={1}
                 borderColor={isDark ? 'rgba(255,255,255,0.14)' : '$borderSoft'}
+                maxWidth="100%"
+                flexShrink={1}
+                alignSelf="flex-start"
+                style={{ whiteSpace: 'normal', textAlign: 'left' }}
                 onPress={() => setPrompt(q)}
               >
                 {q}

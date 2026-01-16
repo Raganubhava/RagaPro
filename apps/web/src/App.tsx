@@ -51,7 +51,7 @@ function App() {
   const baseUrl = 'https://raganidhi.com';
   const ogImage = `${baseUrl}/RagaNidhi2.png`;
   const defaultDescription =
-    "RagaNidhi - The World's Most Powerful Raga Search Engine for Carnatic & Hindustani Music Learning and Discovery. Explore thousands of ragas with arohana, avarohana, lakshana, swaras, compositions, vadi, samvadi, and AI-powered raga Bot - all in one intelligent platform. Learn ragas, learn indian classical music.";
+    'Welcome RagaNidhi.com - Carnatic Raga and Hindustani discovery and learning made easy!';
   const homeKeywords =
     'raga search engine, carnatic raga search, hindustani raga search, indian classical music ragas, raga finder, arohana avarohana, raga lakshana, vadi samvadi, swara sancharas, carnatic music learning, hindustani music learning, raga discovery, raga database, ai raga search, ai music bot, indian classical music ai, raga identification, learn ragas online, raga compositions, melakarta ragas, janya ragas, hindustani thaat system, raga theory, classical music education india';
   const homeJsonLd = [

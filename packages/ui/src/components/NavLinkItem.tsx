@@ -48,20 +48,23 @@ export const NavLinkItem = ({
         alignItems: 'center',
       }}
     >
-      {({ isActive }) => (
-        <XStack
-          alignItems="center"
-          justifyContent="center"
-          paddingHorizontal={media.sm && isMobileMenuItem ? '$3' : '$2'}
-          paddingVertical={media.sm && isMobileMenuItem ? '$2' : '$1'}
-          borderRadius={media.sm && isMobileMenuItem ? '$radius.6' : 0}
-          backgroundColor={
-            media.sm && isMobileMenuItem && isActive ? '$surfaceAlt' : 'transparent'
-          }
-          style={{ whiteSpace: 'nowrap' }}
-        >
-          <Text
-            color={colorOverride ?? (isActive ? '$primaryDeep' : '$textPrimary')}
+      {({ isActive }) => {
+        const isMobileActive = media.sm && isMobileMenuItem && isActive;
+        const resolvedColor = isMobileActive
+          ? '$primaryDeep'
+          : colorOverride ?? (isActive ? '$primaryDeep' : '$textPrimary');
+        return (
+          <XStack
+            alignItems="center"
+            justifyContent="center"
+            paddingHorizontal={media.sm && isMobileMenuItem ? '$3' : '$2'}
+            paddingVertical={media.sm && isMobileMenuItem ? '$2' : '$1'}
+            borderRadius={media.sm && isMobileMenuItem ? '$radius.6' : 0}
+            backgroundColor={isMobileActive ? '$surfaceAlt' : 'transparent'}
+            style={{ whiteSpace: 'nowrap' }}
+          >
+            <Text
+              color={resolvedColor}
             fontSize={resolvedSize}
             fontFamily={resolvedFamily}
             fontWeight={resolvedWeight}
@@ -78,11 +81,12 @@ export const NavLinkItem = ({
             textDecorationLine={
               resolvedDecoration ?? (!media.sm && isActive ? 'underline' : 'none')
             }
-          >
-            {children}
-          </Text>
-        </XStack>
-      )}
+            >
+              {children}
+            </Text>
+          </XStack>
+        );
+      }}
     </NavLink>
   );
 };
