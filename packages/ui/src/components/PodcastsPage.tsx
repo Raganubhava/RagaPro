@@ -82,7 +82,7 @@ export const PodcastsPage = () => {
   const [page, setPage] = useState(1);
   const themeName = useThemeName();
   const isDark = themeName?.toLowerCase().includes('dark');
-  const pageSize = 6;
+  const pageSize = 12;
 
   const filteredItems = useMemo(() => {
     return sessionFiles.filter((f) => {
@@ -367,10 +367,18 @@ export const PodcastsPage = () => {
                           hoverStyle={{ transform: [{ scale: 1.01 }], borderColor: '$primary' }}
                           animation="bouncy"
                         >
-                          <XStack alignItems="center" justifyContent="space-between">
-                            <XStack alignItems="center" gap="$3">
+                          <XStack alignItems="center" justifyContent="space-between" flexWrap="wrap" gap="$2" $sm={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                            <XStack alignItems="center" gap="$3" flex={1} minWidth={0}>
                               <Icon color="$primary" />
-                              <Paragraph fontWeight="700" fontSize="$5" color={isDark ? '#FFFFFF' : '$textPrimary'}>
+                              <Paragraph
+                                fontWeight="700"
+                                fontSize="$5"
+                                color={isDark ? '#FFFFFF' : '$textPrimary'}
+                                flex={1}
+                                flexShrink={1}
+                                maxWidth="100%"
+                                style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}
+                              >
                                 {file.fileName}
                               </Paragraph>
                             </XStack>
@@ -381,6 +389,7 @@ export const PodcastsPage = () => {
                               backgroundColor="$primarySoft"
                               color="$primary"
                               fontSize="$2"
+                              alignSelf="flex-start"
                             >
                               {file.fileType}
                             </Paragraph>

@@ -310,7 +310,7 @@ export const HelpPage = () => {
       title: 'Which raga is used in film song/film music?',
       description: (
         <>
-          You can reach me at shankar.maruvada@gmail.com, and I will respond as soon as possible.{' '}
+          Explore the full list in{' '}
           <Text
             color={isDark ? '#FFFFFF' : '$primary'}
             fontWeight="700"
@@ -524,11 +524,18 @@ export const HelpPage = () => {
                     borderColor={cardBorder}
                     maxWidth={420}
                     flexGrow={1}
+                    width="100%"
+                    $sm={{ maxWidth: '100%' }}
                   >
                     <Paragraph fontWeight="700" color={isDark ? '#FFFFFF' : '$textPrimary'}>
                       {item.term}
                     </Paragraph>
-                    <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={22}>
+                    <Paragraph
+                      color={isDark ? '#FFFFFF' : '$textSecondary'}
+                      lineHeight={22}
+                      flexShrink={1}
+                      maxWidth="100%"
+                    >
                       {item.description}
                     </Paragraph>
                   </YStack>
@@ -847,19 +854,6 @@ export const HelpPage = () => {
               <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
                 It aims to connect tradition and technology, enabling discovery, learning, and appreciation of ragas across systems, without boundaries.
               </Paragraph>
-
-              <Paragraph fontWeight="800" color={isDark ? '#FFFFFF' : '$primary'} fontSize="$5">
-                Contact
-              </Paragraph>
-              <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
-                📧 Email:{' '}
-                <Paragraph asChild color={isDark ? '#B7F4D1' : '#2E8B57'} fontWeight="700">
-                  <a href="mailto:shankar.maruvada@gmail.com">shankar.maruvada@gmail.com</a>
-                </Paragraph>
-              </Paragraph>
-              <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
-                For collaboration, feedback, or inquiries related to RagaNidhi.
-              </Paragraph>
             </YStack>
 
 
@@ -870,3 +864,4 @@ export const HelpPage = () => {
     </YStack>
   );
 };
+

@@ -410,6 +410,31 @@ export const FeedbackPage = () => {
           <YStack
             gap="$3"
             padding="$4"
+            backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '#F6E8CC'}
+            borderRadius="$radius.10"
+            borderWidth={1}
+            borderColor={heroBorder}
+            shadowColor={isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.08)'}
+            shadowRadius={10}
+            shadowOffset={{ width: 0, height: 4 }}
+          >
+            <H3 fontFamily="$heading" color="$primary">
+              Contact
+            </H3>
+            <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
+              Email:{' '}
+              <Paragraph asChild color={isDark ? '#FFFFFF' : '$primary'} fontWeight="700">
+                <a href="mailto:raganidhi@mail.com">raganidhi@mail.com</a>
+              </Paragraph>
+            </Paragraph>
+            <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
+              For collaboration, feedback, or inquiries related to RagaNidhi.
+            </Paragraph>
+          </YStack>
+
+          <YStack
+            gap="$3"
+            padding="$4"
             backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surfaceAlt'}
             borderRadius="$radius.10"
             borderWidth={1}
@@ -427,27 +452,6 @@ export const FeedbackPage = () => {
               Outside programming, I enjoy exploring Indian classical music, especially Carnatic ragas - the inspiration
               for this Raga App project. My goal is to make learning ragas easier through technology, interactive tools,
               and accessible design.
-            </Paragraph>
-            <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
-              If you&apos;d like to connect, collaborate, or explore more of my work, visit my website{' '}
-              <Paragraph asChild color="$primary" textDecorationLine="underline" fontWeight="700">
-                <a href="https://bheemashankar.net/" target="_blank" rel="noreferrer">
-                  bheemashankar.net
-                </a>
-              </Paragraph>{' '}
-              or reach out through the contact options provided.
-            </Paragraph>
-            <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24}>
-              Book:{' '}
-              <Paragraph asChild color="$primary" textDecorationLine="underline" fontWeight="700">
-                <a
-                  href="https://www.amazon.com/Hamsadhwani-Journey-Melody-Carnatic-Music/dp/9356489602/ref=sr_1_1?crid=1VLKVM3RUXN0M&dib=eyJ2IjoiMSJ9.bD1EO_VgNTvjyWfGG0n77A.DjnZqnRBgkzHuqLL9_2R1visXcJeig-GokVUUBr2eW0&dib_tag=se&keywords=hamsadhwani+book&qid=1768160892&sprefix=hamsadhwani+book%2Caps%2C145&sr=8-1"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Hamsadhwani: Journey into the Melody of Carnatic Music
-                </a>
-              </Paragraph>
             </Paragraph>
           </YStack>
           <YStack height="$4" />

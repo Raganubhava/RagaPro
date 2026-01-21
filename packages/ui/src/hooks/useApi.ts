@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 type Fetcher = <T = any>(url: string, options?: RequestInit) => Promise<T>;
 
@@ -14,7 +14,7 @@ export const useApiClient = () => {
     []
   );
 
-  const fetchJson: Fetcher = async (url, options) => {
+  const fetchJson: Fetcher = useCallback(async (url, options) => {
     const controller = new AbortController();
     controllers.current.push(controller);
     try {
@@ -27,7 +27,7 @@ export const useApiClient = () => {
     } finally {
       controllers.current = controllers.current.filter((c) => c !== controller);
     }
-  };
+  }, []);
 
-  return { fetchJson };
+  return useMemo(() => ({ fetchJson }), [fetchJson]);
 };

@@ -23,3 +23,6 @@ export * from './FeedbackPage';
 export * from './HindustaniRagaCard';
 export * from './CarnaticRagasPage';
 export * from './HindustaniRagasPage';
+export * from './MelakarthaRagasPage';
+export * from './MelakarthaJanyaPage';
+export * from './MelakarthaJanyaDetailCard';

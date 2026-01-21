@@ -278,7 +278,7 @@ export const HomePage = () => {
                 textAlign="center"
                 $sm={{ fontSize: '$5' }}
               >
-                Welcome to RagaNidhi. Raga discovery and learning made easy!
+                RagaNidhi — The Living Library of 3,300+ Indian Classical Ragas
               </Paragraph>
               <Paragraph
                 color={isDark ? '#FFFFFF' : '$textSecondary'}
@@ -474,7 +474,7 @@ export const HomePage = () => {
               ref={chatBotRef}
               padding="$4"
               borderRadius="$radius.12"
-              backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surface'}
+              backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '#F6E8CC'}
               borderWidth={1}
               borderColor={heroBorder}
               gap="$3"
@@ -497,7 +497,7 @@ export const HomePage = () => {
             <YStack
               padding="$4"
               borderRadius="$radius.12"
-              backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '$surface'}
+              backgroundColor={isDark ? 'rgba(255,255,255,0.05)' : '#F6E8CC'}
               borderWidth={1}
               borderColor={heroBorder}
               gap="$3"
