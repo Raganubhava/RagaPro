@@ -1,11 +1,12 @@
-export const API_BASE_URL = 'https://localhost:44308/api';
+//export const API_BASE_URL = 'https://localhost:44308/api';
 
-//export const API_BASE_URL = '/api';
+
+export const API_BASE_URL = '/api';
 
 
 export const API_ENDPOINTS = {
-  raga: (name: string) => `${API_BASE_URL}/raga/${encodeURIComponent(name)}`,
-  hindustaniRaga: (name: string) => `${API_BASE_URL}/HindustaniRaga/${encodeURIComponent(name)}`,
+  raga: (name: string) => `${API_BASE_URL}/raga/${encodeURIComponent(name.trim())}`,
+  hindustaniRaga: (name: string) => `${API_BASE_URL}/HindustaniRaga/${encodeURIComponent(name.trim())}`,
   allRagas: `${API_BASE_URL}/raga/allragas`,
   allHindustaniRagas: `${API_BASE_URL}/raga/allhindustaniragas`,
   allMelas: `${API_BASE_URL}/raga/allmelas`,

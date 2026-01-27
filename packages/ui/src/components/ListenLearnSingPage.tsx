@@ -63,10 +63,10 @@ export const ListenLearnSingPage = () => {
               marginTop="$2"
               padding="$5"
               borderRadius="$radius.12"
-              backgroundColor={isDark ? 'rgba(255,255,255,0.08)' : '$surface'}
-              borderWidth={1}
-              borderColor={border}
-              shadowColor={isDark ? 'rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.06)'}
+              backgroundColor={isDark ? 'rgba(255,255,255,0.06)' : '#FFF7E6'}
+              borderWidth={2}
+              borderColor={isDark ? 'rgba(255,215,128,0.55)' : '#E6B800'}
+              shadowColor={isDark ? 'rgba(255,215,128,0.25)' : 'rgba(230,184,0,0.18)'}
               shadowRadius={10}
               shadowOffset={{ width: 0, height: 4 }}
               gap="$2"

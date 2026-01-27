@@ -48,9 +48,21 @@ export const CarnaticRagasPage = () => {
     };
   }, [api]);
 
+  const dedupedRagas = useMemo(() => {
+    const seen = new Set<string>();
+    const unique: string[] = [];
+    for (const name of ragas) {
+      const key = name.trim().toLowerCase();
+      if (!key || seen.has(key)) continue;
+      seen.add(key);
+      unique.push(name);
+    }
+    return unique;
+  }, [ragas]);
+
   const sortedRagas = useMemo(
-    () => [...ragas].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' })),
-    [ragas]
+    () => [...dedupedRagas].sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base' })),
+    [dedupedRagas]
   );
   const filteredRagas = useMemo(() => {
     const query = filterText.trim().toLowerCase();
@@ -294,3 +306,4 @@ export const CarnaticRagasPage = () => {
     </YStack>
   );
 };
+

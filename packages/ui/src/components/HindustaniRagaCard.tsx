@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Paragraph, XStack, YStack, Button, useThemeName } from 'tamagui';
 import { AnimatePresence, MotiView } from 'moti';
+import { AudioPlayer } from './AudioPlayer';
 import { ChevronDown } from '@tamagui/lucide-icons';
 
 export interface HindustaniRaga {
@@ -44,6 +45,11 @@ export const HindustaniRagaCard = ({ raga, onAskAI }: { raga: HindustaniRaga; on
   const labelColor = isDark ? '#FFFFFF' : '$goldDeep';
   const textPrimary = isDark ? '#FFFFFF' : '$textPrimary';
   const textSecondary = isDark ? '#FFFFFF' : '$textSecondary';
+  const audioSrc = useMemo(() => {
+    if (!raga.audioFile) return null;
+    // Default to mp3; adjust if API returns mime type in the future.
+    return `data:audio/mpeg;base64,${raga.audioFile}`;
+  }, [raga.audioFile]);
   useEffect(() => {
     setExpanded(true);
   }, [raga]);
@@ -109,6 +115,29 @@ export const HindustaniRagaCard = ({ raga, onAskAI }: { raga: HindustaniRaga; on
               borderWidth={1}
               borderColor={cardBorder}
             >
+              <YStack gap="$2">
+                <Paragraph fontSize="$4" fontWeight="700" color={isDark ? '#FFFFFF' : '$primary'} fontFamily="$heading" letterSpacing={0.4}>
+                  Audio
+                </Paragraph>
+                <YStack
+                  padding="$3"
+                  borderRadius="$radius.10"
+                  backgroundColor={softSurface}
+                  borderWidth={1}
+                  borderColor={cardBorder}
+                  gap="$2"
+                >
+                  {audioSrc ? (
+                    <AudioPlayer src={audioSrc} />
+                  ) : (
+                    <Paragraph fontSize="$sm" color={textSecondary}>
+                      No audio available.
+                    </Paragraph>
+                  )}
+                </YStack>
+              </YStack>
+              <YStack borderBottomWidth={1} borderColor={cardBorder} />
+
             <YStack gap="$1">
                 <XStack justifyContent="space-between" alignItems="flex-start" gap="$2">
                   <Paragraph

@@ -30,6 +30,8 @@ export interface Raga {
   anyaswaram?: boolean;
   apuroopaPrayogas?: string;
   swaraSancharam?: string;
+  swaraSancharamAudio?: string | null;
+  swarasancharam_audio?: string | null;
   additionalNotes?: string;
   audioFile?: string | null;
 }

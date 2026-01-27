@@ -6,8 +6,10 @@ import { PageContainer } from './PageContainer';
 import { Footer } from './Footer';
 import { API_ENDPOINTS } from '../constants/api';
 import { MELAKARTHA_MAP } from '../constants/swaraMap';
+import { MELAKARTA_BY_NUMBER } from '../constants/melakartaRagas';
 import { useApiClient } from '../hooks/useApi';
 import { toRagaSlug } from '../utils/slug';
+import { MelakarthaDetailCard } from './MelakarthaDetailCard';
 
 type JanyaRaga = {
   id: number;
@@ -37,6 +39,9 @@ export const MelakarthaJanyaPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [janyaList, setJanyaList] = useState<JanyaRaga[]>([]);
+  const columnLeftWidth = '30%';
+  const columnRightWidth = '70%';
+  const melakartha = useMemo(() => MELAKARTA_BY_NUMBER.get(melaId), [melaId]);
 
   const melakarthaName = MELAKARTHA_MAP[melaId];
 
@@ -75,6 +80,7 @@ export const MelakarthaJanyaPage = () => {
     () => [...janyaList].sort((a, b) => a.janyaRaga.localeCompare(b.janyaRaga, 'en')),
     [janyaList]
   );
+  const chakraLabel = sortedJanya[0]?.chakra ? `${sortedJanya[0].chakra} Chakra` : '—';
 
   const listBorder = isDark ? 'rgba(255,255,255,0.08)' : '#E5D6C8';
   const listBg = isDark ? darkSurface : '$surface';
@@ -109,7 +115,7 @@ export const MelakarthaJanyaPage = () => {
 
           <YStack gap="$2">
             <Paragraph fontSize="$9" fontWeight="800" color={isDark ? '#FFFFFF' : '$primaryDeep'}>
-              {melakarthaName ? `${melakarthaName} Janya Ragas` : 'Melakartha Janya Ragas'}
+              {melakarthaName ?? 'Melakartha Raga'}
             </Paragraph>
             <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} lineHeight={24} maxWidth={900}>
               {melakarthaName
@@ -117,6 +123,8 @@ export const MelakarthaJanyaPage = () => {
                 : 'Explore janya ragas grouped by Melakartha.'}
             </Paragraph>
           </YStack>
+
+          {melakartha && <MelakarthaDetailCard raga={melakartha} />}
 
           {loading && (
             <XStack alignItems="center" gap="$3">
@@ -150,33 +158,66 @@ export const MelakarthaJanyaPage = () => {
               padding="$4"
               gap="$3"
             >
-              <YStack gap="$2">
-                {sortedJanya.map((item) => {
-                  return (
-                    <XStack
-                      key={item.id}
-                      borderWidth={1}
-                      borderColor={listBorder}
-                      backgroundColor={isDark ? darkBackground : '$background'}
-                      borderRadius="$radius.6"
-                      paddingVertical="$3"
-                      paddingHorizontal="$4"
-                      gap="$3"
-                      flexWrap="wrap"
-                    >
-                      <Paragraph
-                        flex={1}
-                        color={isDark ? '#FFFFFF' : '$primaryDeep'}
-                        fontWeight="700"
-                        textDecorationLine="underline"
-                        onPress={() => navigate(`/melakartha-janya/${toRagaSlug(item.janyaRaga)}?melaId=${melaId}`)}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        {item.janyaRaga}
+              <YStack borderWidth={1} borderColor={listBorder} borderRadius="$radius.10" overflow="hidden">
+                <XStack
+                  backgroundColor={listBg}
+                  borderBottomWidth={1}
+                  borderColor={listBorder}
+                  paddingVertical="$2"
+                  paddingHorizontal="$3"
+                  gap="$2"
+                >
+                  <Paragraph
+                    flexBasis={columnLeftWidth}
+                    flexGrow={1}
+                    fontWeight="700"
+                    color={isDark ? '#FFFFFF' : '$textPrimary'}
+                    fontSize="$3"
+                  >
+                    Chakra
+                  </Paragraph>
+                  <Paragraph
+                    flexBasis={columnRightWidth}
+                    flexGrow={1}
+                    fontWeight="700"
+                    color={isDark ? '#FFFFFF' : '$textPrimary'}
+                    fontSize="$3"
+                  >
+                    Janya Ragas
+                  </Paragraph>
+                </XStack>
+                <XStack
+                  borderBottomWidth={1}
+                  borderColor={listBorder}
+                  paddingVertical="$2"
+                  paddingHorizontal="$3"
+                  gap="$2"
+                  backgroundColor={isDark ? 'transparent' : '$background'}
+                >
+                  <Paragraph flexBasis={columnLeftWidth} flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$4">
+                    {chakraLabel}
+                  </Paragraph>
+                  <XStack flexBasis={columnRightWidth} flexGrow={1} flexWrap="wrap" gap="$1">
+                    {sortedJanya.length > 0 ? (
+                      sortedJanya.map((item, index) => (
+                        <Paragraph
+                          key={item.id}
+                          color={isDark ? '#FFFFFF' : '$textSecondary'}
+                          fontSize="$4"
+                          textDecorationLine="underline"
+                          onPress={() => navigate(`/melakartha-janya/${toRagaSlug(item.janyaRaga)}?melaId=${melaId}`)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          {item.janyaRaga}{index < sortedJanya.length - 1 ? ',' : ''}
+                        </Paragraph>
+                      ))
+                    ) : (
+                      <Paragraph fontSize="$4" color={isDark ? '#FFFFFF' : '$textSecondary'}>
+                        No janya ragas available.
                       </Paragraph>
-                    </XStack>
-                  );
-                })}
+                    )}
+                  </XStack>
+                </XStack>
               </YStack>
             </YStack>
           )}

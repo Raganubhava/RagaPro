@@ -42,12 +42,14 @@ export const MelakarthaRagasPage = () => {
   const cardBg = isDark ? 'rgba(255,255,255,0.06)' : '$surface';
   const cardBorder = isDark ? 'rgba(255,255,255,0.16)' : '$borderSoft';
   const mintRow = '#E3F4D1';
+  const chakraColumnWidth = '30%';
+  const ragaColumnWidth = '70%';
 
   const m1Groups = useMemo(() => buildChakraGroups(1, 36), []);
   const m2Groups = useMemo(() => buildChakraGroups(37, 72), []);
 
   const renderRagaLinks = (ragas: ChakraGroup['ragas']) => (
-    <XStack flexWrap="wrap" gap="$1" flex={1}>
+    <XStack flexWrap="wrap" gap="$1" flexBasis={ragaColumnWidth} flexGrow={1}>
       {ragas.map((raga, index) => (
         <Paragraph
           key={raga.number}
@@ -88,10 +90,10 @@ export const MelakarthaRagasPage = () => {
           paddingHorizontal="$3"
           gap="$2"
         >
-          <Paragraph flexBasis="30%" flexGrow={1} fontWeight="700" color={isDark ? '#FFFFFF' : '$textPrimary'} fontSize="$2">
+          <Paragraph flexBasis={chakraColumnWidth} flexGrow={1} fontWeight="700" color={isDark ? '#FFFFFF' : '$textPrimary'} fontSize="$2">
             Chakra
           </Paragraph>
-          <Paragraph flexBasis="70%" flexGrow={1} fontWeight="700" color={isDark ? '#FFFFFF' : '$textPrimary'} fontSize="$2">
+          <Paragraph flexBasis={ragaColumnWidth} flexGrow={1} fontWeight="700" color={isDark ? '#FFFFFF' : '$textPrimary'} fontSize="$2">
             Ragas
           </Paragraph>
         </XStack>
@@ -105,7 +107,7 @@ export const MelakarthaRagasPage = () => {
             gap="$2"
             backgroundColor={isDark ? 'transparent' : index % 2 === 1 ? mintRow : 'transparent'}
           >
-            <Paragraph flexBasis="30%" flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$2">
+            <Paragraph flexBasis={chakraColumnWidth} flexGrow={1} color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$2">
               {group.chakra} Chakra
             </Paragraph>
             {renderRagaLinks(group.ragas)}

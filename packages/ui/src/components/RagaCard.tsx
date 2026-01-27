@@ -67,11 +67,17 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
   const cardBorder = isDark ? 'rgba(255,255,255,0.12)' : '$borderSoft';
   const softSurface = isDark ? 'rgba(255,255,255,0.05)' : '$surfaceAlt';
   const pillSurface = isDark ? 'rgba(255,255,255,0.08)' : '$secondary';
-  const audioSrc = useMemo(() => {
+  const scaleAudioSrc = useMemo(() => {
     if (!raga.audioFile) return null;
     // Default to mp3; adjust if API returns mime type in the future.
     return `data:audio/mpeg;base64,${raga.audioFile}`;
   }, [raga.audioFile]);
+  const swaraSancharamAudioSrc = useMemo(() => {
+    const rawAudio = raga.swaraSancharamAudio ?? raga.swarasancharam_audio;
+    if (!rawAudio) return null;
+    // Default to mp3; adjust if API returns mime type in the future.
+    return `data:audio/mpeg;base64,${rawAudio}`;
+  }, [raga.swaraSancharamAudio, raga.swarasancharam_audio]);
   useEffect(() => {
     setExpanded(true);
   }, [raga]);
@@ -176,35 +182,6 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                 gap="$3"
                 marginTop="$3"
               >
-              {/* Audio Section */}
-              <YStack gap="$2">
-                <Paragraph
-                  fontSize="$4"
-                  fontWeight="700"
-                  color={isDark ? '#FFFFFF' : '$primary'}
-                  fontFamily="$heading"
-                  letterSpacing={0.4}
-                >
-                  Audio
-                </Paragraph>
-                <YStack
-                  padding="$3"
-                  borderRadius="$radius.10"
-                  backgroundColor={softSurface}
-                  borderWidth={1}
-                  borderColor={cardBorder}
-                  gap="$2"
-                >
-                  {audioSrc ? (
-                    <AudioPlayer src={audioSrc} />
-                  ) : (
-                    <Paragraph fontSize="$sm" color="$textSecondary">
-                      No audio available.
-                    </Paragraph>
-                  )}
-                </YStack>
-              </YStack>
-
               {/* Arohana & Avarohana Section */}
               <YStack gap="$2">
                 <Paragraph
@@ -285,6 +262,18 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                         {raga.avarohana || '—'}
                       </Paragraph>
                     </XStack>
+                  </YStack>
+                  <YStack gap="$2">
+                    <Paragraph fontSize="$sm" color="$primary" fontWeight="700">
+                      Arohana / Avarohana Audio
+                    </Paragraph>
+                    {scaleAudioSrc ? (
+                      <AudioPlayer src={scaleAudioSrc} />
+                    ) : (
+                      <Paragraph fontSize="$sm" color="$textSecondary">
+                        No audio available.
+                      </Paragraph>
+                    )}
                   </YStack>
                 </YStack>
                 <YStack borderBottomWidth={1} borderColor={cardBorder} />
@@ -517,6 +506,18 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
                     <Paragraph fontSize="$md" color="$textPrimary" lineHeight="$md">
                       {raga.description || '—'}
                     </Paragraph>
+                  </YStack>
+                  <YStack gap="$2">
+                    <Paragraph fontSize="$sm" color="$primary" fontWeight="700">
+                      Swara Sancharam Audio
+                    </Paragraph>
+                    {swaraSancharamAudioSrc ? (
+                      <AudioPlayer src={swaraSancharamAudioSrc} />
+                    ) : (
+                      <Paragraph fontSize="$sm" color="$textSecondary">
+                        No audio available.
+                      </Paragraph>
+                    )}
                   </YStack>
                 </YStack>
               </YStack>
