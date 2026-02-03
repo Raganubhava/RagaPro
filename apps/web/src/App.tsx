@@ -24,6 +24,8 @@ import {
 } from 'ui';
 import { Seo } from './Seo';
 import { CarnaticRagaDetailPage, HindustaniRagaDetailPage } from './RagaDetailPages';
+import { LearnKalyaniPage } from './LearnKalyaniPage';
+import { KalyaniPracticePage } from './KalyaniPracticePage';
 
 const LazyMelakarthaRagasPage = lazy(() =>
   import('ui').then((module) => ({ default: module.MelakarthaRagasPage }))
@@ -165,6 +167,34 @@ function App() {
                           jsonLd={pageJsonLd('Learn Raga', `${baseUrl}/learn`)}
                         >
                           <LearnRagaPage />
+                        </Seo>
+                      )}
+                    />
+                    <Route
+                      path="/learn/kalyani"
+                      element={(
+                        <Seo
+                          title="Kalyani Raga Lesson | RagaNidhi"
+                          description="Kalyani raga guided lesson and quiz."
+                          url={`${baseUrl}/learn/kalyani`}
+                          imageUrl={ogImage}
+                          jsonLd={pageJsonLd('Kalyani Raga Lesson', `${baseUrl}/learn/kalyani`)}
+                        >
+                          <LearnKalyaniPage />
+                        </Seo>
+                      )}
+                    />
+                    <Route
+                      path="/practice/kalyani"
+                      element={(
+                        <Seo
+                          title="Kalyani Practice | RagaNidhi"
+                          description="Practice Kalyani arohana and avarohana with AI feedback."
+                          url={`${baseUrl}/practice/kalyani`}
+                          imageUrl={ogImage}
+                          jsonLd={pageJsonLd('Kalyani Practice', `${baseUrl}/practice/kalyani`)}
+                        >
+                          <KalyaniPracticePage />
                         </Seo>
                       )}
                     />

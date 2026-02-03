@@ -1,7 +1,6 @@
 import { Paragraph, YStack, XStack, useThemeName, Button } from 'tamagui';
 import { PageContainer } from './PageContainer';
 import { Footer } from './Footer';
-import { NavLinkItem } from './NavLinkItem';
 
 export const ListenLearnSingPage = () => {
   const themeName = useThemeName();
@@ -71,44 +70,81 @@ export const ListenLearnSingPage = () => {
               shadowOffset={{ width: 0, height: 4 }}
               gap="$2"
             >
-              <Paragraph fontWeight="800" color={isDark ? '#FFFFFF' : '$primary'} fontSize="$6">
-                Launching shortly
-              </Paragraph>
-              <Paragraph color={isDark ? '#FFFFFF' : '$textSecondary'} fontSize="$4" lineHeight={24}>
-                Launching shortly: AI-assisted listening drills, guided lessons, and sing-along practice to deepen your raga journey.
-              </Paragraph>
               <XStack
                 gap="$3"
                 marginTop="$2"
                 alignItems="center"
-                justifyContent="flex-end"
+                justifyContent="space-between"
                 alignSelf="stretch"
+                flexWrap="wrap"
               >
                 <Button
-                  asChild
-                  color="#FFFFFF"
-                  borderRadius="$radius.10"
-                  borderWidth={0}
-                  borderColor="transparent"
-                  paddingHorizontal="$5"
-                  paddingVertical="$3"
-                  colorOverride="#FFFFFF"
-                  fontWeight={900}
-                  fontSize="$4"
-                  letterSpacing={0.6}
-                  textTransform="uppercase"
-                  textDecorationLine="underline"
-                  style={{
-                    backgroundColor: 'transparent',
-                    backgroundImage: 'none',
-                    boxShadow: 'none',
-                    animation: 'none',
+                  onPress={async () => {
+                    try {
+                      const res = await fetch('/fastapi/api/learn/kalyani', { method: 'GET' });
+                      if (!res.ok) return;
+                      window.location.href = '/learn/kalyani';
+                    } catch {
+                      // Silent failure for optional feature.
+                    }
                   }}
-                  hoverStyle={{ opacity: 0.92 }}
+                  backgroundColor={isDark ? 'rgba(58,61,92,0.9)' : '#F4E3C7'}
+                  borderWidth={3}
+                  borderColor="#FFFFFF"
+                  borderRadius="$radius.12"
+                  paddingHorizontal="$7"
+                  paddingVertical="$4"
+                  minHeight={72}
+                  alignSelf="stretch"
+                  justifyContent="flex-start"
+                  hoverStyle={{
+                    backgroundColor: isDark ? 'rgba(58,61,92,1)' : '#F1D7AE',
+                  }}
+                  pressStyle={{
+                    backgroundColor: isDark ? 'rgba(58,61,92,1)' : '#F1D7AE',
+                  }}
                 >
-                  <NavLinkItem to="/learn" colorOverride={isDark ? '#FFFFFF' : '$textPrimary'}>
-                    Find my Sruti
-                  </NavLinkItem>
+                  <XStack alignItems="center" justifyContent="space-between" width="100%">
+                    <XStack alignItems="center" gap="$3" flexShrink={1}>
+                      <YStack
+                        width={36}
+                        height={36}
+                        borderRadius="$radius.8"
+                        backgroundColor={isDark ? '#FFFFFF' : '#3A3D5C'}
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <Paragraph color={isDark ? '#3A3D5C' : '#FFFFFF'} fontWeight="800" fontSize="$4">
+                          K
+                        </Paragraph>
+                      </YStack>
+                      <YStack gap="$1">
+                        <Paragraph color={isDark ? '#FFFFFF' : '#3A2B20'} fontWeight="800" fontSize="$5">
+                          Kalyani Raga
+                        </Paragraph>
+                        <Paragraph color={isDark ? 'rgba(255,255,255,0.75)' : '$textSecondary'} fontSize="$3">
+                          Start guided practice
+                        </Paragraph>
+                      </YStack>
+                    </XStack>
+                  </XStack>
+                </Button>
+                <Button
+                  onPress={() => {
+                    window.location.href = '/learn';
+                  }}
+                  alignSelf="flex-end"
+                  backgroundColor="transparent"
+                  borderWidth={0}
+                  paddingHorizontal="$4"
+                  paddingVertical="$2"
+                  color={isDark ? '#FFFFFF' : '$primaryDeep'}
+                  textDecorationLine="underline"
+                  fontWeight="800"
+                  fontSize="$4"
+                  hoverStyle={{ opacity: 0.85 }}
+                >
+                  Find my Sruti
                 </Button>
               </XStack>
             </YStack>

@@ -64,6 +64,19 @@ export default defineConfig({
     port: 5174,
     strictPort: true,
     allowedHosts: ['raganidhi.com', 'www.raganidhi.com'],
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/fastapi': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/fastapi/, ''),
+      },
+    },
   },
 
   define: {
