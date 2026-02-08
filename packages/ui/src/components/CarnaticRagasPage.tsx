@@ -9,6 +9,7 @@ import { useApiClient } from '../hooks/useApi';
 import { Raga } from '@raga/data';
 import { RagaCard } from './RagaCard';
 import { toRagaSlug } from '../utils/slug';
+import { fetchAudioSource } from '../utils/audio';
 
 export const CarnaticRagasPage = () => {
   const [selectedName, setSelectedName] = useState<string | null>(null);
@@ -100,7 +101,17 @@ export const CarnaticRagasPage = () => {
     setLoadingName(name);
     try {
       const data = await api.fetchJson<Raga>(API_ENDPOINTS.raga(name));
-      setSelectedRaga(data);
+      let swaraSancharamAudio: string | null = null;
+      try {
+        swaraSancharamAudio = await fetchAudioSource(api.fetchRaw, API_ENDPOINTS.swaraSancharamAudio(name));
+      } catch {
+        // Swara sancharam audio is optional; ignore failures.
+      }
+      setSelectedRaga({
+        ...data,
+        // Swara sancharam audio is fetched from the dedicated endpoint only.
+        swaraSancharamAudio: swaraSancharamAudio ?? null,
+      });
       setTimeout(() => detailsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unable to load raga details.';

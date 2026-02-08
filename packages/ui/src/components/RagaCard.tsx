@@ -75,6 +75,13 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
   const swaraSancharamAudioSrc = useMemo(() => {
     const rawAudio = raga.swaraSancharamAudio ?? raga.swarasancharam_audio;
     if (!rawAudio) return null;
+    if (
+      rawAudio.startsWith('http://') ||
+      rawAudio.startsWith('https://') ||
+      rawAudio.startsWith('data:')
+    ) {
+      return rawAudio;
+    }
     // Default to mp3; adjust if API returns mime type in the future.
     return `data:audio/mpeg;base64,${rawAudio}`;
   }, [raga.swaraSancharamAudio, raga.swarasancharam_audio]);

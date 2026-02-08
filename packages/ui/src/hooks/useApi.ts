@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 type Fetcher = <T = any>(url: string, options?: RequestInit) => Promise<T>;
+type RawFetcher = (url: string, options?: RequestInit) => Promise<Response>;
 
 // Lightweight client with abort on unmount and per-call cancellation
 export const useApiClient = () => {
@@ -29,5 +30,15 @@ export const useApiClient = () => {
     }
   }, []);
 
-  return useMemo(() => ({ fetchJson }), [fetchJson]);
+  const fetchRaw: RawFetcher = useCallback(async (url, options) => {
+    const controller = new AbortController();
+    controllers.current.push(controller);
+    try {
+      return await fetch(url, { ...options, signal: controller.signal });
+    } finally {
+      controllers.current = controllers.current.filter((c) => c !== controller);
+    }
+  }, []);
+
+  return useMemo(() => ({ fetchJson, fetchRaw }), [fetchJson, fetchRaw]);
 };

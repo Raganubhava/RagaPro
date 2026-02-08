@@ -13,6 +13,8 @@ import {
   RagaCard,
   HindustaniRagaCard,
   toRagaSlug,
+  useApiClient,
+  fetchAudioSource,
 } from 'ui';
 import { Seo } from './Seo';
 import type { Raga } from '@raga/data';
@@ -59,6 +61,7 @@ export const CarnaticRagaDetailPage = () => {
   const [raga, setRaga] = useState<Raga | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const api = useApiClient();
 
   const ragaName = useMemo(() => {
     if (!slug || !isValidSlug(slug)) return '';
@@ -73,17 +76,40 @@ export const CarnaticRagaDetailPage = () => {
       }
       return;
     }
-    setLoading(true);
-    setError(null);
-    fetch(API_ENDPOINTS.raga(ragaName))
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json() as Promise<Raga>;
-      })
-      .then(setRaga)
-      .catch((err) => setError(err instanceof Error ? err.message : 'Unable to load raga.'))
-      .finally(() => setLoading(false));
-  }, [ragaName]);
+    let cancelled = false;
+    const loadRaga = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await api.fetchJson<Raga>(API_ENDPOINTS.raga(ragaName));
+        let swaraSancharamAudio: string | null = null;
+        try {
+          swaraSancharamAudio = await fetchAudioSource(
+            api.fetchRaw,
+            API_ENDPOINTS.swaraSancharamAudio(ragaName)
+          );
+        } catch {
+          // Swara sancharam audio is optional; ignore failures.
+        }
+        if (cancelled) return;
+        setRaga({
+          ...data,
+          // Swara sancharam audio is fetched from the dedicated endpoint only.
+          swaraSancharamAudio: swaraSancharamAudio ?? null,
+        });
+      } catch (err) {
+        if (cancelled) return;
+        setError(err instanceof Error ? err.message : 'Unable to load raga.');
+        setRaga(null);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    loadRaga();
+    return () => {
+      cancelled = true;
+    };
+  }, [api, ragaName]);
 
   const pageTitle = raga ? `${raga.ragaName} | Raganidhi` : 'Carnatic Raga | Raganidhi';
   const pageDescription =
