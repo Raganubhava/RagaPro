@@ -78,7 +78,8 @@ export const RagaCard = ({ raga, onAskAI }: RagaCardProps) => {
     if (
       rawAudio.startsWith('http://') ||
       rawAudio.startsWith('https://') ||
-      rawAudio.startsWith('data:')
+      rawAudio.startsWith('data:') ||
+      rawAudio.startsWith('/')
     ) {
       return rawAudio;
     }

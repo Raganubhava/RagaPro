@@ -54,8 +54,12 @@ export const HomePage = () => {
       const swaraSancharamAudio = await fetchSwaraSancharamAudio(ragaName);
       return {
         ...(result as Raga),
-        // Swara sancharam audio is fetched from the dedicated endpoint only.
-        swaraSancharamAudio: swaraSancharamAudio ?? null,
+        // Prefer dedicated endpoint, but preserve audio from main payload if present.
+        swaraSancharamAudio:
+          swaraSancharamAudio ??
+          (result as Raga).swaraSancharamAudio ??
+          (result as Raga).swarasancharam_audio ??
+          null,
       };
     },
     [api, fetchSwaraSancharamAudio]

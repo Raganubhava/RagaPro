@@ -94,8 +94,9 @@ export const CarnaticRagaDetailPage = () => {
         if (cancelled) return;
         setRaga({
           ...data,
-          // Swara sancharam audio is fetched from the dedicated endpoint only.
-          swaraSancharamAudio: swaraSancharamAudio ?? null,
+          // Prefer dedicated endpoint, but preserve audio from main payload if present.
+          swaraSancharamAudio:
+            swaraSancharamAudio ?? data.swaraSancharamAudio ?? data.swarasancharam_audio ?? null,
         });
       } catch (err) {
         if (cancelled) return;

@@ -25,6 +25,34 @@ type KalyaniResponse = {
   [key: string]: unknown;
 };
 
+const unwrapLessonPayload = (payload: unknown): KalyaniResponse | null => {
+  if (!payload || typeof payload !== 'object') return null;
+  const asRecord = payload as Record<string, unknown>;
+  const candidates: unknown[] = [
+    payload,
+    asRecord.data,
+    asRecord.result,
+    asRecord.lesson,
+    asRecord.payload,
+    asRecord.response,
+  ];
+  for (const candidate of candidates) {
+    if (candidate && typeof candidate === 'object') {
+      const c = candidate as Record<string, unknown>;
+      if (
+        Array.isArray(c.blocks) ||
+        c.content !== undefined ||
+        c.quiz !== undefined ||
+        c.block1 !== undefined ||
+        c.block_1 !== undefined
+      ) {
+        return c as KalyaniResponse;
+      }
+    }
+  }
+  return asRecord as KalyaniResponse;
+};
+
 const prettyValue = (value: unknown): string => {
   if (typeof value === 'string') return value;
   if (typeof value === 'number' || typeof value === 'boolean') return String(value);
@@ -233,7 +261,7 @@ export const LearnKalyaniPage = () => {
         if (!res.ok) {
           return;
         }
-        const json = (await res.json()) as KalyaniResponse;
+        const json = unwrapLessonPayload(await res.json());
         if (!cancelled) {
           setData(json);
         }
@@ -258,11 +286,19 @@ export const LearnKalyaniPage = () => {
     const quizzesByBlockId = buildQuizzesByBlockId(data.quizzes);
     const quizzesById = buildQuizzesById(data.quizzes);
 
-    if (Array.isArray(data.blocks)) {
-      return data.blocks.map((block, index) => ({
+    const blocksSource =
+      (Array.isArray(data.blocks) && data.blocks) ||
+      (Array.isArray((data as Record<string, unknown>).Blocks) &&
+        ((data as Record<string, unknown>).Blocks as KalyaniResponse['blocks'])) ||
+      (Array.isArray((data as Record<string, unknown>).modules) &&
+        ((data as Record<string, unknown>).modules as KalyaniResponse['blocks'])) ||
+      null;
+
+    if (blocksSource) {
+      return blocksSource.map((block, index) => ({
         id: normalizeId(block.id) ?? index + 1,
-        title: block.title ?? `Block ${index + 1}`,
-        content: block.content ?? '',
+        title: block.title ?? ((block as Record<string, unknown>).name as string) ?? `Block ${index + 1}`,
+        content: block.content ?? (block as Record<string, unknown>).text ?? '',
         quiz:
           resolveQuizForBlock(block, index + 1, quizzesByBlockId, quizzesById) ??
           quizMap.get(normalizeId(block.id) ?? index + 1) ??

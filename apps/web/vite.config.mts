@@ -71,7 +71,7 @@ export default defineConfig({
         secure: false,
       },
       '/fastapi': {
-        target: 'http://localhost:5000',
+        target: 'http://localhost:5001',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/fastapi/, ''),

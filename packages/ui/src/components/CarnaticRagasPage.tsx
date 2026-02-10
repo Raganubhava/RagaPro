@@ -109,8 +109,9 @@ export const CarnaticRagasPage = () => {
       }
       setSelectedRaga({
         ...data,
-        // Swara sancharam audio is fetched from the dedicated endpoint only.
-        swaraSancharamAudio: swaraSancharamAudio ?? null,
+        // Prefer dedicated endpoint, but preserve audio from main payload if present.
+        swaraSancharamAudio:
+          swaraSancharamAudio ?? data.swaraSancharamAudio ?? data.swarasancharam_audio ?? null,
       });
       setTimeout(() => detailsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
     } catch (err) {
@@ -317,4 +318,3 @@ export const CarnaticRagasPage = () => {
     </YStack>
   );
 };
-
