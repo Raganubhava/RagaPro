@@ -14,7 +14,6 @@ import {
   HindustaniRagaCard,
   toRagaSlug,
   useApiClient,
-  fetchAudioSource,
 } from 'ui';
 import { Seo } from './Seo';
 import type { Raga } from '@raga/data';
@@ -82,21 +81,11 @@ export const CarnaticRagaDetailPage = () => {
       setError(null);
       try {
         const data = await api.fetchJson<Raga>(API_ENDPOINTS.raga(ragaName));
-        let swaraSancharamAudio: string | null = null;
-        try {
-          swaraSancharamAudio = await fetchAudioSource(
-            api.fetchRaw,
-            API_ENDPOINTS.swaraSancharamAudio(ragaName)
-          );
-        } catch {
-          // Swara sancharam audio is optional; ignore failures.
-        }
         if (cancelled) return;
         setRaga({
           ...data,
-          // Prefer dedicated endpoint, but preserve audio from main payload if present.
           swaraSancharamAudio:
-            swaraSancharamAudio ?? data.swaraSancharamAudio ?? data.swarasancharam_audio ?? null,
+            data.swaraSancharamAudio ?? data.swarasancharam_audio ?? null,
         });
       } catch (err) {
         if (cancelled) return;

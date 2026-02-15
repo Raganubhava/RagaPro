@@ -13,7 +13,6 @@ import { HINDUSTANI_RAGAS, isHindustaniRaga } from '../constants/hindustaniRagas
 import { API_ENDPOINTS } from '../constants/api';
 import { useApiClient } from '../hooks/useApi';
 import { toRagaSlug } from '../utils/slug';
-import { fetchAudioSource } from '../utils/audio';
 
 type RagaSystem = 'carnatic' | 'hindustani';
 
@@ -39,30 +38,17 @@ export const HomePage = () => {
   const isValidQuery = (value: string) => /^[A-Za-z\s'-]+$/.test(value);
   const blockedWords = /\b(abuse|abusive|asshole|bastard|bitch|bloody|bullshit|crap|damn|dick|fuck|fucking|idiot|jerk|moron|nonsense|obscene|pervert|porn|pornographic|racist|sex|sexual|shit|stupid|suck|trash|ugly|violence|violent|vulgar|whore)\b/i;
 
-  const fetchSwaraSancharamAudio = useCallback(
-    async (ragaName: string): Promise<string | null> => {
-      return fetchAudioSource(api.fetchRaw, API_ENDPOINTS.swaraSancharamAudio(ragaName));
-    },
-    [api]
-  );
-
   const getRagaFromAPI = useCallback(
     async (ragaName: string, system: RagaSystem): Promise<Raga | HindustaniRaga> => {
       const url = system === 'hindustani' ? API_ENDPOINTS.hindustaniRaga(ragaName) : API_ENDPOINTS.raga(ragaName);
       const result = await api.fetchJson<Raga | HindustaniRaga>(url);
       if (system !== 'carnatic') return result;
-      const swaraSancharamAudio = await fetchSwaraSancharamAudio(ragaName);
       return {
         ...(result as Raga),
-        // Prefer dedicated endpoint, but preserve audio from main payload if present.
-        swaraSancharamAudio:
-          swaraSancharamAudio ??
-          (result as Raga).swaraSancharamAudio ??
-          (result as Raga).swarasancharam_audio ??
-          null,
+        swaraSancharamAudio: (result as Raga).swaraSancharamAudio ?? (result as Raga).swarasancharam_audio ?? null,
       };
     },
-    [api, fetchSwaraSancharamAudio]
+    [api]
   );
 
   const parseQuery = (value: string) => {
