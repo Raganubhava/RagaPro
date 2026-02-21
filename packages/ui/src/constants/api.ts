@@ -6,6 +6,8 @@ export const API_ENDPOINTS = {
   hindustaniRaga: (name: string) => `${API_BASE_URL}/HindustaniRaga/${encodeURIComponent(name)}`,
   allRagas: `${API_BASE_URL}/raga/allragas`,
   allHindustaniRagas: `${API_BASE_URL}/raga/allhindustaniragas`,
+  allMelas: `${API_BASE_URL}/raga/allmelas`,
+  janyaByMela: (melaId: number) => `${API_BASE_URL}/raga/janya/${melaId}`,
   archiveWithData: `${API_BASE_URL}/Archive/with-data`,
   archive: `${API_BASE_URL}/Archive`,
   pitch: `${API_BASE_URL}/pitch`,
